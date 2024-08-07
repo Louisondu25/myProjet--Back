@@ -3,38 +3,38 @@ const ObjectId = mongoose.Types.ObjectId
 
 var DashBoard = ({
 
-    board_user_id: {
+    user_id: {
         type: ObjectId,
         required: true,
     },
-    board_tableau_id: {
+    tableau_id: {
         type: ObjectId,
         required: true,
     },
-    board_title: {
+    title: {
         type: String,
         required: true,
     },
-    board_description: {
+    description: {
         type: String,
         required: true,
     },
-    board_index: {
+    index: {
         type: Number,
         required: true,
     },
-    board_setting_list: {
+    setting_list: {
         type: ObjectId,
         required: true,
     },
-    board_created_at: {
+    created_at: {
         type: Date,
         default: Date.now
     },
-    board_updated_at: {
+    updated_at: {
         type: Date,
         default: Date.now
     },
 })
 
-module.exports= DashBoard
+module.exports = DashBoard   

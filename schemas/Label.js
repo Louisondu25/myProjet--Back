@@ -27,11 +27,11 @@ var Label = ({
         type: ObjectId,
         required: true,
     },
-    label_created_at: {
+    created_at: {
         type: Date,
         default: Date.now
     },
-    label_updated_at: {
+    updated_at: {
         type: Date,
         default: Date.now
     }

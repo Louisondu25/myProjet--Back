@@ -18,11 +18,13 @@ var Comment = ({
     },
     user_id: {
         type: ObjectId,
+        ref: 'User',
         required: true,
     },
     task_id: {
         type: ObjectId,
-        required: true,
+        ref: 'Task',
+        required: false,
     },
     created_at: {
         type: Date,
@@ -31,7 +33,7 @@ var Comment = ({
     updated_at: {
         type: Date,
         default: Date.now
-    }
+    },
 })
 
 module.exports = Comment

@@ -1,44 +1,45 @@
-const CommentService = require("../../services/CommentService");
+const LabelService = require("../../services/LabelService");
 const UserService = require('../../services/UserService')
 const chai = require("chai");
 let expect = chai.expect;
 const _ = require("lodash");
-var ValidCommentId = "";
-var TabCommentId = [];
-var TabUsersId = [];
-var comments = []
+var ValidLabelId = "";
+var TabLabelId = [];
+var TabUserId = [];
+var labels = []
+
 
 var users = [
     {
-        firstName: "detenteur  d'un commentaire 1",
+        firstName: "detenteur  d'etiquette 1",
         lastName: "Iencli",
         username: "oui1",
         email: "Iencli@gmail.com",
         password: "higuys"
     },
     {
-        firstName: "detenteur  d'un commentaire 2",
+        firstName: "detenteur  d'etiquette 2",
         lastName: "Iencli",
         username: "oui2",
         email: "Iencli2@gmail.com",
         password: "higuys"
 
     }, {
-        firstName: "detenteur  d'un commentaire 3",
+        firstName: "detenteur  d'etiquette 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
         password: "higuys"
     },
     {
-        firstName: "detenteur  d'un commentaire 4",
+        firstName: "detenteur  d'etiquette 4",
         lastName: "Iencli",
         username: "oui4",
         email: "Iencli4@gmail.com",
         password: "higuys"
     },
     {
-        firstName: "detenteur  d'un commentaire 5",
+        firstName: "detenteur  d'etiquette 5",
         lastName: "Iencli",
         username: "oui5",
         email: "Iencli5@gmail.com",
@@ -58,29 +59,30 @@ function rdm_users(tab) {
     return rdm_id;
 }
 
-describe("addOneComment", () => {
-    it("Commentaire correct. - S", (done) => {
-        var commentaire = {
+describe("addOneLabel", () => {
+    it("Etiquette correct. - S", (done) => {
+        var label = {
             text: "Carottes",
             date: 1,
-            status: 'hi',
+            status: "boolean",
+            task_id: "doit etre un objectId",
             user_id: rdm_users(tab_id_users),
-            task_id: 'doit etre  un Objectid',
+            board_id: "doit etre un objectId",
             created_at: new Date(),
             updated_at: new Date(),
         };
-        CommentService.addOneComment(commentaire, null, function (err, value) {
+        LabelService.addOneLabel(label, null, function (err, value) {
             expect(value).to.be.a("object");
             expect(value).to.haveOwnProperty("_id");
             expect(value).to.haveOwnProperty("user_id");
 
-            ValidCommentId = value._id;
+            ValidLabelId = value._id;
             done()
             //
         });
     });
-    it("Commentaire incorrect. (Sans Name) - E", (done) => {
-        var InvalidComment = {
+    it("Etiquette incorrect. (Sans Name) - E", (done) => {
+        var InvalidLabel = {
             description: "blabla",
             price: 2.50,
             quantity: 500,
@@ -89,7 +91,7 @@ describe("addOneComment", () => {
             user_id: rdm_users(tab_id_users),
             password: "higuys"
         };
-        CommentService.addOneComment(InvalidComment, null, function (err, value) {
+        LabelService.addOneLabel(InvalidLabel, null, function (err, value) {
             expect(err).to.haveOwnProperty("msg");
             expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
             expect(err).to.haveOwnProperty("fields");
@@ -102,9 +104,9 @@ describe("addOneComment", () => {
     });
 });
 
-describe("addManyComments", () => {
-    it("Commentaires à ajouter, non valide. - E", (done) => {
-        var ErrorTabComment = [
+describe("addManyLabels", () => {
+    it("Etiquettes à ajouter, non valide. - E", (done) => {
+        var ErrorTabLabel = [
             {
                 name: "Carottes",
                 description: "Hey Honey",
@@ -139,13 +141,13 @@ describe("addManyComments", () => {
                 password: "higuys"
             },
         ];
-        CommentService.addManyComments(ErrorTabComment, null, function (err, value) {
+        LabelService.addManyLabels(ErrorTabLabel, null, function (err, value) {
             done();
         });
     });
 
-    it("Commentaires à ajouter, valide. - S", (done) => {
-        var TabComment = [
+    it("Etiquettes à ajouter, valide. - S", (done) => {
+        var TabLabel = [
             {
                 name: "Carottes",
                 description: "blabla",
@@ -178,26 +180,26 @@ describe("addManyComments", () => {
             },
         ];
 
-        CommentService.addManyComments(TabComment, null, function (err, value) {
-            TabCommentId = _.map(value, "_id");
+        LabelService.addManyLabels(TabLabel, null, function (err, value) {
+            TabLabelId = _.map(value, "_id");
             expect(value).lengthOf(3);
-            comments = [...value, ...comments]
+            labels = [...value, ...labels]
             done();
         });
     });
 });
 
-describe("findOneCommentById", () => {
-    it("Chercher un Commentaire existant correct. - S", (done) => {
-        CommentService.findOneCommentById(ValidCommentId, null, function (err, value) {
+describe("findOneLabelById", () => {
+    it("Chercher une Etiquette existant correct. - S", (done) => {
+        LabelService.findOneLabelById(ValidLabelId, null, function (err, value) {
             expect(value).to.be.a("object");
             expect(value).to.haveOwnProperty("_id");
             expect(value).to.haveOwnProperty("description");
             done();
         });
     });
-    it("Chercher un Commentaire non-existant correct. - E", (done) => {
-        CommentService.findOneCommentById("100", null, function (err, value) {
+    it("Chercher une Etiquette non-existant correct. - E", (done) => {
+        LabelService.findOneLabelById("100", null, function (err, value) {
             expect(err).to.haveOwnProperty("msg");
             expect(err).to.haveOwnProperty("type_error");
             expect(err["type_error"]).to.equal("no-valid");
@@ -206,39 +208,39 @@ describe("findOneCommentById", () => {
     });
 });
 
-describe('findOneComment', () => {
-    it('Chercher un Commentaire avec un champ autorisé - S', (done) => {
-        CommentService.findOneComment(['name'], comments[0].name, null, (err, value) => {
+describe('findOneLabel', () => {
+    it('Chercher une Etiquette avec un champ autorisé - S', (done) => {
+        LabelService.findOneLabel(['name'], labels[0].name, null, (err, value) => {
             expect(value).to.haveOwnProperty('name');
             done();
         });
     });
 
-    it('Chercher un Commentaire avec un champ non autorisé - E', (done) => {
-        CommentService.findOneComment(['commentname', 'firstName'], comments[0].name, null, (err, value) => {
+    it('Chercher une Etiquette avec un champ non autorisé - E', (done) => {
+        LabelService.findOneLabel(['labelname', 'firstName'], labels[0].name, null, (err, value) => {
             expect(err).to.haveOwnProperty('type_error');
             done();
         });
     });
 
-    it('Chercher un Commentaire sans tableau de champ -E', (done) => {
-        CommentService.findOneComment('email', comments[0].name, null, (err, value) => {
+    it('Chercher une Etiquette sans tableau de champ -E', (done) => {
+        LabelService.findOneLabel('email', labels[0].name, null, (err, value) => {
             expect(err).to.haveOwnProperty('type_error');
             done();
         });
     });
 
-    it('chercher un Commentaire inexistant', (done) => {
-        CommentService.findOneComment(['email'], 'comments[0].commentname', null, (err, value) => {
+    it('chercher une Etiquette inexistant', (done) => {
+        LabelService.findOneLabel(['email'], 'labels[0].labelname', null, (err, value) => {
             expect(err).to.haveOwnProperty('type_error');
             done();
         });
     });
 });
 
-describe('findManyComments', () => {
-    it('Retourne 3 Commentaires sur les 4 - S ', (done) => {
-        CommentService.findManyComments(null, 1, 3, null, function (err, value,) {
+describe('findManyLabels', () => {
+    it('Retourne 3 Etiquettes sur les 4 - S ', (done) => {
+        LabelService.findManyLabels(null, 1, 3, null, function (err, value,) {
 
             expect(value).to.haveOwnProperty('count')
             expect(value).to.haveOwnProperty('results')
@@ -249,7 +251,7 @@ describe('findManyComments', () => {
         })
     })
     it('Envoi chaine de caractere sur page - E ', (done) => {
-        CommentService.findManyComments(null, 'hi', 3, null, function (err, value) {
+        LabelService.findManyLabels(null, 'hi', 3, null, function (err, value) {
             expect(err).to.haveOwnProperty('type_error')
             expect(err['type_error']).to.be.equal('no-valid')
             expect(value).to.be.undefined
@@ -258,10 +260,10 @@ describe('findManyComments', () => {
     })
 })
 
-describe("updateOneComment", () => {
-    it("Modifier un Commentaire correct. - S", (done) => {
-        CommentService.updateOneComment(
-             ValidCommentId,
+describe("updateOneLabel", () => {
+    it("Modifier une Etiquette correct. - S", (done) => {
+        LabelService.findManyLabels(
+            ValidLabelId,
             { name: "Choux", description: "Hello" },
             null,
             function (err, value) {
@@ -275,8 +277,8 @@ describe("updateOneComment", () => {
             }
         );
     });
-    it("Modifier un Commentaire avec id incorrect. - E", (done) => {
-        CommentService.updateOneComment(
+    it("Modifier une Etiquette avec id incorrect. - E", (done) => {
+        LabelService.updateOneLabel(
             "1200",
             { firstName: "Jean", lastName: "Luc" }, null,
             function (err, value) {
@@ -288,9 +290,9 @@ describe("updateOneComment", () => {
             }
         );
     });
-    it("Modifier un Commentaire avec des champs requis vide. - E", (done) => {
-        CommentService.updateOneComment(
-            ValidCommentId,
+    it("Modifier une Etriquette avec des champs requis vide. - E", (done) => {
+        LabelService.updateOneLabel(
+            ValidLabelId,
             { name: "", description: "Hello" }, null,
             function (err, value) {
                 expect(value).to.be.undefined;
@@ -305,19 +307,19 @@ describe("updateOneComment", () => {
     });
 });
 
-describe("updateManyComments", () => {
-    it("Modifier plusieurs Commentaires correctement. - S", (done) => {
-        CommentService.updateManyComments(TabCommentId, { name: "Choux", description: "Hello" }, null, function (err, value) {
+describe("updateManyLabels", () => {
+    it("Modifier plusieurs Etiquettes correctement. - S", (done) => {
+        LabelService.updateManyLabels(TabLabelId, { name: "Choux", description: "Hello" }, null, function (err, value) {
             expect(value).to.haveOwnProperty("modifiedCount");
             expect(value).to.haveOwnProperty("matchedCount");
-            expect(value["matchedCount"]).to.be.equal(TabCommentId.length);
-            expect(value["modifiedCount"]).to.be.equal(TabCommentId.length);
+            expect(value["matchedCount"]).to.be.equal(TabLabelId.length);
+            expect(value["modifiedCount"]).to.be.equal(TabLabelId.length);
             done();
         }
         );
     });
-    it("Modifier plusieurs Commentaires avec id incorrect. - E", (done) => {
-        CommentService.updateManyComments("1200", { firstName: "Jean", lastName: "Luc" }, null, function (err, value) {
+    it("Modifier plusieurs Etiquettes avec id incorrect. - E", (done) => {
+        LabelService.updateManyLabels("1200", { firstName: "Jean", lastName: "Luc" }, null, function (err, value) {
             expect(err).to.be.a("object");
             expect(err).to.haveOwnProperty("msg");
             expect(err).to.haveOwnProperty("type_error");
@@ -326,9 +328,9 @@ describe("updateManyComments", () => {
         }
         );
     });
-    it("Modifier plusieurs Commentaires avec des champs requis vide. - E", (done) => {
-        CommentService.updateManyComments(
-            TabCommentId,
+    it("Modifier plusieurs Etiquettes avec des champs requis vide. - E", (done) => {
+        LabelService.updateManyLabels(
+            TabLabelId,
             { name: "", description: "Luc" }, null,
             function (err, value) {
                 expect(value).to.be.undefined;
@@ -342,16 +344,16 @@ describe("updateManyComments", () => {
     });
 });
 
-describe("deleteOneComment", () => {
-    it("Supprimer un Commentaire correctement. - S", () => {
-        CommentService.deleteOneComment(ValidCommentId, null, function (err, value) {
+describe("deleteOneLabel", () => {
+    it("Supprimer une Etiquette correctement. - S", () => {
+        LabelService.deleteOneLabel(ValidLabelId, null, function (err, value) {
             expect(value).to.be.a('Object')
             expect(value).to.haveOwnProperty("firstName");
             expect(value).to.haveOwnProperty("lastName");
         });
     });
-    it("Supprimer un Commentaires avec id incorrect. - E", (done) => {
-        CommentService.deleteOneComment("1200", null, function (err, value) {
+    it("Supprimer une Etiquette avec id incorrect. - E", (done) => {
+        LabelService.deleteOneLabel("1200", null, function (err, value) {
             expect(err).to.be.a("object");
             expect(err).to.haveOwnProperty("msg");
             expect(err).to.haveOwnProperty("type_error");
@@ -359,8 +361,8 @@ describe("deleteOneComment", () => {
             done();
         });
     });
-    it("Supprimer un Commentaire qui n'existe pas. - E", () => {
-        CommentService.deleteOneComment(ValidCommentId, null, function (err, value) {
+    it("Supprimer une Etiquette qui n'existe pas. - E", () => {
+        LabelService.deleteOneLabel(ValidLabelId, null, function (err, value) {
             expect(err).to.be.a("object");
             expect(err).to.haveOwnProperty("msg");
             expect(err).to.haveOwnProperty("type_error");
@@ -369,18 +371,18 @@ describe("deleteOneComment", () => {
     });
 });
 
-describe("deleteManyComments", () => {
-    it("Supprimer plusieurs Commentaires correctement. - S", (done) => {
-        CommentService.deleteManyComments(TabCommentId, null, (err, value) => {
+describe("deleteManyLabels", () => {
+    it("Supprimer plusieurs Etiquettes correctement. - S", (done) => {
+        LabelService.deleteManyLabels(TabLabelId, null, (err, value) => {
             expect(value).to.be.a("object");
             expect(value).to.haveOwnProperty("deletedCount");
-            expect(value.deletedCount).to.equal(TabCommentId.length);
+            expect(value.deletedCount).to.equal(TabLabelId.length);
             done();
         });
     });
 
-    it("Supprimer plusieurs Commentaires avec id incorrect. - E", (done) => {
-        CommentService.deleteManyComments("1200", null, (err, value) => {
+    it("Supprimer plusieurs Etiquettes avec id incorrect. - E", (done) => {
+        LabelService.deleteManyLabels("1200", null, (err, value) => {
             expect(err).to.be.a("object");
             expect(err).to.haveOwnProperty("msg");
             expect(err).to.haveOwnProperty("type_error");

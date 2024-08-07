@@ -1,13 +1,13 @@
-const CommentSchema = require("../schemas/Comment");
+const Label = require("../schemas/Label");
 const _ = require("lodash");
 const async = require("async");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
-var Comment = mongoose.model("Comment", CommentSchema);
+var Etiquette = mongoose.model("Etiquette", Label);
 
 module.exports.loginUser = async function (username, password, options, callback) {
-    module.exports.findOneUser(['username', 'email'], username, null, async (err, value) => {
+    module.exports.findOneUser(['name', 'description'], username, null, async (err, value) => {
         if (err)
             callback(err)
         else {
@@ -22,17 +22,18 @@ module.exports.loginUser = async function (username, password, options, callback
     })
 }
 
-module.exports.addOneComment = async function (comment, options, callback) {
+module.exports.addOneLabel = async function (Label, options, callback) {
     try {
-        var new_comment = new Comment(comment);
-        var errors = new_comment.validateSync();
+        var new_label = new Label(label);
+        var errors = new_label.validateSync();
+        // console.log(errors)
         if (errors) {
             errors = errors['errors'];
             var text = Object.keys(errors).map((e) => {
-                return errors[e]['properties'] ? errors[e]['properties']['message']:errors[e]['reason'] ;
+                return errors[e]['properties']['message'];
             }).join(' ');
             var fields = _.transform(Object.keys(errors), function (result, value) {
-                result[value] = errors[value]['properties'] ? errors[value]['properties']['message']:String(errors[value]['reason']) ;
+                result[value] = errors[value]['properties']['message'];
             }, {});
             var err = {
                 msg: text,
@@ -42,8 +43,8 @@ module.exports.addOneComment = async function (comment, options, callback) {
             };
             callback(err);
         } else {
-            await new_comment.save();
-            callback(null, new_comment.toObject());
+            await new_label.save();
+            callback(null, new_label.toObject());
         }
     } catch (error) {
         if (error.code === 11000) { // Erreur de duplicité
@@ -61,15 +62,15 @@ module.exports.addOneComment = async function (comment, options, callback) {
     }
 };
 
-module.exports.addManyComments = async function (comment, options, callback) {
+module.exports.addManyLabels = async function (Labels, options, callback) {
     var errors = [];
 
 
     // Vérifier les erreurs de validation
-    for (var i = 0; i < comment.length; i++) {
-        var comment = comments[i];
-        var new_comment = new Comment(comment);
-        var error = new_comment.validateSync();
+    for (var i = 0; i < Labels.length; i++) {
+        var label = Labels[i];
+        var new_label = new Label(label);
+        var error = new_label.validateSync();
         if (error) {
             error = error['errors'];
             var text = Object.keys(error).map((e) => {
@@ -93,7 +94,7 @@ module.exports.addManyComments = async function (comment, options, callback) {
     } else {
         try {
             // Tenter d'insérer les utilisateurs
-            const data = await Comment.insertMany(comments, { ordered: false });
+            const data = await Label.insertMany(labels, { ordered: false });
             callback(null, data);
         } catch (error) {
             if (error.code === 11000) { // Erreur de duplicité
@@ -116,17 +117,17 @@ module.exports.addManyComments = async function (comment, options, callback) {
     }
 };
 
-module.exports.findOneCommentById = function (comment_id, options, callback) {
+module.exports.findOneLabelById = function (label_id, options, callback) {
     var opts = { populate: options && options.populate ? [user_Id] : [] }
-    if (comment_id && mongoose.isValidObjectId(comment_id)) {
-        Comment.findById(comment_id, null, opts)
+    if (label_id && mongoose.isValidObjectId(label_id)) {
+        Etiquette.findById(label_id, null, opts)
             .then((value) => {
                 try {
                     if (value) {
                         callback(null, value.toObject());
                     } else {
                         callback({
-                            msg: "Aucun Commentaire trouvé.", type_error: "no-found",
+                            msg: "Aucune Etiquette trouvé.", type_error: "no-found",
                         });
                     }
                 } catch (e) {
@@ -143,7 +144,7 @@ module.exports.findOneCommentById = function (comment_id, options, callback) {
     }
 };
 
-module.exports.findOneComment = function (tab_field, value, options, callback) {
+module.exports.findOneLabel = function (tab_field, value, options, callback) {
     var field_unique = ['name', 'price']
     var opts = { populate: options && options.populate ? [user_Id] : [] }
 
@@ -154,11 +155,11 @@ module.exports.findOneComment = function (tab_field, value, options, callback) {
         _.forEach(tab_field, (e) => {
             obj_find.push({ [e]: value })
         })
-        Comment.findOne({ $or: obj_find }, null, opts).then((value) => {
+        Etiquette.findOne({ $or: obj_find }, null, opts).then((value) => {
             if (value) {
                 callback(null, value.toObject())
             } else {
-                callback({ msg: 'Commentaire non trouvé.', type_error: 'no-found' })
+                callback({ msg: 'Etiquettes non trouvé.', type_error: 'no-found' })
             }
         }).catch((err) => {
             callback({ msg: 'Erreur interne Mongo', type_error: 'error-mongo' })
@@ -182,17 +183,17 @@ module.exports.findOneComment = function (tab_field, value, options, callback) {
     }
 }
 
-module.exports.findManyCommentByIds = function (comment_id, options, callback) {
+module.exports.findManyLabelByIds = function (labels_id, options, callback) {
     var opts = { populate: (options && options.populate ? [user_Id] : []), lean: true }
     if (
-        comment_id && Array.isArray(comment_id) && comment_id.length > 0 && comment_id.filter((e) => {
+        labels_id && Array.isArray(labels_id) && labels_id.length > 0 && labels_id.filter((e) => {
             return mongoose.isValidObjectId(e);
-        }).length == comment_id.length
+        }).length == labels_id.length
     ) {
-        comment_id = comment_id.map((e) => {
+        labels_id = labels_id.map((e) => {
             return new ObjectId(e);
         });
-        Comment.find({ _id: comment_id }, null, opts)
+        Etiquette.find({ _id: labels_id }, null, opts)
             .then((value) => {
                 try {
                     if (value && Array.isArray(value) && value.length != 0) {
@@ -204,6 +205,7 @@ module.exports.findManyCommentByIds = function (comment_id, options, callback) {
                         });
                     }
                 } catch (e) {
+
                     callback(e)
                 }
             })
@@ -214,21 +216,21 @@ module.exports.findManyCommentByIds = function (comment_id, options, callback) {
                 });
             });
     } else if (
-        comments_id &&
-        Array.isArray(comments_id) &&
-        comments_id.length > 0 &&
-        comments_id.filter((e) => {
+        labels_id &&
+        Array.isArray(labels_id) &&
+        labels_id.length > 0 &&
+        labels_id.filter((e) => {
             return mongoose.isValidObjectId(e);
-        }).length != comments_id.length
+        }).length != labels_id.length
     ) {
         callback({
             msg: "Tableau non conforme plusieurs éléments ne sont pas des ObjectId.",
             type_error: "no-valid",
-            fields: comments_id.filter((e) => {
+            fields: labels_id.filter((e) => {
                 return !mongoose.isValidObjectId(e);
             }),
         });
-    } else if (comments_id && !Array.isArray(comments_id)) {
+    } else if (labels_id && !Array.isArray(labels_id)) {
         callback({
             msg: "L'argement n'est pas un tableau.",
             type_error: "no-valid",
@@ -238,7 +240,7 @@ module.exports.findManyCommentByIds = function (comment_id, options, callback) {
     }
 };
 
-module.exports.findManyComments = function (search, page, limit, options, callback) {
+module.exports.findManyLabels = function (search, page, limit, options, callback) {
     page = !page ? 1 : parseInt(page)
     limit = !limit ? 1 : parseInt(limit)
     var populate = (options && options.populate ? ['user_id'] : [])
@@ -251,10 +253,10 @@ module.exports.findManyComments = function (search, page, limit, options, callba
                 return { [e]: { $regex: search, $options: 'i' } };
             })
         } : {};
-        Comment.countDocuments(query_mongo).then((value) => {
+        Etiquette.countDocuments(query_mongo).then((value) => {
             if (value > 0) {
                 const skip = ((page - 1) * limit)
-                Comment.find(query_mongo, null, { skip: skip, limit: limit, populate: populate, lean: true }).then((results) => {
+                Etiquette.find(query_mongo, null, { skip: skip, limit: limit, populate: populate, lean: true }).then((results) => {
                     callback(null, {
                         count: value,
                         results: results
@@ -269,9 +271,9 @@ module.exports.findManyComments = function (search, page, limit, options, callba
     }
 }
 
-module.exports.updateOneComment = function (comment_id, update, options, callback) {
-    if (comment_id && mongoose.isValidObjectId(comment_id)) {
-        Comment.findByIdAndUpdate(new ObjectId(comment_id), update, {
+module.exports.updateOneLabel = function (label_id, update, options, callback) {
+    if (label_id && mongoose.isValidObjectId(label_id)) {
+        Etiquette.findByIdAndUpdate(new ObjectId(label_id), update, {
             returnDocument: "after",
             runValidators: true,
         })
@@ -281,7 +283,7 @@ module.exports.updateOneComment = function (comment_id, update, options, callbac
                     if (value) {
                         callback(null, value.toObject())
                     } else {
-                        callback({ msg: "Commentaire non trouvé.", type_error: "no-found" });
+                        callback({ msg: "Etuqette non trouvé.", type_error: "no-found" });
                     }
                 } catch (e) {
 
@@ -326,12 +328,12 @@ module.exports.updateOneComment = function (comment_id, update, options, callbac
     }
 };
 
-module.exports.updateManyComments = function (comment_id, update, options, callback) {
-    if (typeof comment_id === 'object' && Array.isArray(comment_id) && comment_id.length > 0 && comment_id.filter((e) => { return mongoose.isValidObjectId(e) }).length == comment_id.length) {
-        comment_id = comment_id.map((e) => {
+module.exports.updateManyLabels = function (labels_ids, update, options, callback) {
+    if (typeof labels_ids === 'object' && Array.isArray(labels_ids) && labels_ids.length > 0 && articlabels_idsles_id.filter((e) => { return mongoose.isValidObjectId(e) }).length == labels_ids.length) {
+        labels_ids = labels_ids.map((e) => {
             return new ObjectId(e);
         });
-        Comment.updateMany({ _id: { $in: comment_id } }, update, { runValidators: true })
+        Etiquette.updateMany({ _id: { $in: labels_ids } }, update, { runValidators: true })
             .then((value) => {
                 try {
                     if (value && value.matchedCount != 0) {
@@ -383,15 +385,15 @@ module.exports.updateManyComments = function (comment_id, update, options, callb
     }
 };
 
-module.exports.deleteOneComment = function (comment_id, options, callback) {
-    if (comment_id && mongoose.isValidObjectId(comment_id)) {
-        Comment.findByIdAndDelete(comment_id)
+module.exports.deleteOneLabel = function (label_ids, options, callback) {
+    if (label_ids && mongoose.isValidObjectId(label_ids)) {
+        Etiquette.findByIdAndDelete(label_ids)
             .then((value) => {
                 try {
                     if (value) callback(null, value.toObject());
                     else
                         callback({
-                            msg: "Commentaire non trouvé.", type_error: "no-found",
+                            msg: "Etiquette non trouvé.", type_error: "no-found",
                         });
                 } catch (e) {
 
@@ -409,14 +411,14 @@ module.exports.deleteOneComment = function (comment_id, options, callback) {
     }
 };
 
-module.exports.deleteManyComments = function (comment_id, options, callback) {
-    if (comment_id && Array.isArray(comment_id) && comment_id.length > 0 && comment_id.filter((e) => {
+module.exports.deleteManyLabels = function (labels_ids, options, callback) {
+    if (labels_ids && Array.isArray(labels_ids) && labels_ids.length > 0 && labels_ids.filter((e) => {
         return mongoose.isValidObjectId(e);
-    }).length == comment_id.length) {
-        comment_id = comment_id.map((e) => {
+    }).length == labels_ids.length) {
+        labels_ids = labels_ids.map((e) => {
             return new ObjectId(e);
         });
-        Comment.deleteMany({ _id: comment_id })
+        Etiquette.deleteMany({ _id: labels_ids })
             .then((value) => {
                 callback(null, value);
             })

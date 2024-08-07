@@ -1,13 +1,13 @@
-const CommentSchema = require("../schemas/Comment");
+const Task = require("../schemas/Task");
 const _ = require("lodash");
 const async = require("async");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
-var Comment = mongoose.model("Comment", CommentSchema);
+var Tache = mongoose.model("Tache", Task);
 
 module.exports.loginUser = async function (username, password, options, callback) {
-    module.exports.findOneUser(['username', 'email'], username, null, async (err, value) => {
+    module.exports.findOneUser(['name', 'description'], username, null, async (err, value) => {
         if (err)
             callback(err)
         else {
@@ -22,17 +22,18 @@ module.exports.loginUser = async function (username, password, options, callback
     })
 }
 
-module.exports.addOneComment = async function (comment, options, callback) {
+module.exports.addOneTask = async function (task, options, callback) {
     try {
-        var new_comment = new Comment(comment);
-        var errors = new_comment.validateSync();
+        var task = new Task(task);
+        var errors = task_id.validateSync();
+        // console.log(errors)
         if (errors) {
             errors = errors['errors'];
             var text = Object.keys(errors).map((e) => {
-                return errors[e]['properties'] ? errors[e]['properties']['message']:errors[e]['reason'] ;
+                return errors[e]['properties']['message'];
             }).join(' ');
             var fields = _.transform(Object.keys(errors), function (result, value) {
-                result[value] = errors[value]['properties'] ? errors[value]['properties']['message']:String(errors[value]['reason']) ;
+                result[value] = errors[value]['properties']['message'];
             }, {});
             var err = {
                 msg: text,
@@ -42,8 +43,8 @@ module.exports.addOneComment = async function (comment, options, callback) {
             };
             callback(err);
         } else {
-            await new_comment.save();
-            callback(null, new_comment.toObject());
+            await task_id.save();
+            callback(null, task_id.toObject());
         }
     } catch (error) {
         if (error.code === 11000) { // Erreur de duplicité
@@ -61,15 +62,15 @@ module.exports.addOneComment = async function (comment, options, callback) {
     }
 };
 
-module.exports.addManyComments = async function (comment, options, callback) {
+module.exports.addManyTasks = async function (tasks, options, callback) {
     var errors = [];
 
 
     // Vérifier les erreurs de validation
-    for (var i = 0; i < comment.length; i++) {
-        var comment = comments[i];
-        var new_comment = new Comment(comment);
-        var error = new_comment.validateSync();
+    for (var i = 0; i < tasks.length; i++) {
+        var tasks = tasks[i];
+        var task_id = new Task(tasks);
+        var error = task_id.validateSync();
         if (error) {
             error = error['errors'];
             var text = Object.keys(error).map((e) => {
@@ -93,7 +94,7 @@ module.exports.addManyComments = async function (comment, options, callback) {
     } else {
         try {
             // Tenter d'insérer les utilisateurs
-            const data = await Comment.insertMany(comments, { ordered: false });
+            const data = await Tache.insertMany(tasks, { ordered: false });
             callback(null, data);
         } catch (error) {
             if (error.code === 11000) { // Erreur de duplicité
@@ -116,17 +117,17 @@ module.exports.addManyComments = async function (comment, options, callback) {
     }
 };
 
-module.exports.findOneCommentById = function (comment_id, options, callback) {
+module.exports.findOneTaskById = function (task_id, options, callback) {
     var opts = { populate: options && options.populate ? [user_Id] : [] }
-    if (comment_id && mongoose.isValidObjectId(comment_id)) {
-        Comment.findById(comment_id, null, opts)
+    if (task_id && mongoose.isValidObjectId(task_id)) {
+        Tache.findById(task_id, null, opts)
             .then((value) => {
                 try {
                     if (value) {
                         callback(null, value.toObject());
                     } else {
                         callback({
-                            msg: "Aucun Commentaire trouvé.", type_error: "no-found",
+                            msg: "Aucune Tache trouvé.", type_error: "no-found",
                         });
                     }
                 } catch (e) {
@@ -143,7 +144,7 @@ module.exports.findOneCommentById = function (comment_id, options, callback) {
     }
 };
 
-module.exports.findOneComment = function (tab_field, value, options, callback) {
+module.exports.findOneTask = function (tab_field, value, options, callback) {
     var field_unique = ['name', 'price']
     var opts = { populate: options && options.populate ? [user_Id] : [] }
 
@@ -154,11 +155,11 @@ module.exports.findOneComment = function (tab_field, value, options, callback) {
         _.forEach(tab_field, (e) => {
             obj_find.push({ [e]: value })
         })
-        Comment.findOne({ $or: obj_find }, null, opts).then((value) => {
+        Tache.findOne({ $or: obj_find }, null, opts).then((value) => {
             if (value) {
                 callback(null, value.toObject())
             } else {
-                callback({ msg: 'Commentaire non trouvé.', type_error: 'no-found' })
+                callback({ msg: 'Taches non trouvé.', type_error: 'no-found' })
             }
         }).catch((err) => {
             callback({ msg: 'Erreur interne Mongo', type_error: 'error-mongo' })
@@ -182,17 +183,17 @@ module.exports.findOneComment = function (tab_field, value, options, callback) {
     }
 }
 
-module.exports.findManyCommentByIds = function (comment_id, options, callback) {
+module.exports.findManyTaskByIds = function (tasks_id, options, callback) {
     var opts = { populate: (options && options.populate ? [user_Id] : []), lean: true }
     if (
-        comment_id && Array.isArray(comment_id) && comment_id.length > 0 && comment_id.filter((e) => {
+        tasks_id && Array.isArray(tasks_id) && tasks_id.length > 0 && tasks_id.filter((e) => {
             return mongoose.isValidObjectId(e);
-        }).length == comment_id.length
+        }).length == tasks_id.length
     ) {
-        comment_id = comment_id.map((e) => {
+        tasks_id = tasks_id.map((e) => {
             return new ObjectId(e);
         });
-        Comment.find({ _id: comment_id }, null, opts)
+        Tache.find({ _id: tasks_id }, null, opts)
             .then((value) => {
                 try {
                     if (value && Array.isArray(value) && value.length != 0) {
@@ -204,6 +205,7 @@ module.exports.findManyCommentByIds = function (comment_id, options, callback) {
                         });
                     }
                 } catch (e) {
+
                     callback(e)
                 }
             })
@@ -214,21 +216,21 @@ module.exports.findManyCommentByIds = function (comment_id, options, callback) {
                 });
             });
     } else if (
-        comments_id &&
-        Array.isArray(comments_id) &&
-        comments_id.length > 0 &&
-        comments_id.filter((e) => {
+        tasks_id &&
+        Array.isArray(tasks_id) &&
+        tasks_id.length > 0 &&
+        tasks_id.filter((e) => {
             return mongoose.isValidObjectId(e);
-        }).length != comments_id.length
+        }).length != tasks_id.length
     ) {
         callback({
             msg: "Tableau non conforme plusieurs éléments ne sont pas des ObjectId.",
             type_error: "no-valid",
-            fields: comments_id.filter((e) => {
+            fields: tasks_id.filter((e) => {
                 return !mongoose.isValidObjectId(e);
             }),
         });
-    } else if (comments_id && !Array.isArray(comments_id)) {
+    } else if (tasks_id && !Array.isArray(tasks_id)) {
         callback({
             msg: "L'argement n'est pas un tableau.",
             type_error: "no-valid",
@@ -238,7 +240,7 @@ module.exports.findManyCommentByIds = function (comment_id, options, callback) {
     }
 };
 
-module.exports.findManyComments = function (search, page, limit, options, callback) {
+module.exports.findManyTasks = function (search, page, limit, options, callback) {
     page = !page ? 1 : parseInt(page)
     limit = !limit ? 1 : parseInt(limit)
     var populate = (options && options.populate ? ['user_id'] : [])
@@ -251,10 +253,10 @@ module.exports.findManyComments = function (search, page, limit, options, callba
                 return { [e]: { $regex: search, $options: 'i' } };
             })
         } : {};
-        Comment.countDocuments(query_mongo).then((value) => {
+        Tache.countDocuments(query_mongo).then((value) => {
             if (value > 0) {
                 const skip = ((page - 1) * limit)
-                Comment.find(query_mongo, null, { skip: skip, limit: limit, populate: populate, lean: true }).then((results) => {
+                Tache.find(query_mongo, null, { skip: skip, limit: limit, populate: populate, lean: true }).then((results) => {
                     callback(null, {
                         count: value,
                         results: results
@@ -269,9 +271,9 @@ module.exports.findManyComments = function (search, page, limit, options, callba
     }
 }
 
-module.exports.updateOneComment = function (comment_id, update, options, callback) {
-    if (comment_id && mongoose.isValidObjectId(comment_id)) {
-        Comment.findByIdAndUpdate(new ObjectId(comment_id), update, {
+module.exports.updateOneTask = function (task_id, update, options, callback) {
+    if (task_id && mongoose.isValidObjectId(task_id)) {
+        Tache.findByIdAndUpdate(new ObjectId(task_id), update, {
             returnDocument: "after",
             runValidators: true,
         })
@@ -281,7 +283,7 @@ module.exports.updateOneComment = function (comment_id, update, options, callbac
                     if (value) {
                         callback(null, value.toObject())
                     } else {
-                        callback({ msg: "Commentaire non trouvé.", type_error: "no-found" });
+                        callback({ msg: "Tache non trouvé.", type_error: "no-found" });
                     }
                 } catch (e) {
 
@@ -326,12 +328,12 @@ module.exports.updateOneComment = function (comment_id, update, options, callbac
     }
 };
 
-module.exports.updateManyComments = function (comment_id, update, options, callback) {
-    if (typeof comment_id === 'object' && Array.isArray(comment_id) && comment_id.length > 0 && comment_id.filter((e) => { return mongoose.isValidObjectId(e) }).length == comment_id.length) {
-        comment_id = comment_id.map((e) => {
+module.exports.updateManyTasks = function (tasks_id, update, options, callback) {
+    if (typeof tasks_id === 'object' && Array.isArray(tasks_id) && tasks_id.length > 0 && tasks_id.filter((e) => { return mongoose.isValidObjectId(e) }).length == tasks_id.length) {
+        tasks_id = tasks_id.map((e) => {
             return new ObjectId(e);
         });
-        Comment.updateMany({ _id: { $in: comment_id } }, update, { runValidators: true })
+        Tache.updateMany({ _id: { $in: tasks_id } }, update, { runValidators: true })
             .then((value) => {
                 try {
                     if (value && value.matchedCount != 0) {
@@ -383,15 +385,15 @@ module.exports.updateManyComments = function (comment_id, update, options, callb
     }
 };
 
-module.exports.deleteOneComment = function (comment_id, options, callback) {
-    if (comment_id && mongoose.isValidObjectId(comment_id)) {
-        Comment.findByIdAndDelete(comment_id)
+module.exports.deleteOneTask = function (task_id, options, callback) {
+    if (task_id && mongoose.isValidObjectId(task_id)) {
+        Tache.findByIdAndDelete(task_id)
             .then((value) => {
                 try {
                     if (value) callback(null, value.toObject());
                     else
                         callback({
-                            msg: "Commentaire non trouvé.", type_error: "no-found",
+                            msg: "Tache non trouvé.", type_error: "no-found",
                         });
                 } catch (e) {
 
@@ -409,14 +411,14 @@ module.exports.deleteOneComment = function (comment_id, options, callback) {
     }
 };
 
-module.exports.deleteManyComments = function (comment_id, options, callback) {
-    if (comment_id && Array.isArray(comment_id) && comment_id.length > 0 && comment_id.filter((e) => {
+module.exports.deleteManyTasks = function (tasks_id, options, callback) {
+    if (tasks_id && Array.isArray(tasks_id) && tasks_id.length > 0 && tasks_id.filter((e) => {
         return mongoose.isValidObjectId(e);
-    }).length == comment_id.length) {
-        comment_id = comment_id.map((e) => {
+    }).length == tasks_id.length) {
+        tasks_id = tasks_id.map((e) => {
             return new ObjectId(e);
         });
-        Comment.deleteMany({ _id: comment_id })
+        Tache.deleteMany({ _id: tasks_id })
             .then((value) => {
                 callback(null, value);
             })

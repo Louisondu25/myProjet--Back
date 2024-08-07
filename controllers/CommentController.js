@@ -1,5 +1,6 @@
 const CommentService = require('../services/CommentService')
 
+//<-- Standby en attendant que la collection Task soit crée pour continuer les tests. -->
 
 module.exports.addOneComment = function (req, res) {
     req.log.info('Creation d\'un Commentaire')

@@ -1,5 +1,4 @@
-const UserService = require('../services/UserService')
-const passport = require('passport')
+const BoardService = require('../services/BoardService')
 
 // La fonction permet de connecter un utilisateur.
 module.exports.loginUser = function (req, res, next) {
@@ -22,29 +21,10 @@ module.exports.loginUser = function (req, res, next) {
     })(req, res, next)
 }
 
-module.exports.logoutUser = function (req, res) {
-    req.log.info("Deconnexion de l'utilisateur");
-
-    UserService.updateOneUser(req.user.id, { token: "" }, null, (err, value) => {
-        if (err) {
-            if (err.type_error === "no found") {
-                res.statusCode = 404;
-                res.send(err);
-            } else if (err.type_error === "validator" || err.type_error === "duplicate") {
-                res.statusCode = 405;
-                res.send(err);
-            }
-        } else {
-            res.statusCode = 201;
-            res.send({ message: "L'utilisateur est deconnecter" });
-        }
-    });
-};
-
 // La fonction permet d'ajouter un utilisateur.
-module.exports.addOneUser = function (req, res) {
-    req.log.info('Creation d\'un utilisateur')
-    UserService.addOneUser(req.body, null, function (err, value) {
+module.exports.addOneBoard = function (req, res) {
+    req.log.info('Creation d\'un Tableau')
+    BoardService.addOneBoard(req.body, null, function (err, value) {
         if (err && err.type_error == "no-found") {
             res.statusCode = 404
             res.send(err)
@@ -64,10 +44,9 @@ module.exports.addOneUser = function (req, res) {
     })
 }
 
-// La fonction permet d'ajouter plusieurs utilisateurs.
-module.exports.addManyUsers = function (req, res) {
-    req.log.info('Creation de plusieurs utilisateurs')
-    UserService.addManyUsers(req.body, null, function (err, value) {
+module.exports.addManyBoards = function (req, res) {
+    req.log.info('Creation de plusieurs Tableaux')
+    BoardService.addManyBoards(req.body, null, function (err, value) {
         if (err) {
             res.statusCode = 405
             res.send(err)
@@ -79,11 +58,11 @@ module.exports.addManyUsers = function (req, res) {
     })
 }
 
-// La fonction permet de chercher un utilisateur.
-module.exports.findOneUserById = function (req, res) {
+module.exports.findOneBoardById = function (req, res) {
 
-    req.log.info('Rechercher un utilisateur')
-    UserService.findOneUserById(req.params.id, null, function (err, value) {
+    req.log.info('Rechercher un Tableau')
+    var opts = { populate: req.query.populate }
+    BoardService.findOneBoardById(req.params.id, opts, function (err, value) {
         if (err && err.type_error == "no-found") {
             res.statusCode = 404
             res.send(err)
@@ -103,14 +82,17 @@ module.exports.findOneUserById = function (req, res) {
     })
 }
 
-// La fonction permet de chercher plusieurs utilisateurs.
-module.exports.findManyUserByIds = function (req, res) {
-
-    req.log.info('Rechercher plusieurs utilisateurs')
+module.exports.findManyBoardByIds = function (req, res) {
+    req.log.info('Rechercher plusieurs Tableaux')
     var arg = req.query.id
     if (arg && !Array.isArray(arg))
         arg = [arg]
-    UserService.findManyUserByIds(arg, null, function (err, value) {
+    var arg = req.query.id
+    if (arg && !Array.isArray(arg))
+        arg = [arg]
+    var opts = { populate: req.query.populate }
+
+    BoardService.findManyBoardByIds(arg, opts, function (err, value) {
         if (err && err.type_error == "no-found") {
             res.statusCode = 404
             res.send(err)
@@ -130,12 +112,13 @@ module.exports.findManyUserByIds = function (req, res) {
     })
 }
 
-module.exports.findOneUser = function (req, res) {
-    req.log.info('Rechercher un utilisateurs avec un champs choisi')
+module.exports.findOneBoard = function (req, res) {
+    req.log.info('Rechercher un Tableau avec un champs choisi')
     var arg = req.query.id
     if (arg && !Array.isArray(arg))
         arg = [arg]
-    UserService.findOneUser(arg, req.query.value, null, function (err, value) {
+    var opts = { populate: req.query.populate }
+    BoardService.findOneBoard(arg, req.query.value, opts, function (err, value) {
         if (err && err.type_error == "no-found") {
             res.statusCode = 404
             res.send(err)
@@ -155,12 +138,13 @@ module.exports.findOneUser = function (req, res) {
     })
 }
 
-module.exports.findManyUsers = function (req, res) {
-    req.log.info('Rechercher des utilisateurs')
+module.exports.findManyBoards = function (req, res) {
+    req.log.info('Rechercher des Tableaux')
     var page = req.query.page
     var limit = req.query.limit
     var search = req.query.q
-    UserService.findManyUsers(search, page, limit, null, function (err, value) {
+    var opts = { populate: req.query.populate }
+    BoardService.findManyBoards(search, page, limit, opts, function (err, value) {
         if (err && err.type_error == 'no-valid') {
             res.statusCode = (405)
             res.send(err)
@@ -175,13 +159,12 @@ module.exports.findManyUsers = function (req, res) {
     })
 }
 
-// La fonction permet de modifier un utilisateur.
-module.exports.updateOneUser = function (req, res) {
-    req.log.info('Modifier un utilisateur')
-    const userId = req.params.id;
-    const userData = req.body;
+module.exports.updateOneBoard = function (req, res) {
+    req.log.info('Modifier un Tableau')
+    const boardId = req.params.id;
+    const boardData = req.body;
 
-    UserService.updateOneUser(userId, userData, null, function (err, user) {
+    BoardService.updateOneBoard(boardId, boardData, null, function (err, board) {
         if (err && err.type_error == "no-found") {
             res.statusCode = 404
             res.send(err)
@@ -196,20 +179,19 @@ module.exports.updateOneUser = function (req, res) {
         }
         else {
             res.statusCode = 200
-            res.send(user)
+            res.send(board)
         }
     })
 }
 
-// La fonction permet de modifier plusieurs utilisateurs.
-module.exports.updateManyUsers = function (req, res) {
+module.exports.updateManyBoards = function (req, res) {
 
-    req.log.info('Modifier plusieurs utilisateurs')
+    req.log.info('Modifier plusieurs Tableaux')
     var arg = req.query.id
     if (arg && !Array.isArray(arg))
         arg = [arg]
     var updateData = req.body
-    UserService.updateManyUsers(arg, updateData, null, function (err, value) {
+    BoardService.updateManyBoards(arg, updateData, null, function (err, value) {
         if (err && err.type_error == "no-found") {
             res.statusCode = 404
             res.send(err)
@@ -229,11 +211,10 @@ module.exports.updateManyUsers = function (req, res) {
     })
 }
 
-// La fonction permet de supprimer un utilisateur.
-module.exports.deleteOneUser = function (req, res) {
+module.exports.deleteOneBoard = function (req, res) {
 
-    req.log.info('Supprimer un utilisateur')
-    UserService.deleteOneUser(req.params.id, null, function (err, value) {
+    req.log.info('Supprimer un Tableau')
+    BoardService.deleteOneBoard(req.params.id, null, function (err, value) {
         if (err && err.type_error == "no-found") {
             res.statusCode = 404
             res.send(err)
@@ -253,13 +234,12 @@ module.exports.deleteOneUser = function (req, res) {
     })
 }
 
-// La fonction permet de supprimer plusieurs utilisateurs.
-module.exports.deleteManyUsers = function (req, res) {
-    req.log.info('Supprimer plusieurs utilisateurs')
+module.exports.deleteManyBoards = function (req, res) {
+    req.log.info('Supprimer plusieurs Tableaux')
     var arg = req.query.id
     if (arg && !Array.isArray(arg))
         arg = [arg]
-    UserService.deleteManyUsers(arg, null, function (err, value) {
+    BoardService.deleteManyBoards(arg, null, function (err, value) {
         if (err && err.type_error == "no-found") {
             res.statusCode = 404
             res.send(err)
@@ -278,6 +258,3 @@ module.exports.deleteManyUsers = function (req, res) {
         }
     })
 }
-
-
-
