@@ -1,8 +1,8 @@
 # myProjet--Back
 
 ## Etat du programme:
-    Fonctionnalité a coder en cours: Commencer les tests.
-    etat  du Projet: Collection Terminée, Test a Commencer.
+    Fonctionnalité a coder en cours: Commencer les tests Board.
+    etat  du Projet: Test Board a Commencer.
 
 # Arboresence fichier et dossier:
   - controllers       (Il recois les requetes - UserController -> recois les requetes verifier 
