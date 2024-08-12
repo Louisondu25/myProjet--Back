@@ -82,34 +82,34 @@ app.delete(`/users`, database_middleware.checkMongooseConnection, passport.authe
 // <-------------------------------------------------------------- Board ----------------------------------------------------------------------->
 
 // Définit une route pour ajouter un Tableau
-// app.post("/board", database_middleware.checkMongooseConnection, BoardController.addOneBoard);
+app.post("/board", database_middleware.checkMongooseConnection, BoardController.addOneBoard);
 
 // // Définit une route pour ajouter plusieurs Tableaux
-// app.post(`/boards`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.addManyBoards);
+app.post(`/boards`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.addManyBoards);
 
 // // Définit une route pour récupérer un Tableau par Id
-// app.get(`/board/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.findOneBoardById);
+app.get(`/board/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.findOneBoardById);
 
 // // Définit une route pour récupérer un Tableau
-// app.get(`/board`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.findOneBoard);
+app.get(`/board`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.findOneBoard);
 
 // // Définit une route pour récupérer plusieur Tableaux
-// app.get(`/boards_by_filters`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.findManyBoards);
+app.get(`/boards_by_filters`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.findManyBoards);
 
 // // Définit une route pour récupérer plusieurs Tableaux par Ids
-// app.get(`/boards`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.findManyBoardByIds);
+app.get(`/boards`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.findManyBoardByIds);
 
 // // Définit une route pour mettre à jour un Tableau
-// app.put(`/board/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.updateOneBoard);
+app.put(`/board/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.updateOneBoard);
 
 // // Définit une route pour mettre à jour plusieurs Tableaux
-// app.put(`/boards`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.updateManyBoards);
+app.put(`/boards`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.updateManyBoards);
 
 // // Définit une route pour supprimer un Tableau
-// app.delete(`/board/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.deleteOneBoard);
+app.delete(`/board/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.deleteOneBoard);
 
 // // Définit une route pour supprimer plusieurs Tableaux
-// app.delete(`/boards`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.deleteManyBoards);
+app.delete(`/boards`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.deleteManyBoards);
 
 // <--------------------------------------------------------------- Taches ------------------------------------------------------------------------------->
 

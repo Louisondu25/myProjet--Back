@@ -14,42 +14,54 @@ var users = [
         lastName: "Iencli",
         username: "oui1",
         email: "Iencli@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
     {
         firstName: "detenteur  d'un tableau 2",
         lastName: "Iencli",
         username: "oui2",
         email: "Iencli2@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
 
     }, {
         firstName: "detenteur  d'un tableau 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
     {
         firstName: "detenteur  d'un tableau 4",
         lastName: "Iencli",
         username: "oui4",
         email: "Iencli4@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
     {
         firstName: "detenteur  d'un tableau 5",
         lastName: "Iencli",
         username: "oui5",
         email: "Iencli5@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
 ]
 
-it('Creation des Utilisateurs fictif', (done) => {
-    UserService.addManyUsers(users, null, function (err, value) {
-        TabUserId = _.map(value, '_id')
-        done()
+describe('Gestion externe (User)', () => {
+    it('Creation des Utilisateurs fictif', (done) => {
+        UserService.addManyUsers(users, null, function (err, value) {
+            TabUserId = _.map(value, '_id')
+            done()
+        })
     })
 })
 
@@ -62,11 +74,11 @@ describe("addOneBoard", () => {
     it("Tableau correct. - S", (done) => {
         var board = {
             user_id: rdm_users(TabUserId),
-            tableau_id: "doit etre  un Objectid",
+            tableau_id: rdm_users(TabUserId),
             title: "blabla",
             description: "La description de cet objet board",
             index: 1,
-            setting_list: "doit etre  un Objectid",
+            setting_list: rdm_users(TabUserId),
             created_at: new Date(),
             updated_at: new Date(),
         };
@@ -81,198 +93,204 @@ describe("addOneBoard", () => {
     });
     it("Tableau incorrect. (Sans Name) - E", (done) => {
         var InvalidUser = {
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            user_id: rdm_users(TabUserId),
+            tableau_id: rdm_users(TabUserId),
+
+            description: "La description de cet objet board",
+            index: 1,
+            setting_list: rdm_users(TabUserId),
             created_at: new Date(),
             updated_at: new Date(),
-            user_id: rdm_users(TabUserId),
-            password: "higuys"
         };
         BoardService.addOneBoard(InvalidUser, null, function (err, value) {
             expect(err).to.haveOwnProperty("msg");
             expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
             expect(err).to.haveOwnProperty("fields");
-            expect(err["fields"]).to.haveOwnProperty("name");
-            expect(err["fields"]["name"]).to.equal(
-                "Path `name` is required."
+            expect(err["fields"]).to.haveOwnProperty("title");
+            expect(err["fields"]["title"]).to.equal(
+                "Path `title` is required."
             );
             done()
         });
     });
 });
 
-// describe("addManyBoards", () => {
-//     it("Tableaux à ajouter, non valide. - E", (done) => {
-//         var board_tab_error = [
-//             {
-//                 name: "Carottes",
-//                 description: "Hey Honey",
-//                 price: 2.50,
-//                 quantity: "500",
-//                 created_at: new Date(),
-//                 updated_at: new Date(),
-//                 user_id: rdm_users(TabUserId),
-//                 password: "higuys"
-//             },
-//             {
-//                 name: "Carottes",
-//                 description: "blabla",
-//                 price: 2.50,
-//                 created_at: new Date(),
-//                 updated_at: new Date(),
-//                 user_id: rdm_users(TabUserId),
-//                 password: "higuys"
-//             },
-//             {
-//                 name: "Carottes",
-//                 description: "pookie",
-//                 created_at: new Date(),
-//                 updated_at: new Date(),
-//                 user_id: rdm_users(TabUserId),
-//                 password: "higuys"
-//             },
-//             {
-//                 name: "Carottes",
-//                 description: "blabla",
-//                 user_id: rdm_users(TabUserId),
-//                 password: "higuys"
-//             },
-//         ];
-//         BoardService.addManyBoards(board_tab_error, null, function (err, value) {
-//             done();
-//         });
-//     });
+describe("addManyBoards", () => {
+    it("Tableaux à ajouter, non valide. - E", (done) => {
+        var board_tab_error = [
+            {
+                user_id: rdm_users(TabUserId),
+                tableau_id: rdm_users(TabUserId),
+                title: "blabla",
+                description: "La description de cet objet board",
+                index: 1,
+                setting_list: rdm_users(TabUserId),
+                created_at: new Date(),
+                updated_at: new Date(),
+            },
+            {
+                user_id: rdm_users(TabUserId),
+                tableau_id: rdm_users(TabUserId),
+                title: "blabla",
+                description: "La description de cet objet board",
+                index: 1,
+                setting_list: rdm_users(TabUserId),
+                created_at: new Date(),
+                updated_at: new Date(),
+            },
+            {
+            user_id: rdm_users(TabUserId),
+            tableau_id: rdm_users(TabUserId),
+            title: "blabla",
+            description: "La description de cet objet board",
+            index: 1,
+            setting_list: rdm_users(TabUserId),
+            created_at: new Date(),
+            updated_at: new Date(),
+            },
+            {
+                user_id: rdm_users(TabUserId),
+                tableau_id: rdm_users(TabUserId),
+                title: "blabla",
+                description: "La description de cet objet board",
+                index: 1,
+                setting_list: rdm_users(TabUserId),
+            },
+        ];
+        BoardService.addManyBoards(board_tab_error, null, function (err, value) {
+            done();
+        });
+    });
 
-//     it("Tableaux à ajouter, valide. - S", (done) => {
-//         var boards_tab = [
-//             {
-//                 name: "Carottes",
-//                 description: "blabla",
-//                 price: 2.50,
-//                 quantity: 500,
-//                 created_at: new Date(),
-//                 updated_at: new Date(),
-//                 user_id: rdm_users(TabUserId),
-//                 password: "higuys"
-//             },
-//             {
-//                 name: "Pomme de terre",
-//                 description: "blabla",
-//                 price: 2.80,
-//                 quantity: 800,
-//                 created_at: new Date(),
-//                 updated_at: new Date(),
-//                 user_id: rdm_users(TabUserId),
-//                 password: "higuys"
-//             },
-//             {
-//                 name: "Navet",
-//                 description: "blabla",
-//                 price: 3.10,
-//                 quantity: 200,
-//                 created_at: new Date(),
-//                 updated_at: new Date(),
-//                 user_id: rdm_users(TabUserId),
-//                 password: "higuys"
-//             },
-//         ];
+    it("Tableaux à ajouter, valide. - S", (done) => {
+        var boards_tab = [
+            {
+                user_id: rdm_users(TabUserId),
+                tableau_id: rdm_users(TabUserId),
+                title: "blabla",
+                description: "La description de cet objet board",
+                index: 1,
+                setting_list: rdm_users(TabUserId),
+                created_at: new Date(),
+                updated_at: new Date(),
+            },
+            {
+                user_id: rdm_users(TabUserId),
+                tableau_id: rdm_users(TabUserId),
+                title: "how are u",
+                description: "La description de cet objet board",
+                index: 1,
+                setting_list: rdm_users(TabUserId),
+                created_at: new Date(),
+                updated_at: new Date(),
+            },
+            {
+                user_id: rdm_users(TabUserId),
+                tableau_id: rdm_users(TabUserId),
+                title: "im good n u ?",
+                description: "La description de cet objet board",
+                index: 1,
+                setting_list: rdm_users(TabUserId),
+                created_at: new Date(),
+                updated_at: new Date(),
+            },
+        ];
 
-//         BoardService.addManyBoards(boards_tab, null, function (err, value) {
-//             tab_id_board = _.map(value, "_id");
-//             expect(value).lengthOf(3);
-//             boards = [...value, ...boards]
-//             done();
-//         });
-//     });
-// });
+        BoardService.addManyBoards(boards_tab, null, function (err, value) {
+            tab_id_board = _.map(value, "_id");
+            expect(value).lengthOf(3);
+            boards = [...value, ...boards]
+            done();
+        });
+    });
+});
 
-// describe("findOneBoardById", () => {
-//     it("Chercher un Tableaux existant correct. - S", (done) => {
-//         BoardService.findOneBoardById(ValidBoardId, null, function (err, value) {
-//             expect(value).to.be.a("object");
-//             expect(value).to.haveOwnProperty("_id");
-//             expect(value).to.haveOwnProperty("description");
-//             done();
-//         });
-//     });
-//     it("Chercher un Tableau non-existant correct. - E", (done) => {
-//         BoardService.findOneBoardById("100", null, function (err, value) {
-//             expect(err).to.haveOwnProperty("msg");
-//             expect(err).to.haveOwnProperty("type_error");
-//             expect(err["type_error"]).to.equal("no-valid");
-//             done();
-//         });
-//     });
-// });
+describe("findOneBoardById", () => {
+    it("Chercher un Tableaux existant correct. - S", (done) => {
+        BoardService.findOneBoardById(ValidBoardId, null, function (err, value) {
+            expect(value).to.be.a("object");
+            expect(value).to.haveOwnProperty("_id");
+            expect(value).to.haveOwnProperty("description");
+            done();
+        });
+    });
+    it("Chercher un Tableau non-existant correct. - E", (done) => {
+        BoardService.findOneBoardById("100", null, function (err, value) {
+            expect(err).to.haveOwnProperty("msg");
+            expect(err).to.haveOwnProperty("type_error");
+            expect(err["type_error"]).to.equal("no-valid");
+            done();
+        });
+    });
+});
 
-// describe('findOneBoard', () => {
-//     it('Chercher un Tableau avec un champ autorisé - S', (done) => {
-//         BoardService.findOneBoard(['name'], boards[0].name, null, (err, value) => {
-//             expect(value).to.haveOwnProperty('name');
-//             done();
-//         });
-//     });
+describe('findOneBoard', () => {
+    it('Chercher un Tableau avec un champ autorisé - S', (done) => {
+        BoardService.findOneBoard(['title'], boards[0].title, null, (err, value) => {
+            expect(value).to.haveOwnProperty('title');
+            done();
+        });
+    });
 
-//     it('Chercher un Tableau avec un champ non autorisé - E', (done) => {
-//         BoardService.findOneBoard(['boardname', 'firstName'], boards[0].name, null, (err, value) => {
-//             expect(err).to.haveOwnProperty('type_error');
-//             done();
-//         });
-//     });
+    it('Chercher un Tableau avec un champ non autorisé - E', (done) => {
+        BoardService.findOneBoard(['boardname', 'firstName'], boards[0].name, null, (err, value) => {
+            expect(err).to.haveOwnProperty('type_error');
+            done();
+        });
+    });
 
-//     it('Chercher un Tableau sans tableau de champ -E', (done) => {
-//         BoardService.findOneBoard('email', boards[0].name, null, (err, value) => {
-//             expect(err).to.haveOwnProperty('type_error');
-//             done();
-//         });
-//     });
+    it('Chercher un Tableau sans tableau de champ -E', (done) => {
+        BoardService.findOneBoard('email', boards[0].name, null, (err, value) => {
+            expect(err).to.haveOwnProperty('type_error');
+            done();
+        });
+    });
 
-//     it('chercher un Tableau inexistant', (done) => {
-//         BoardService.findOneBoard(['email'], 'boards[0].boardname', null, (err, value) => {
-//             expect(err).to.haveOwnProperty('type_error');
-//             done();
-//         });
-//     });
-// });
+    it('chercher un Tableau inexistant', (done) => {
+        BoardService.findOneBoard(['email'], 'boards[0].boardname', null, (err, value) => {
+            expect(err).to.haveOwnProperty('type_error');
+            done();
+        });
+    });
+});
 
-// describe('findOneBoard', () => {
-//     it('Chercher un Tableau avec un champ autorisé - S', (done) => {
-//         BoardService.findOneBoard(['name'], boards[0].name, null, (err, value) => {
-//             expect(value).to.haveOwnProperty('name');
-//             done();
-//         });
-//     });
+describe('findOneBoard', () => {
+    it('Chercher un Tableau avec un champ autorisé - S', (done) => {
+        BoardService.findOneBoard(['title'], boards[0].title, null, (err, value) => {
+            expect(value).to.haveOwnProperty('title');
+            done();
+        });
+    });
 
-//     it('Chercher un Tableau avec un champ non autorisé - E', (done) => {
-//         BoardService.findOneBoard(['boardname', 'firstName'], boards[0].name, null, (err, value) => {
-//             expect(err).to.haveOwnProperty('type_error');
-//             done();
-//         });
-//     });
+    it('Chercher un Tableau avec un champ non autorisé - E', (done) => {
+        BoardService.findOneBoard(['boardname', 'firstName'], boards[0].name, null, (err, value) => {
+            expect(err).to.haveOwnProperty('type_error');
+            done();
+        });
+    });
 
-//     it('Chercher un Tableau sans tableau de champ -E', (done) => {
-//         BoardService.findOneBoard('email', boards[0].name, null, (err, value) => {
-//             expect(err).to.haveOwnProperty('type_error');
-//             done();
-//         });
-//     });
+    it('Chercher un Tableau sans tableau de champ -E', (done) => {
+        BoardService.findOneBoard('email', boards[0].name, null, (err, value) => {
+            expect(err).to.haveOwnProperty('type_error');
+            done();
+        });
+    });
 
-//     it('chercher un Tableau inexistant', (done) => {
-//         BoardService.findOneBoard(['email'], 'boards[0].boardname', null, (err, value) => {
-//             expect(err).to.haveOwnProperty('type_error');
-//             done();
-//         });
-//     });
-// });
+    it('chercher un Tableau inexistant', (done) => {
+        BoardService.findOneBoard(['email'], 'boards[0].boardname', null, (err, value) => {
+            expect(err).to.haveOwnProperty('type_error');
+            done();
+        });
+    });
+});
 
 // describe('findManyBoards', () => {
 //     it('Retourne 3 Tableaux sur les 4 - S ', (done) => {
 //         BoardService.findManyBoards(null, 1, 3, null, function (err, value,) {
-
+//             console.log(err, value)
 //             expect(value).to.haveOwnProperty('count')
 //             expect(value).to.haveOwnProperty('results')
-//             expect(value['count']).to.be.equal(4)
+//             expect(value['count']).to.be.equal(5)
 //             expect(value['results']).lengthOf(3)
 //             expect(err).to.be.null
 //             done()
@@ -399,29 +417,35 @@ describe("addOneBoard", () => {
 //     });
 // });
 
-// describe("deleteManyBoards", () => {
-//     it("Supprimer plusieurs Tableau correctement. - S", (done) => {
-//         BoardService.deleteManyBoards(TabBoardId, null, (err, value) => {
-//             expect(value).to.be.a("object");
-//             expect(value).to.haveOwnProperty("deletedCount");
-//             expect(value.deletedCount).to.equal(TabBoardId.length);
-//             done();
-//         });
-//     });
+describe("deleteManyBoards", () => {
+  it("Supprimer plusieurs Tableau correctement. - S", (done) => {
+    BoardService.deleteManyBoards(TabBoardId, null, (err, value) => {
+        console.log(TabBoardId)
+      expect(value).to.be.a("object");
+      expect(value).to.haveOwnProperty("deletedCount");
+      expect(value.deletedCount).to.equal(TabBoardId.length);
+      expect(err).to.be.null;
+      done();
+    });
+  });
 
-//     it("Supprimer plusieurs Tableau avec id incorrect. - E", (done) => {
-//         BoardService.deleteManyBoards("1200", null, (err, value) => {
-//             expect(err).to.be.a("object");
-//             expect(err).to.haveOwnProperty("msg");
-//             expect(err).to.haveOwnProperty("type_error");
-//             expect(err.type_error).to.equal("no-valid");
-//             done();
-//         });
-//     });
-// });
+  it("Supprimer plusieurs Tableau avec id incorrect. - E", (done) => {
+    BoardService.deleteManyBoards("1200", null, (err, value) => {
+      expect(err).to.be.a("object");
+      expect(err).to.haveOwnProperty("msg");
+      expect(err).to.haveOwnProperty("type_error");
+      expect(err.msg).to.equal("Tableau d'id invalide.");
+      expect(err.type_error).to.equal("no-valid");
+      expect(value).to.be.undefined;
+      done();
+    });
+  });
+});
 
-it('Supprimer des Utilisateurs fictifs', (done) => {
-    UserService.deleteManyUsers(TabUserId, null, function (err, value) {
-        done()
+describe('Gestion externe (User)', () => {
+    it('Supprimer des Utilisateurs fictifs', (done) => {
+        UserService.deleteManyUsers(TabUserId, null, function (err, value) {
+            done()
+        })
     })
 })

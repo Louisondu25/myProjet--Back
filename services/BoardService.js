@@ -1,4 +1,4 @@
-const DashBoard = require("../schemas/Board");
+const DashBoard = require("../schemas/DashBoard");
 const _ = require("lodash");
 const async = require("async");
 const mongoose = require("mongoose");
@@ -26,14 +26,13 @@ module.exports.addOneBoard = async function (board, options, callback) {
     try {
         var new_board = new Board(board);
         var errors = new_board.validateSync();
-        // console.log(errors)
         if (errors) {
             errors = errors['errors'];
             var text = Object.keys(errors).map((e) => {
-                return errors[e]['properties']['message'];
+                return errors[e]['properties'] ? errors[e]['properties']['message'] : errors[e]['reason'];
             }).join(' ');
             var fields = _.transform(Object.keys(errors), function (result, value) {
-                result[value] = errors[value]['properties']['message'];
+                result[value] = errors[value]['properties'] ? errors[value]['properties']['message'] : String(errors[value]['reason']);
             }, {});
             var err = {
                 msg: text,
@@ -144,44 +143,44 @@ module.exports.findOneBoardById = function (board_id, options, callback) {
     }
 };
 
-module.exports.findOneBoard = function (tab_field, value, options, callback) {
-    var field_unique = ['name', 'price']
-    var opts = { populate: options && options.populate ? [user_Id] : [] }
+module.exports.findOneBoard = function findOneBoard(fields, value, options, callback) {
+    const allowedFields = ['name', 'price', 'title'];
+    const populateOptions = options && options.populate ? [user_Id] : [];
 
-    if (tab_field && Array.isArray(tab_field) && value && _.filter(tab_field, (e) => {
-        return field_unique.indexOf(e) == -1;
-    }).length == 0) {
-        var obj_find = []
-        _.forEach(tab_field, (e) => {
-            obj_find.push({ [e]: value })
-        })
-        Board.findOne({ $or: obj_find }, null, opts).then((value) => {
-            if (value) {
-                callback(null, value.toObject())
+    if (!fields || !Array.isArray(fields)) {
+        return callback({ msg: 'Invalid search fields', type_error: 'invalid-input' });
+    }
+
+    const invalidFields = fields.filter((field) => !allowedFields.includes(field));
+    if (invalidFields.length > 0) {
+        return callback({
+            msg: `Invalid search fields: ${invalidFields.join(', ')}`,
+            type_error: 'invalid-input',
+            invalidFields,
+        });
+    }
+
+    if (!value) {
+        return callback({ msg: 'Search value is required', type_error: 'invalid-input' });
+    }
+
+    const searchQuery = fields.reduce((acc, field) => {
+        acc[field] = value;
+        return acc;
+    }, {});
+
+    Board.findOne(searchQuery, null, { populate: populateOptions })
+        .then((board) => {
+            if (board) {
+                return callback(null, board.toObject());
             } else {
-                callback({ msg: 'Tableau non trouvé.', type_error: 'no-found' })
+                return callback({ msg: 'Board not found', type_error: 'not-found' });
             }
-        }).catch((err) => {
-            callback({ msg: 'Erreur interne Mongo', type_error: 'error-mongo' })
         })
-    }
-    else {
-        var msg = ''
-        if (!tab_field || !Array.isArray(tab_field)) {
-            msg += 'Les champs de recherches sont incorrecte'
-        }
-        if (!value) {
-            msg += msg ? 'Et la valeur de recherche est vide' : 'la valeur de recherche est vide'
-        }
-        if (_.filter(tab_field, (e) => { return field_unique.indexOf(e) === -1 }).length > 0) {
-            var field_not_autorized = _.filter(tab_field, (e) => { return field_unique.indexOf(e) === -1 })
-            msg += msg ? ` Et ${field_not_autorized.join(', ')}` : `Les champs ${field_not_autorized.join(', ')} ne sont pas des champs de recherche autorisés`
-            callback({ msg: msg, type_error: 'no-valid', field_not_autorized: field_not_autorized })
-        } else {
-            callback({ msg: msg, type_error: 'no-valid' })
-        }
-    }
-}
+        .catch((err) => {
+            return callback({ msg: 'Internal MongoDB error', type_error: 'mongodb-error', err });
+        });
+};
 
 module.exports.findManyBoardByIds = function (boards_id, options, callback) {
     var opts = { populate: (options && options.populate ? [user_Id] : []), lean: true }
@@ -249,7 +248,7 @@ module.exports.findManyBoards = function (search, page, limit, options, callback
         callback({ msg: `format de ${typeof page !== "number" ? "page" : "limit"} est incorrect`, type_error: "no-valid" })
     } else {
         var query_mongo = search ? {
-            $or: _.map(['name', 'description', 'price', 'quantity'], (e) => {
+            $or: _.map(['title', 'description', 'index'], (e) => {
                 return { [e]: { $regex: search, $options: 'i' } };
             })
         } : {};
@@ -412,23 +411,28 @@ module.exports.deleteOneBoard = function (board_id, options, callback) {
 };
 
 module.exports.deleteManyBoards = function (boards_id, options, callback) {
+    console.log("boards_id:", boards_id);
     if (boards_id && Array.isArray(boards_id) && boards_id.length > 0 && boards_id.filter((e) => {
         return mongoose.isValidObjectId(e);
     }).length == boards_id.length) {
         boards_id = boards_id.map((e) => {
             return new ObjectId(e);
         });
+        console.log("boards_id après conversion en ObjectId:", boards_id);
         Board.deleteMany({ _id: boards_id })
             .then((value) => {
-                callback(null, value);
+                console.log("Résultat de deleteMany:", value); 
+                callback(null, value );
             })
             .catch((err) => {
+                console.error("Erreur lors de deleteMany:", err); 
                 callback({
                     msg: "Erreur mongo suppression.",
                     type_error: "error-mongo",
                 });
             });
     } else {
+        console.error("Erreur: Tableau d'id invalide.", boards_id);
         callback({ msg: "Tableau d'id invalide.", type_error: "no-valid" });
     }
 };

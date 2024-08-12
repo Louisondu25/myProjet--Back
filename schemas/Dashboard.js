@@ -9,7 +9,7 @@ var DashBoard = ({
     },
     tableau_id: {
         type: ObjectId,
-        required: true,
+        required: false,
     },
     title: {
         type: String,
@@ -25,7 +25,7 @@ var DashBoard = ({
     },
     setting_list: {
         type: ObjectId,
-        required: true,
+        required: false,
     },
     created_at: {
         type: Date,
