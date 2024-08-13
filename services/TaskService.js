@@ -1,10 +1,10 @@
-const Task = require("../schemas/Task");
+const TaskSchema = require("../schemas/Task");
 const _ = require("lodash");
 const async = require("async");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
-var Tache = mongoose.model("Tache", Task);
+var Task = mongoose.model("Task", TaskSchema);
 
 module.exports.loginUser = async function (username, password, options, callback) {
     module.exports.findOneUser(['name', 'description'], username, null, async (err, value) => {
@@ -25,15 +25,14 @@ module.exports.loginUser = async function (username, password, options, callback
 module.exports.addOneTask = async function (task, options, callback) {
     try {
         var task = new Task(task);
-        var errors = task_id.validateSync();
-        // console.log(errors)
+        var errors = task.validateSync();
         if (errors) {
             errors = errors['errors'];
             var text = Object.keys(errors).map((e) => {
-                return errors[e]['properties']['message'];
+                return errors[e]['properties'] ? errors[e]['properties']['message'] : errors[e]['reason'];
             }).join(' ');
             var fields = _.transform(Object.keys(errors), function (result, value) {
-                result[value] = errors[value]['properties']['message'];
+                result[value] = errors[value]['properties'] ? errors[value]['properties']['message'] : String(errors[value]['reason']);
             }, {});
             var err = {
                 msg: text,
@@ -43,8 +42,8 @@ module.exports.addOneTask = async function (task, options, callback) {
             };
             callback(err);
         } else {
-            await task_id.save();
-            callback(null, task_id.toObject());
+            await task.save();
+            callback(null, task.toObject());
         }
     } catch (error) {
         if (error.code === 11000) { // Erreur de duplicité
@@ -65,11 +64,10 @@ module.exports.addOneTask = async function (task, options, callback) {
 module.exports.addManyTasks = async function (tasks, options, callback) {
     var errors = [];
 
-
     // Vérifier les erreurs de validation
     for (var i = 0; i < tasks.length; i++) {
-        var tasks = tasks[i];
-        var task_id = new Task(tasks);
+        var task = tasks[i];
+        var task_id = new Task(task);
         var error = task_id.validateSync();
         if (error) {
             error = error['errors'];
@@ -79,6 +77,7 @@ module.exports.addManyTasks = async function (tasks, options, callback) {
             var fields = _.transform(Object.keys(error), function (result, value) {
                 result[value] = error[value]['properties']['message'];
             }, {});
+
             errors.push({
                 msg: text,
                 fields_with_error: Object.keys(error),
@@ -88,13 +87,12 @@ module.exports.addManyTasks = async function (tasks, options, callback) {
             });
         }
     }
-
     if (errors.length > 0) {
         callback(errors);
     } else {
         try {
             // Tenter d'insérer les utilisateurs
-            const data = await Tache.insertMany(tasks, { ordered: false });
+            const data = await Task.insertMany(tasks, { ordered: false });
             callback(null, data);
         } catch (error) {
             if (error.code === 11000) { // Erreur de duplicité
@@ -120,14 +118,14 @@ module.exports.addManyTasks = async function (tasks, options, callback) {
 module.exports.findOneTaskById = function (task_id, options, callback) {
     var opts = { populate: options && options.populate ? [user_Id] : [] }
     if (task_id && mongoose.isValidObjectId(task_id)) {
-        Tache.findById(task_id, null, opts)
+        Task.findById(task_id, null, opts)
             .then((value) => {
                 try {
                     if (value) {
                         callback(null, value.toObject());
                     } else {
                         callback({
-                            msg: "Aucune Tache trouvé.", type_error: "no-found",
+                            msg: "Aucune Task trouvé.", type_error: "no-found",
                         });
                     }
                 } catch (e) {
@@ -155,11 +153,11 @@ module.exports.findOneTask = function (tab_field, value, options, callback) {
         _.forEach(tab_field, (e) => {
             obj_find.push({ [e]: value })
         })
-        Tache.findOne({ $or: obj_find }, null, opts).then((value) => {
+        Task.findOne({ $or: obj_find }, null, opts).then((value) => {
             if (value) {
                 callback(null, value.toObject())
             } else {
-                callback({ msg: 'Taches non trouvé.', type_error: 'no-found' })
+                callback({ msg: 'Tasks non trouvé.', type_error: 'no-found' })
             }
         }).catch((err) => {
             callback({ msg: 'Erreur interne Mongo', type_error: 'error-mongo' })
@@ -193,7 +191,7 @@ module.exports.findManyTaskByIds = function (tasks_id, options, callback) {
         tasks_id = tasks_id.map((e) => {
             return new ObjectId(e);
         });
-        Tache.find({ _id: tasks_id }, null, opts)
+        Task.find({ _id: tasks_id }, null, opts)
             .then((value) => {
                 try {
                     if (value && Array.isArray(value) && value.length != 0) {
@@ -253,10 +251,10 @@ module.exports.findManyTasks = function (search, page, limit, options, callback)
                 return { [e]: { $regex: search, $options: 'i' } };
             })
         } : {};
-        Tache.countDocuments(query_mongo).then((value) => {
+        Task.countDocuments(query_mongo).then((value) => {
             if (value > 0) {
                 const skip = ((page - 1) * limit)
-                Tache.find(query_mongo, null, { skip: skip, limit: limit, populate: populate, lean: true }).then((results) => {
+                Task.find(query_mongo, null, { skip: skip, limit: limit, populate: populate, lean: true }).then((results) => {
                     callback(null, {
                         count: value,
                         results: results
@@ -273,7 +271,7 @@ module.exports.findManyTasks = function (search, page, limit, options, callback)
 
 module.exports.updateOneTask = function (task_id, update, options, callback) {
     if (task_id && mongoose.isValidObjectId(task_id)) {
-        Tache.findByIdAndUpdate(new ObjectId(task_id), update, {
+        Task.findByIdAndUpdate(new ObjectId(task_id), update, {
             returnDocument: "after",
             runValidators: true,
         })
@@ -283,7 +281,7 @@ module.exports.updateOneTask = function (task_id, update, options, callback) {
                     if (value) {
                         callback(null, value.toObject())
                     } else {
-                        callback({ msg: "Tache non trouvé.", type_error: "no-found" });
+                        callback({ msg: "Task non trouvé.", type_error: "no-found" });
                     }
                 } catch (e) {
 
@@ -333,7 +331,7 @@ module.exports.updateManyTasks = function (tasks_id, update, options, callback) 
         tasks_id = tasks_id.map((e) => {
             return new ObjectId(e);
         });
-        Tache.updateMany({ _id: { $in: tasks_id } }, update, { runValidators: true })
+        Task.updateMany({ _id: { $in: tasks_id } }, update, { runValidators: true })
             .then((value) => {
                 try {
                     if (value && value.matchedCount != 0) {
@@ -387,13 +385,13 @@ module.exports.updateManyTasks = function (tasks_id, update, options, callback) 
 
 module.exports.deleteOneTask = function (task_id, options, callback) {
     if (task_id && mongoose.isValidObjectId(task_id)) {
-        Tache.findByIdAndDelete(task_id)
+        Task.findByIdAndDelete(task_id)
             .then((value) => {
                 try {
                     if (value) callback(null, value.toObject());
                     else
                         callback({
-                            msg: "Tache non trouvé.", type_error: "no-found",
+                            msg: "Task non trouvé.", type_error: "no-found",
                         });
                 } catch (e) {
 
@@ -418,7 +416,7 @@ module.exports.deleteManyTasks = function (tasks_id, options, callback) {
         tasks_id = tasks_id.map((e) => {
             return new ObjectId(e);
         });
-        Tache.deleteMany({ _id: tasks_id })
+        Task.deleteMany({ _id: tasks_id })
             .then((value) => {
                 callback(null, value);
             })

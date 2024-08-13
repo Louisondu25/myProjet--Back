@@ -50,10 +50,10 @@ describe("BoardService", () => {
 // <------------ TaskService/Controller ---------------------->
 
 /* Définition d'un bloc de tests pour le service "UserService" */
-// describe("TaskService", () => {
+describe("TaskService", () => {
 /* Importation des tests pour le service "UserService" */
-// require("./services/TaskService.test");
-// });
+require("./services/TaskService.test");
+});
 
 // /* Définition d'un bloc de tests pour le Controller "UserController" */
 // describe("TaskController", () => {

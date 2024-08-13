@@ -73,7 +73,7 @@ function rdm_users(tab) {
 describe("addOneBoard", () => {
     it("Tableau correct. - S", (done) => {
         var board = {
-            user_id: rdm_users(TabUserId),
+            user_id: rdm_users(TabUserId), // en attendant que j'ai les bon ids
             tableau_id: rdm_users(TabUserId),
             title: "blabla",
             description: "La description de cet objet board",
@@ -121,7 +121,6 @@ describe("addManyBoards", () => {
             {
                 user_id: rdm_users(TabUserId),
                 tableau_id: rdm_users(TabUserId),
-                title: "blabla",
                 description: "La description de cet objet board",
                 index: 1,
                 setting_list: rdm_users(TabUserId),
@@ -139,14 +138,14 @@ describe("addManyBoards", () => {
                 updated_at: new Date(),
             },
             {
-            user_id: rdm_users(TabUserId),
-            tableau_id: rdm_users(TabUserId),
-            title: "blabla",
-            description: "La description de cet objet board",
-            index: 1,
-            setting_list: rdm_users(TabUserId),
-            created_at: new Date(),
-            updated_at: new Date(),
+                user_id: rdm_users(TabUserId),
+                tableau_id: rdm_users(TabUserId),
+                title: "blabla",
+                description: "La description de cet objet board",
+                index: 1,
+                setting_list: rdm_users(TabUserId),
+                created_at: new Date(),
+                updated_at: new Date(),
             },
             {
                 user_id: rdm_users(TabUserId),
@@ -158,6 +157,9 @@ describe("addManyBoards", () => {
             },
         ];
         BoardService.addManyBoards(board_tab_error, null, function (err, value) {
+
+            expect(err[0]).to.haveOwnProperty("msg");
+            expect(err[0]).to.haveOwnProperty("type_error");
             done();
         });
     });
@@ -197,7 +199,7 @@ describe("addManyBoards", () => {
         ];
 
         BoardService.addManyBoards(boards_tab, null, function (err, value) {
-            tab_id_board = _.map(value, "_id");
+            TabBoardId = _.map(value, "_id");
             expect(value).lengthOf(3);
             boards = [...value, ...boards]
             done();
@@ -284,162 +286,159 @@ describe('findOneBoard', () => {
     });
 });
 
-// describe('findManyBoards', () => {
-//     it('Retourne 3 Tableaux sur les 4 - S ', (done) => {
-//         BoardService.findManyBoards(null, 1, 3, null, function (err, value,) {
-//             console.log(err, value)
-//             expect(value).to.haveOwnProperty('count')
-//             expect(value).to.haveOwnProperty('results')
-//             expect(value['count']).to.be.equal(5)
-//             expect(value['results']).lengthOf(3)
-//             expect(err).to.be.null
-//             done()
-//         })
-//     })
-//     it('Envoi chaine de caractere sur page - E ', (done) => {
-//         BoardService.findManyBoards(null, 'hi', 3, null, function (err, value) {
-//             expect(err).to.haveOwnProperty('type_error')
-//             expect(err['type_error']).to.be.equal('no-valid')
-//             expect(value).to.be.undefined
-//             done()
-//         })
-//     })
-// })
+describe('findManyBoards', () => {
+    it('Retourne 3 Tableaux sur les 4 - S ', (done) => {
+        BoardService.findManyBoards(null, 1, 3, null, function (err, value,) {
+            expect(value).to.haveOwnProperty('count')
+            expect(value).to.haveOwnProperty('results')
+            expect(value['count']).to.be.equal(4)
+            expect(value['results']).lengthOf(3)
+            expect(err).to.be.null
+            done()
+        })
+    })
+    it('Envoi chaine de caractere sur page - E ', (done) => {
+        BoardService.findManyBoards(null, 'hi', 3, null, function (err, value) {
+            expect(err).to.haveOwnProperty('type_error')
+            expect(err['type_error']).to.be.equal('no-valid')
+            expect(value).to.be.undefined
+            done()
+        })
+    })
+})
 
-// describe("updateOneBoard", () => {
-//     it("Modifier un Tableau correct. - S", (done) => {
-//         BoardService.updateOneBoard(
-//             ValidBoardId,
-//             { name: "Choux", description: "Hello" },
-//             null,
-//             function (err, value) {
-//                 expect(value).to.be.a("object");
-//                 expect(value).to.haveOwnProperty("_id");
-//                 expect(value).to.haveOwnProperty("name");
-//                 expect(value).to.haveOwnProperty("description");
-//                 expect(value["name"]).to.be.equal("Choux");
-//                 expect(value["description"]).to.be.equal("Hello");
-//                 done();
-//             }
-//         );
-//     });
-//     it("Modifier un Tableau avec id incorrect. - E", (done) => {
-//         BoardService.updateOneBoard(
-//             "1200",
-//             { firstName: "Jean", lastName: "Luc" }, null,
-//             function (err, value) {
-//                 expect(err).to.be.a("object");
-//                 expect(err).to.haveOwnProperty("msg");
-//                 expect(err).to.haveOwnProperty("type_error");
-//                 expect(err["type_error"]).to.be.equal("no-valid");
-//                 done();
-//             }
-//         );
-//     });
-//     it("Modifier un Tableau avec des champs requis vide. - E", (done) => {
-//         BoardService.updateOneBoard(
-//             ValidBoardId,
-//             { name: "", description: "Hello" }, null,
-//             function (err, value) {
-//                 expect(value).to.be.undefined;
-//                 expect(err).to.haveOwnProperty("msg");
-//                 expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
-//                 expect(err).to.haveOwnProperty("fields");
-//                 expect(err["fields"]).to.haveOwnProperty("name");
-//                 expect(err["fields"]["name"]).to.equal("Path `name` is required.");
-//                 done();
-//             }
-//         );
-//     });
-// });
+describe("updateOneBoard", () => {
+    it("Modifier un Tableau correct. - S", (done) => {
+        BoardService.updateOneBoard(
+            ValidBoardId,
+            { title: "Choux", description: "Hello" },
+            null,
+            function (err, value) {
+                expect(value).to.be.a("object");
+                expect(value).to.haveOwnProperty("_id");
+                expect(value).to.haveOwnProperty("title");
+                expect(value).to.haveOwnProperty("description");
+                expect(value["title"]).to.be.equal("Choux");
+                expect(value["description"]).to.be.equal("Hello");
+                done();
+            }
+        );
+    });
+    it("Modifier un Tableau avec id incorrect. - E", (done) => {
+        BoardService.updateOneBoard(
+            "1200",
+            { firstName: "Jean", lastName: "Luc" }, null,
+            function (err, value) {
+                expect(err).to.be.a("object");
+                expect(err).to.haveOwnProperty("msg");
+                expect(err).to.haveOwnProperty("type_error");
+                expect(err["type_error"]).to.be.equal("no-valid");
+                done();
+            }
+        );
+    });
+    it("Modifier un Tableau avec des champs requis vide. - E", (done) => {
+        BoardService.updateOneBoard(
+            ValidBoardId,
+            { title: "", description: "Hello" }, null,
+            function (err, value) {
+                expect(value).to.be.undefined;
+                expect(err).to.haveOwnProperty("msg");
+                expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
+                expect(err).to.haveOwnProperty("fields");
+                expect(err["fields"]).to.haveOwnProperty("title");
+                expect(err["fields"]["title"]).to.equal("Path `title` is required.");
+                done();
+            }
+        );
+    });
+});
 
-// describe("updateManyBoards", () => {
-//     it("Modifier plusieurs Tableaux correctement. - S", (done) => {
-//         BoardService.updateManyBoards(TabBoardId, { name: "Choux", description: "Hello" }, null, function (err, value) {
-//             expect(value).to.haveOwnProperty("modifiedCount");
-//             expect(value).to.haveOwnProperty("matchedCount");
-//             expect(value["matchedCount"]).to.be.equal(TabBoardId.length);
-//             expect(value["modifiedCount"]).to.be.equal(TabBoardId.length);
-//             done();
-//         }
-//         );
-//     });
-//     it("Modifier plusieurs Tableaux avec id incorrect. - E", (done) => {
-//         BoardService.updateManyBoards("1200", { firstName: "Jean", lastName: "Luc" }, null, function (err, value) {
-//             expect(err).to.be.a("object");
-//             expect(err).to.haveOwnProperty("msg");
-//             expect(err).to.haveOwnProperty("type_error");
-//             expect(err["type_error"]).to.be.equal("no-valid");
-//             done();
-//         }
-//         );
-//     });
-//     it("Modifier plusieurs Tableaux avec des champs requis vide. - E", (done) => {
-//         BoardService.updateManyBoards(
-//             TabBoardId,
-//             { name: "", description: "Luc" }, null,
-//             function (err, value) {
-//                 expect(value).to.be.undefined;
-//                 expect(err).to.haveOwnProperty("msg");
-//                 expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
-//                 expect(err).to.haveOwnProperty("fields");
+describe("updateManyBoards", () => {
+    it("Modifier plusieurs Tableaux correctement. - S", (done) => {
+        BoardService.updateManyBoards(TabBoardId, { title: "Choux", description: "Hello" }, null, function (err, value) {
+            expect(value).to.haveOwnProperty("modifiedCount");
+            expect(value).to.haveOwnProperty("matchedCount");
+            expect(value["matchedCount"]).to.be.equal(TabBoardId.length);
+            expect(value["modifiedCount"]).to.be.equal(TabBoardId.length);
+            done();
+        }
+        );
+    });
+    it("Modifier plusieurs Tableaux avec id incorrect. - E", (done) => {
+        BoardService.updateManyBoards("1200", { firstName: "Jean", lastName: "Luc" }, null, function (err, value) {
+            expect(err).to.be.a("object");
+            expect(err).to.haveOwnProperty("msg");
+            expect(err).to.haveOwnProperty("type_error");
+            expect(err["type_error"]).to.be.equal("no-valid");
+            done();
+        }
+        );
+    });
+    it("Modifier plusieurs Tableaux avec des champs requis vide. - E", (done) => {
+        BoardService.updateManyBoards(
+            TabBoardId,
+            { title: "", description: "Luc" }, null,
+            function (err, value) {
+                expect(value).to.be.undefined;
+                expect(err).to.haveOwnProperty("msg");
+                expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
+                expect(err).to.haveOwnProperty("fields");
+                done();
+            }
+        );
+    });
+});
 
-//                 done();
-//             }
-//         );
-//     });
-// });
-
-// describe("deleteOneBoard", () => {
-//     it("Supprimer un Tableau correctement. - S", () => {
-//         BoardService.deleteOneBoard(ValidBoardId, null, function (err, value) {
-//             expect(value).to.be.a('Object')
-//             expect(value).to.haveOwnProperty("firstName");
-//             expect(value).to.haveOwnProperty("lastName");
-//         });
-//     });
-//     it("Supprimer un Tableau avec id incorrect. - E", (done) => {
-//         BoardService.deleteOneBoard("1200", null, function (err, value) {
-//             expect(err).to.be.a("object");
-//             expect(err).to.haveOwnProperty("msg");
-//             expect(err).to.haveOwnProperty("type_error");
-//             expect(err["type_error"]).to.be.equal("no-valid");
-//             done();
-//         });
-//     });
-//     it("Supprimer un Tableau qui n'existe pas. - E", () => {
-//         BoardService.deleteOneBoard(ValidBoardId, null, function (err, value) {
-//             expect(err).to.be.a("object");
-//             expect(err).to.haveOwnProperty("msg");
-//             expect(err).to.haveOwnProperty("type_error");
-//             expect(err["type_error"]).to.be.equal("no-found");
-//         });
-//     });
-// });
+describe("deleteOneBoard", () => {
+    it("Supprimer un Tableau correctement. - S", () => {
+        BoardService.deleteOneBoard(ValidBoardId, null, function (err, value) {
+            expect(value).to.be.a('Object')
+            expect(value).to.haveOwnProperty("firstName");
+            expect(value).to.haveOwnProperty("lastName");
+        });
+    });
+    it("Supprimer un Tableau avec id incorrect. - E", (done) => {
+        BoardService.deleteOneBoard("1200", null, function (err, value) {
+            expect(err).to.be.a("object");
+            expect(err).to.haveOwnProperty("msg");
+            expect(err).to.haveOwnProperty("type_error");
+            expect(err["type_error"]).to.be.equal("no-valid");
+            done();
+        });
+    });
+    it("Supprimer un Tableau qui n'existe pas. - E", () => {
+        BoardService.deleteOneBoard(ValidBoardId, null, function (err, value) {
+            expect(err).to.be.a("object");
+            expect(err).to.haveOwnProperty("msg");
+            expect(err).to.haveOwnProperty("type_error");
+            expect(err["type_error"]).to.be.equal("no-found");
+        });
+    });
+});
 
 describe("deleteManyBoards", () => {
-  it("Supprimer plusieurs Tableau correctement. - S", (done) => {
-    BoardService.deleteManyBoards(TabBoardId, null, (err, value) => {
-        console.log(TabBoardId)
-      expect(value).to.be.a("object");
-      expect(value).to.haveOwnProperty("deletedCount");
-      expect(value.deletedCount).to.equal(TabBoardId.length);
-      expect(err).to.be.null;
-      done();
+    it("Supprimer plusieurs Tableau correctement. - S", (done) => {
+        BoardService.deleteManyBoards(TabBoardId, null, (err, value) => {
+            expect(value).to.be.a("object");
+            expect(value).to.haveOwnProperty("deletedCount");
+            expect(value.deletedCount).to.equal(TabBoardId.length);
+            expect(err).to.be.null;
+            done();
+        });
     });
-  });
 
-  it("Supprimer plusieurs Tableau avec id incorrect. - E", (done) => {
-    BoardService.deleteManyBoards("1200", null, (err, value) => {
-      expect(err).to.be.a("object");
-      expect(err).to.haveOwnProperty("msg");
-      expect(err).to.haveOwnProperty("type_error");
-      expect(err.msg).to.equal("Tableau d'id invalide.");
-      expect(err.type_error).to.equal("no-valid");
-      expect(value).to.be.undefined;
-      done();
+    it("Supprimer plusieurs Tableau avec id incorrect. - E", (done) => {
+        BoardService.deleteManyBoards("1200", null, (err, value) => {
+            expect(err).to.be.a("object");
+            expect(err).to.haveOwnProperty("msg");
+            expect(err).to.haveOwnProperty("type_error");
+            expect(err.msg).to.equal("Tableau d'id invalide.");
+            expect(err.type_error).to.equal("no-valid");
+            expect(value).to.be.undefined;
+            done();
+        });
     });
-  });
 });
 
 describe('Gestion externe (User)', () => {

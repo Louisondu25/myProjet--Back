@@ -114,7 +114,7 @@ app.delete(`/boards`, database_middleware.checkMongooseConnection, passport.auth
 // <--------------------------------------------------------------- Taches ------------------------------------------------------------------------------->
 
 // Définit une route pour ajouter un utilisateur
-// app.post("/task", database_middleware.checkMongooseConnection, TaskController.addOneTask);
+app.post("/task", database_middleware.checkMongooseConnection, TaskController.addOneTask);
 
 // Définit une route pour ajouter plusieurs utilisateurs
 // app.post(`/tasks`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.addManyTasks);

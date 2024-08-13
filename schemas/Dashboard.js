@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const ObjectId = mongoose.Types.ObjectId
 
-var DashBoard = ({
+var DashBoard = mongoose.Schema({
 
     user_id: {
         type: ObjectId,

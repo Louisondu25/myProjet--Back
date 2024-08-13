@@ -1,7 +1,7 @@
 const mongoose = require ('mongoose')
 const ObjectId = mongoose.Types.ObjectId
 
-var Label = ({
+var Label = mongoose.Schema ({
 
     text: {
         type: String,

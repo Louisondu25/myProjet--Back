@@ -1,7 +1,7 @@
 const mongoose = require ('mongoose')
 const ObjectId = mongoose.Types.ObjectId
 
-var Comment = ({
+var Comment = mongoose.Schema ({
 
     text: {
         type: String,

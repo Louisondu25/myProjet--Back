@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const ObjectId = mongoose.Types.ObjectId
 
-var Task = ({
+var Task = mongoose.Schema ({
 
     archive: {
         type: Boolean,
@@ -25,6 +25,7 @@ var Task = ({
     },
     board_id: {
         type: ObjectId,
+        ref:'Dashboard',
         required: true,
     },
     status: {
@@ -34,6 +35,7 @@ var Task = ({
     },
     user_id: {
         type: ObjectId,
+        ref:'User',
         required: true,
     },
     created_at: {

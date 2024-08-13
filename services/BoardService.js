@@ -238,7 +238,6 @@ module.exports.findManyBoardByIds = function (boards_id, options, callback) {
         callback({ msg: "Tableau non conforme.", type_error: "no-valid" });
     }
 };
-
 module.exports.findManyBoards = function (search, page, limit, options, callback) {
     page = !page ? 1 : parseInt(page)
     limit = !limit ? 1 : parseInt(limit)
@@ -252,6 +251,7 @@ module.exports.findManyBoards = function (search, page, limit, options, callback
                 return { [e]: { $regex: search, $options: 'i' } };
             })
         } : {};
+
         Board.countDocuments(query_mongo).then((value) => {
             if (value > 0) {
                 const skip = ((page - 1) * limit)
@@ -269,6 +269,7 @@ module.exports.findManyBoards = function (search, page, limit, options, callback
         })
     }
 }
+
 
 module.exports.updateOneBoard = function (board_id, update, options, callback) {
     if (board_id && mongoose.isValidObjectId(board_id)) {
@@ -328,7 +329,7 @@ module.exports.updateOneBoard = function (board_id, update, options, callback) {
 };
 
 module.exports.updateManyBoards = function (boards_id, update, options, callback) {
-    if (typeof boards_id === 'object' && Array.isArray(boards_id) && boaboards_idrd_id.length > 0 && boards_id.filter((e) => { return mongoose.isValidObjectId(e) }).length == boards_id.length) {
+    if (typeof boards_id === 'object' && Array.isArray(boards_id) && boards_id.length > 0 && boards_id.filter((e) => { return mongoose.isValidObjectId(e) }).length == boards_id.length) {
         boards_id = boards_id.map((e) => {
             return new ObjectId(e);
         });
@@ -411,28 +412,23 @@ module.exports.deleteOneBoard = function (board_id, options, callback) {
 };
 
 module.exports.deleteManyBoards = function (boards_id, options, callback) {
-    console.log("boards_id:", boards_id);
     if (boards_id && Array.isArray(boards_id) && boards_id.length > 0 && boards_id.filter((e) => {
         return mongoose.isValidObjectId(e);
     }).length == boards_id.length) {
         boards_id = boards_id.map((e) => {
             return new ObjectId(e);
         });
-        console.log("boards_id après conversion en ObjectId:", boards_id);
         Board.deleteMany({ _id: boards_id })
             .then((value) => {
-                console.log("Résultat de deleteMany:", value); 
                 callback(null, value );
             })
-            .catch((err) => {
-                console.error("Erreur lors de deleteMany:", err); 
+            .catch((err) => { 
                 callback({
                     msg: "Erreur mongo suppression.",
                     type_error: "error-mongo",
                 });
             });
     } else {
-        console.error("Erreur: Tableau d'id invalide.", boards_id);
         callback({ msg: "Tableau d'id invalide.", type_error: "no-valid" });
     }
 };
