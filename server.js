@@ -36,16 +36,17 @@ app.use(bodyparser.json(), addLogger.Log);
 
 // Importe le contrôleur pour les utilisateurs
 const UserController = require('./controllers/UserController');
-const CommentController = require('./controllers/CommentController');
 const BoardController = require('./controllers/BoardController');
 const TaskController = require('./controllers/TaskController');
 const LabelController = require('./controllers/LabelController');
+const CommentController = require('./controllers/CommentController');
 
 // Définit une route pour connecter un utilisateur
 app.post("/login", database_middleware.checkMongooseConnection, UserController.loginUser);
 
 // Définit une route pour deconnecter un utilisateur
-app.post("/logout", database_middleware.checkMongooseConnection, UserController.logoutUser);
+app.post("/logout", database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), UserController.logoutUser);
+
 
 // <---------------------------------------------------------- Utilisateurs ------------------------------------------------------------------>
 
@@ -117,36 +118,36 @@ app.delete(`/boards`, database_middleware.checkMongooseConnection, passport.auth
 app.post("/task", database_middleware.checkMongooseConnection, TaskController.addOneTask);
 
 // Définit une route pour ajouter plusieurs utilisateurs
-// app.post(`/tasks`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.addManyTasks);
+app.post(`/tasks`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.addManyTasks);
 
 // Définit une route pour récupérer un utilisateur par Id
-// app.get(`/task/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.findOneTaskById);
+app.get(`/task/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.findOneTaskById);
 
 // Définit une route pour récupérer un utilisateur
-// app.get(`/task`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.findOneTask);
+app.get(`/task`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.findOneTask);
 
 // Définit une route pour récupérer plusieur utilisateurs
-// app.get(`/tasks_by_filters`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.findManyTasks);
+app.get(`/tasks_by_filters`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.findManyTasks);
 
 // Définit une route pour récupérer plusieurs utilisateurs par Ids
-// app.get(`/tasks`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.findManyTaskByIds);
+app.get(`/tasks`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.findManyTaskByIds);
 
 // Définit une route pour mettre à jour un utilisateur
-// app.put(`/task/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.updateOneTask);
+app.put(`/task/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.updateOneTask);
 
 // Définit une route pour mettre à jour plusieurs utilisateurs
-// app.put(`/tasks`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.updateManyTasks);
+app.put(`/tasks`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.updateManyTasks);
 
 // Définit une route pour supprimer un utilisateur
-// app.delete(`/task/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.deleteOneTask);
+app.delete(`/task/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.deleteOneTask);
 
 // Définit une route pour supprimer plusieurs utilisateurs
-// app.delete(`/tasks`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.deleteManyTasks);
+app.delete(`/tasks`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TaskController.deleteManyTasks);
 
 // <----------------------------------------------------------- Label ------------------------------------------------------------------------->
 
 // Définit une route pour ajouter un Commentaire
-// app.post("/label", database_middleware.checkMongooseConnection, LabelController.addOneLabel);
+app.post("/label", database_middleware.checkMongooseConnection, LabelController.addOneLabel);
 
 // // Définit une route pour ajouter plusieurs Commentaires
 // app.post(`/labels`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.addManyLabels);
@@ -178,7 +179,7 @@ app.post("/task", database_middleware.checkMongooseConnection, TaskController.ad
 // <----------------------------------------------------------- Commentaires ------------------------------------------------------------------------->
 
 // Définit une route pour ajouter un Commentaire
-// app.post("/comment", database_middleware.checkMongooseConnection, CommentController.addOneComment);
+app.post("/comment", database_middleware.checkMongooseConnection, CommentController.addOneComment);
 
 // // Définit une route pour ajouter plusieurs Commentaires
 // app.post(`/comments`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.addManyComments);

@@ -1,10 +1,10 @@
-const Label = require("../schemas/Label");
+const LabelSchema = require("../schemas/Label");
 const _ = require("lodash");
 const async = require("async");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
-var Etiquette = mongoose.model("Etiquette", Label);
+var Label = mongoose.model("Label", LabelSchema);
 
 module.exports.loginUser = async function (username, password, options, callback) {
     module.exports.findOneUser(['name', 'description'], username, null, async (err, value) => {
@@ -22,18 +22,17 @@ module.exports.loginUser = async function (username, password, options, callback
     })
 }
 
-module.exports.addOneLabel = async function (Label, options, callback) {
+module.exports.addOneLabel = async function (label, options, callback) {
     try {
         var new_label = new Label(label);
         var errors = new_label.validateSync();
-        // console.log(errors)
         if (errors) {
             errors = errors['errors'];
             var text = Object.keys(errors).map((e) => {
-                return errors[e]['properties']['message'];
+                return errors[e]['properties'] ? errors[e]['properties']['message'] : errors[e]['reason'];
             }).join(' ');
             var fields = _.transform(Object.keys(errors), function (result, value) {
-                result[value] = errors[value]['properties']['message'];
+                result[value] = errors[value]['properties'] ? errors[value]['properties']['message'] : String(errors[value]['reason']);
             }, {});
             var err = {
                 msg: text,
@@ -62,13 +61,12 @@ module.exports.addOneLabel = async function (Label, options, callback) {
     }
 };
 
-module.exports.addManyLabels = async function (Labels, options, callback) {
+module.exports.addManyLabels = async function (labels, options, callback) {
     var errors = [];
 
-
     // Vérifier les erreurs de validation
-    for (var i = 0; i < Labels.length; i++) {
-        var label = Labels[i];
+    for (var i = 0; i < labels.length; i++) {
+        var label = labels[i];
         var new_label = new Label(label);
         var error = new_label.validateSync();
         if (error) {
@@ -119,33 +117,37 @@ module.exports.addManyLabels = async function (Labels, options, callback) {
 
 module.exports.findOneLabelById = function (label_id, options, callback) {
     var opts = { populate: options && options.populate ? [user_Id] : [] }
+
     if (label_id && mongoose.isValidObjectId(label_id)) {
-        Etiquette.findById(label_id, null, opts)
+        Label.findById(label_id, null, opts)
             .then((value) => {
                 try {
                     if (value) {
+                    
                         callback(null, value.toObject());
                     } else {
                         callback({
-                            msg: "Aucune Etiquette trouvé.", type_error: "no-found",
+                            msg: "Aucune Label  trouvé.", type_error: "no-found",
                         });
                     }
                 } catch (e) {
-
+            
                 }
             })
             .catch((err) => {
+                
                 callback({
                     msg: "Impossible de chercher l'élément.", type_error: "error-mongo",
                 });
             });
     } else {
+        
         callback({ msg: "ObjectId non conforme.", type_error: "no-valid" });
     }
 };
 
 module.exports.findOneLabel = function (tab_field, value, options, callback) {
-    var field_unique = ['name', 'price']
+    var field_unique = ['text']
     var opts = { populate: options && options.populate ? [user_Id] : [] }
 
     if (tab_field && Array.isArray(tab_field) && value && _.filter(tab_field, (e) => {
@@ -155,11 +157,11 @@ module.exports.findOneLabel = function (tab_field, value, options, callback) {
         _.forEach(tab_field, (e) => {
             obj_find.push({ [e]: value })
         })
-        Etiquette.findOne({ $or: obj_find }, null, opts).then((value) => {
+        Label.findOne({ $or: obj_find }, null, opts).then((value) => {
             if (value) {
                 callback(null, value.toObject())
             } else {
-                callback({ msg: 'Etiquettes non trouvé.', type_error: 'no-found' })
+                callback({ msg: 'Label s non trouvé.', type_error: 'no-found' })
             }
         }).catch((err) => {
             callback({ msg: 'Erreur interne Mongo', type_error: 'error-mongo' })
@@ -193,7 +195,7 @@ module.exports.findManyLabelByIds = function (labels_id, options, callback) {
         labels_id = labels_id.map((e) => {
             return new ObjectId(e);
         });
-        Etiquette.find({ _id: labels_id }, null, opts)
+        Label.find({ _id: labels_id }, null, opts)
             .then((value) => {
                 try {
                     if (value && Array.isArray(value) && value.length != 0) {
@@ -241,6 +243,7 @@ module.exports.findManyLabelByIds = function (labels_id, options, callback) {
 };
 
 module.exports.findManyLabels = function (search, page, limit, options, callback) {
+
     page = !page ? 1 : parseInt(page)
     limit = !limit ? 1 : parseInt(limit)
     var populate = (options && options.populate ? ['user_id'] : [])
@@ -249,14 +252,14 @@ module.exports.findManyLabels = function (search, page, limit, options, callback
         callback({ msg: `format de ${typeof page !== "number" ? "page" : "limit"} est incorrect`, type_error: "no-valid" })
     } else {
         var query_mongo = search ? {
-            $or: _.map(['name', 'description', 'price', 'quantity'], (e) => {
+            $or: _.map(['text','date','status'], (e) => {
                 return { [e]: { $regex: search, $options: 'i' } };
             })
         } : {};
-        Etiquette.countDocuments(query_mongo).then((value) => {
+        Label.countDocuments(query_mongo).then((value) => {
             if (value > 0) {
                 const skip = ((page - 1) * limit)
-                Etiquette.find(query_mongo, null, { skip: skip, limit: limit, populate: populate, lean: true }).then((results) => {
+                Label.find(query_mongo, null, { skip: skip, limit: limit, populate: populate, lean: true }).then((results) => {
                     callback(null, {
                         count: value,
                         results: results
@@ -273,7 +276,7 @@ module.exports.findManyLabels = function (search, page, limit, options, callback
 
 module.exports.updateOneLabel = function (label_id, update, options, callback) {
     if (label_id && mongoose.isValidObjectId(label_id)) {
-        Etiquette.findByIdAndUpdate(new ObjectId(label_id), update, {
+        Label.findByIdAndUpdate(new ObjectId(label_id), update, {
             returnDocument: "after",
             runValidators: true,
         })
@@ -286,7 +289,6 @@ module.exports.updateOneLabel = function (label_id, update, options, callback) {
                         callback({ msg: "Etuqette non trouvé.", type_error: "no-found" });
                     }
                 } catch (e) {
-
                     callback(e);
                 }
             })
@@ -329,11 +331,11 @@ module.exports.updateOneLabel = function (label_id, update, options, callback) {
 };
 
 module.exports.updateManyLabels = function (labels_ids, update, options, callback) {
-    if (typeof labels_ids === 'object' && Array.isArray(labels_ids) && labels_ids.length > 0 && articlabels_idsles_id.filter((e) => { return mongoose.isValidObjectId(e) }).length == labels_ids.length) {
+    if (typeof labels_ids === 'object' && Array.isArray(labels_ids) && labels_ids.length > 0 && labels_ids.filter((e) => { return mongoose.isValidObjectId(e) }).length == labels_ids.length) {
         labels_ids = labels_ids.map((e) => {
             return new ObjectId(e);
         });
-        Etiquette.updateMany({ _id: { $in: labels_ids } }, update, { runValidators: true })
+        Label.updateMany({ _id: { $in: labels_ids } }, update, { runValidators: true })
             .then((value) => {
                 try {
                     if (value && value.matchedCount != 0) {
@@ -387,13 +389,13 @@ module.exports.updateManyLabels = function (labels_ids, update, options, callbac
 
 module.exports.deleteOneLabel = function (label_ids, options, callback) {
     if (label_ids && mongoose.isValidObjectId(label_ids)) {
-        Etiquette.findByIdAndDelete(label_ids)
+        Label.findByIdAndDelete(label_ids)
             .then((value) => {
                 try {
                     if (value) callback(null, value.toObject());
                     else
                         callback({
-                            msg: "Etiquette non trouvé.", type_error: "no-found",
+                            msg: "Label  non trouvé.", type_error: "no-found",
                         });
                 } catch (e) {
 
@@ -418,7 +420,7 @@ module.exports.deleteManyLabels = function (labels_ids, options, callback) {
         labels_ids = labels_ids.map((e) => {
             return new ObjectId(e);
         });
-        Etiquette.deleteMany({ _id: labels_ids })
+        Label.deleteMany({ _id: labels_ids })
             .then((value) => {
                 callback(null, value);
             })

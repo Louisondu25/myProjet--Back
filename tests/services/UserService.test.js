@@ -297,11 +297,12 @@ describe("updateManyUsers", () => {
 });
 
 describe("deleteOneUser", () => {
-  it("Supprimer un utilisateur correctement. - S", () => {
+  it("Supprimer un utilisateur correctement. - S", (done) => {
     UserService.deleteOneUser(id_user_valid, null, function (err, value) {
       expect(value).to.be.a('Object')
       expect(value).to.haveOwnProperty("firstName");
       expect(value).to.haveOwnProperty("lastName");
+      done();
     });
   });
   it("Supprimer un utilisateur avec id incorrect. - E", (done) => {
@@ -313,12 +314,13 @@ describe("deleteOneUser", () => {
       done();
     });
   });
-  it("Supprimer un utilisateur qui n'existe pas. - E", () => {
+  it("Supprimer un utilisateur qui n'existe pas. - E", (done) => {
     UserService.deleteOneUser(id_user_valid, null, function (err, value) {
       expect(err).to.be.a("object");
       expect(err).to.haveOwnProperty("msg");
       expect(err).to.haveOwnProperty("type_error");
       expect(err["type_error"]).to.be.equal("no-found");
+      done();
     });
   });
 });

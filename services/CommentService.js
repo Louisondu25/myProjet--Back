@@ -61,17 +61,16 @@ module.exports.addOneComment = async function (comment, options, callback) {
     }
 };
 
-module.exports.addManyComments = async function (comment, options, callback) {
+module.exports.addManyComments = async function (comments, options, callback) {
     var errors = [];
 
-
     // Vérifier les erreurs de validation
-    for (var i = 0; i < comment.length; i++) {
+    for (var i = 0; i < comments.length; i++) {
         var comment = comments[i];
         var new_comment = new Comment(comment);
         var error = new_comment.validateSync();
         if (error) {
-            error = error['errors'];
+            error = error['errors'];   
             var text = Object.keys(error).map((e) => {
                 return error[e]['properties']['message'];
             }).join(' ');
@@ -93,7 +92,7 @@ module.exports.addManyComments = async function (comment, options, callback) {
     } else {
         try {
             // Tenter d'insérer les utilisateurs
-            const data = await Comment.insertMany(comments, { ordered: false });
+            const data = await Comment.insertMany( comments, { ordered: false });
             callback(null, data);
         } catch (error) {
             if (error.code === 11000) { // Erreur de duplicité

@@ -143,12 +143,12 @@ module.exports.findOneTaskById = function (task_id, options, callback) {
 };
 
 module.exports.findOneTask = function (tab_field, value, options, callback) {
-    var field_unique = ['name', 'price']
+    var field_unique = ['title']
     var opts = { populate: options && options.populate ? [user_Id] : [] }
 
     if (tab_field && Array.isArray(tab_field) && value && _.filter(tab_field, (e) => {
         return field_unique.indexOf(e) == -1;
-    }).length == 0) {
+    }).length == 0) {;
         var obj_find = []
         _.forEach(tab_field, (e) => {
             obj_find.push({ [e]: value })
