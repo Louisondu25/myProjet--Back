@@ -19,41 +19,51 @@ var users = [
         lastName: "Iencli",
         username: "oui1",
         email: "Iencli@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
     {
         firstName: "detenteur  d'un Tableau 2",
         lastName: "Iencli",
         username: "oui2",
         email: "Iencli2@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     }, {
         firstName: "detenteur  d'un Tableau 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
     {
         firstName: "detenteur  d'un Tableau 4",
         lastName: "Iencli",
         username: "oui4",
         email: "Iencli4@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
     {
         firstName: "detenteur  d'un Tableau 5",
         lastName: "Iencli",
         username: "oui5",
         email: "Iencli5@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
 ]
 
 describe('Gestion des utilisateurs.', () => {
     it('Creation des Utilisateurs fictif', (done) => {
         UserService.addManyUsers(users, null, function (err, value) {
-            tab_id_users = _.map(value, '_id')
+            TabUserId = _.map(value, '_id')
             done()
         })
     })
@@ -80,25 +90,26 @@ describe("POST - /login", () => {
 describe("POST - /board", () => {
     it("Ajouter un Tableau. - S", (done) => {
         chai.request(server).post('/board').auth(token, { type: 'bearer' }).send({
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
-            user_id: rdm_users(tab_id_users),
+            user_id: rdm_users(TabUserId), // en attendant que j'ai les bon ids
+            title: "blabla",
+            description: "La description de cet objet board",
+            index: 1,
+            status: 'Public',
+            membres: 5,
             password: "higuys"
         }).end((err, res) => {
             res.should.have.status(201)
-            //  expect(res).to.be.a('object')
             boards.push(res.body)
             done()
         });
     })
-    it("Ajouter un Tableau incorrect. (Sans firstName) - E", (done) => {
+    it("Ajouter un Tableau incorrect. (Sans Title) - E", (done) => {
         chai.request(server).post('/board').auth(token, { type: 'bearer' }).send({
-            lastName: 'Us',
-            boardname: 'dwarfSlayr',
-            email: 'lutfu.us@gmil.com',
-            user_id: rdm_users(tab_id_users),
+            user_id: rdm_users(TabUserId), // en attendant que j'ai les bon ids
+            description: "La description de cet objet board",
+            index: 1,
+            status: 'Public',
+            membres: 5,
             password: "higuys"
         }).end((err, res) => {
             res.should.have.status(405)
@@ -107,11 +118,11 @@ describe("POST - /board", () => {
     })
     it("Ajouter un Tableaiu incorrect. (Avec un nom de Tableau existant) - E", (done) => {
         chai.request(server).post('/board').auth(token, { type: 'bearer' }).send({
-            firstName: "luf",
-            lastName: "Us",
-            boardname: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
+            title: "heyblablahellodude",//mettre les id quand il seront faite
+            description: "La description de cet objet board",
+            index: 1,
+            status: 'Public',
+            membres: 5,
             password: "higuys"
         }).end((err, res) => {
             res.should.have.status(405)
@@ -120,11 +131,12 @@ describe("POST - /board", () => {
     })
     it("Ajouter un Tableau incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/board').auth(token, { type: 'bearer' }).send({
-            firstName: "luffu",
-            lastName: "",
-            boardname: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
+            user_id: rdm_users(TabUserId), // en attendant que j'ai les bon ids
+            title: "blabla",
+            description: "",
+            index: 1,
+            status: 'Public',
+            membres: 5,
             password: "higuys"
         }).end((err, res) => {
             res.should.have.status(405)
@@ -136,20 +148,22 @@ describe("POST - /board", () => {
 describe("POST - /boards", () => {
     it("Ajouter plusieurs Tableaux. - S", (done) => {
         chai.request(server).post('/boards').auth(token, { type: 'bearer' }).send([{
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
-            user_id: rdm_users(tab_id_users),
+            user_id: rdm_users(TabUserId), // en attendant que j'ai les bon ids
+            title: "blabla",
+            description: "La description de cet objet board",
+            index: 1,
+            status: 'Public',
+            membres: 5,
             password: "higuys"
         },
 
         {
-            name: "Pomme de terre",
-            description: "blabla",
-            price: 2.80,
-            quantity: 800,
-            user_id: rdm_users(tab_id_users),
+            user_id: rdm_users(TabUserId), // en attendant que j'ai les bon ids
+            title: "blablablabla Pookie",
+            description: "La description de cet objet board",
+            index: 1,
+            status: 'Public',
+            membres: 5,
             password: "higuys"
         }]
         ).end((err, res) => {
@@ -161,18 +175,19 @@ describe("POST - /boards", () => {
     it("Ajouter plusieurs Tableaux incorrect. - E", (done) => {
         chai.request(server).post('/boards').auth(token, { type: 'bearer' }).send([
             {
-                lastName: 'Us',
-                arname: 'dwarfSlayr',
-                email: 'lutfu.us@gmil.com',
-                user_id: rdm_users(tab_id_users),
+                user_id: rdm_users(TabUserId), // en attendant que j'ai les bon ids
+                description: "La description de cet objet board",
+                index: 1,
+                status: 'Public',
+                membres: 5,
                 password: "higuys"
             },
 
             {
-                lastName: 'Us',
-                boardname: 'dwarfSlaycdsr',
-                email: 'lutffqzdsu.us@gmil.com',
-                user_id: rdm_users(tab_id_users),
+                user_id: rdm_users(TabUserId), // en attendant que j'ai les bon ids
+                index: 1,
+                status: 'Public',
+                membres: 5,
                 password: "higuys"
             }
         ]).end((err, res) => {
@@ -180,13 +195,11 @@ describe("POST - /boards", () => {
             done()
         })
     })
-    it("Ajouter plusieurs Tableaux incorrect. (Avec un boardname existant) - E", (done) => {
+    it("Ajouter plusieurs Tableaux incorrect. (Avec plusieurs nom de Tableaux existant) - E", (done) => {
         chai.request(server).post('/boards').auth(token, { type: 'bearer' }).send([{
-            firstName: "luf",
-            lastName: "Us",
-            boardname: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
+            title: "heyblablahellodude", //mettre les id quand il seront faite
+            description: "La description de cet objet board",
+            index: 1,
             password: "higuys"
         }]).end((err, res) => {
             res.should.have.status(405)
@@ -195,11 +208,10 @@ describe("POST - /boards", () => {
     })
     it("Ajouter plusieurs Tableaux incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/boards').auth(token, { type: 'bearer' }).send([{
-            firstName: "luffu",
-            lastName: "",
-            boardname: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
+            user_id: rdm_users(TabUserId), // en attendant que j'ai les bon ids
+            title: "",
+            description: "La description de cet objet board",
+            index: 1,
             password: "higuys"
         }]).end((err, res) => {
             res.should.have.status(405)
@@ -210,7 +222,7 @@ describe("POST - /boards", () => {
 
 describe('PUT - /board/:id', () => {
     it('Modifier un Tableau -S', (done) => {
-        chai.request(server).put(`/board/${boards[0]._id}`).auth(token, { type: 'bearer' }).send({ firstName: 'Jeanne', lastName: 'Lu' })
+        chai.request(server).put(`/board/${boards[0]._id}`).auth(token, { type: 'bearer' }).send({ title: 'ImNoValidBoardLOL', description: 'je suis la description de ImNoValidBoardLOL' })
             .end((err, res) => {
                 res.should.status(200)
                 expect(res.body).to.be.a('object')
@@ -219,7 +231,7 @@ describe('PUT - /board/:id', () => {
     })
 
     it('Modifier un Tableau avec un id non valide -E', (done) => {
-        chai.request(server).put('/board/86156100').auth(token, { type: 'bearer' }).send({ firstName: 'Marie', lastName: 'fils' })
+        chai.request(server).put('/board/86156100').auth(token, { type: 'bearer' }).send({ title: 'ImNoValidBoardLOL', description: 'je suis la description de ImNoValidBoardLOL' })
             .end((err, res) => {
                 res.should.status(405)
                 expect(res.body).to.be.a('object')
@@ -234,7 +246,7 @@ describe('PUT - /board/:id', () => {
             })
     })
     it('Modifier un Tableau avec un champ requis vide -E', (done) => {
-        chai.request(server).put(`/board/${boards[0]._id}`).auth(token, { type: 'bearer' }).send({ name: '', description: 'senerve' })
+        chai.request(server).put(`/board/${boards[0]._id}`).auth(token, { type: 'bearer' }).send({ title: '', description: 'je suis la description de ImNoValidBoardLOL' })
             .end((err, res) => {
                 res.should.status(405)
                 done()
@@ -244,7 +256,7 @@ describe('PUT - /board/:id', () => {
 
 describe('PUT /boards', () => {
     it('Modifier plusieurs Tableaux - S', (done) => {
-        chai.request(server).put('/boards').query({ id: _.map(boards, '_id') }).auth(token, { type: 'bearer' }).send({ firstName: 'James' })
+        chai.request(server).put('/boards').query({ id: _.map(boards, '_id') }).auth(token, { type: 'bearer' }).send({ title: 'James' })
             .end((err, res) => {
                 res.should.have.status(200);
                 expect(res.body).to.be.an('object');
@@ -253,7 +265,7 @@ describe('PUT /boards', () => {
     })
 
     it('Modifier plusieurs Tableaux avec un Id non valide - E', (done) => {
-        chai.request(server).put('/boards').query({ id: ['84655616846865', '84517613'] }).auth(token, { type: 'bearer' }).send({ firstName: 'James' })
+        chai.request(server).put('/boards').query({ id: ['84655616846865', '84517613'] }).auth(token, { type: 'bearer' }).send({ title: 'James' })
             .end((err, res) => {
                 res.should.have.status(405);
                 expect(res.body).to.be.an('object');
@@ -262,7 +274,7 @@ describe('PUT /boards', () => {
     })
 
     it('Modifier plusieurs Tableaux  avec des ids inexistant- E', (done) => {
-        chai.request(server).put('/boards').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ name: 'James' })
+        chai.request(server).put('/boards').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ title: 'James' })
             .end((err, res) => {
                 res.should.have.status(404);
                 expect(res.body).to.be.an('object');
@@ -271,7 +283,7 @@ describe('PUT /boards', () => {
     })
 
     it('Modifier plusieurs Tableau avec un champ requis vide - E', (done) => {
-        chai.request(server).put('/boards').query({ id: _.map(boards, '_id') }).auth(token, { type: 'bearer' }).send({ name: '' })
+        chai.request(server).put('/boards').query({ id: _.map(boards, '_id') }).auth(token, { type: 'bearer' }).send({ title: '' })
             .end((err, res) => {
                 res.should.have.status(405);
                 expect(res.body).to.be.an('object');
@@ -458,7 +470,7 @@ describe("DELETE - /boards", () => {
 })
 describe('Gestion des utilisateurs.', () => {
     it('Supprimer des Utilisateurs fictifs', (done) => {
-        UserService.deleteManyUsers(tab_id_users, null, function (err, value) {
+        UserService.deleteManyUsers(TabUserId, null, function (err, value) {
             done()
         })
     })

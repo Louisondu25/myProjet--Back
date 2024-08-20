@@ -7,7 +7,7 @@ const ObjectId = mongoose.Types.ObjectId;
 var Label = mongoose.model("Label", LabelSchema);
 
 module.exports.loginUser = async function (username, password, options, callback) {
-    module.exports.findOneUser(['name', 'description'], username, null, async (err, value) => {
+    module.exports.findOneUser(['text', 'status'], username, null, async (err, value) => {
         if (err)
             callback(err)
         else {
@@ -25,18 +25,19 @@ module.exports.loginUser = async function (username, password, options, callback
 module.exports.addOneLabel = async function (label, options, callback) {
     try {
         var new_label = new Label(label);
-        var errors = new_label.validateSync();
-        if (errors) {
-            errors = errors['errors'];
-            var text = Object.keys(errors).map((e) => {
-                return errors[e]['properties'] ? errors[e]['properties']['message'] : errors[e]['reason'];
+        var error = new_label.validateSync();
+        
+        if (error) {
+            error = error['errors'];
+            var text = Object.keys(error).map((e) => {
+                return error[e]['properties'] ? error[e]['properties']['message'] : String(error[e]['reason']);
             }).join(' ');
-            var fields = _.transform(Object.keys(errors), function (result, value) {
-                result[value] = errors[value]['properties'] ? errors[value]['properties']['message'] : String(errors[value]['reason']);
+            var fields = _.transform(Object.keys(error), function (result, value) {
+                result[value] = error[value]['properties'] ? error[value]['properties']['message'] : String(error[value]['reason']);
             }, {});
             var err = {
                 msg: text,
-                fields_with_error: Object.keys(errors),
+                fields_with_error: Object.keys(error),
                 fields: fields,
                 type_error: "validator"
             };
@@ -336,7 +337,7 @@ module.exports.updateManyLabels = function (labels_ids, update, options, callbac
             return new ObjectId(e);
         });
         Label.updateMany({ _id: { $in: labels_ids } }, update, { runValidators: true })
-            .then((value) => {
+            .then((value) => { 
                 try {
                     if (value && value.matchedCount != 0) {
                         callback(null, value);
@@ -344,7 +345,6 @@ module.exports.updateManyLabels = function (labels_ids, update, options, callbac
                         callback({ msg: 'Utilisateurs non trouvé', type_error: 'no-found' })
                     }
                 } catch (e) {
-
                     callback(e);
                 }
             })

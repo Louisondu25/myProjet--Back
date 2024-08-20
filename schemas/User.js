@@ -40,34 +40,31 @@ var UserSchema = mongoose.Schema({
         required: false,
     },
     // <-------------------- User setting -------------------->
-    //     user_setting_id: {
-    //         type: String,
-    //         required: true,
-    //     },
-    //     dark_and_light_mode_setting: {
-    //         type: String,
-    //         enum: ['dark', 'light'],
-    //         required: true,
-    //     },
-    //     notification_setting: {
-    //         type: String,
-    //         enum: ['Son', 'Vibreur', 'Muet'],
-    //         required: true,
-    //     },
-    //     fontsize_setting: {
-    //         type: String,
-    //         required: true,
-    //     },
-    //     status_setting: {
-    //         type: String,
-    //         enum: ['active', 'inactive', 'invisible', 'indisponible', 'deconnecter'],
-    //         required: true,
-    //     },
+
+    dark_and_light_mode_setting: {
+        type: String,
+        enum: ['dark', 'light'],
+        default: 'light',
+        required: true,
+    },
+    notification_setting: {
+        type: String,
+        enum: ['Son', 'Vibreur', 'Muet'],
+        default: 'Son',
+        required: true,
+    },
+    fontsize_setting: {
+        type: Number,
+        default: 14,
+        required: true,
+    },
+    status_setting: {
+        type: String,
+        enum: ['active', 'inactive', 'invisible', 'indisponible', 'deconnecter'],
+        default: 'active',
+        required: true,
+    },
     //     // <-------------------- Password Reset -------------------->
-    //     password_reset_id: {
-    //         type: ObjectId,
-    //         required: true,
-    //     },
     //     password_reset_user_id: {
     //         type: ObjectId,
     //         required: true,

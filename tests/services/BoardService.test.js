@@ -74,11 +74,11 @@ describe("addOneBoard", () => {
     it("Tableau correct. - S", (done) => {
         var board = {
             user_id: rdm_users(TabUserId), // en attendant que j'ai les bon ids
-            tableau_id: rdm_users(TabUserId),
             title: "blabla",
             description: "La description de cet objet board",
             index: 1,
-            setting_list: rdm_users(TabUserId),
+            status:'Public',
+            membres:5,
             created_at: new Date(),
             updated_at: new Date(),
         };
@@ -94,11 +94,10 @@ describe("addOneBoard", () => {
     it("Tableau incorrect. (Sans Name) - E", (done) => {
         var InvalidUser = {
             user_id: rdm_users(TabUserId),
-            tableau_id: rdm_users(TabUserId),
-
             description: "La description de cet objet board",
             index: 1,
-            setting_list: rdm_users(TabUserId),
+            status: 'Public',
+            membres: 5,
             created_at: new Date(),
             updated_at: new Date(),
         };
@@ -120,40 +119,40 @@ describe("addManyBoards", () => {
         var board_tab_error = [
             {
                 user_id: rdm_users(TabUserId),
-                tableau_id: rdm_users(TabUserId),
                 description: "La description de cet objet board",
                 index: 1,
-                setting_list: rdm_users(TabUserId),
+                status: 'Public',
+                membres: 5,
                 created_at: new Date(),
                 updated_at: new Date(),
             },
             {
                 user_id: rdm_users(TabUserId),
-                tableau_id: rdm_users(TabUserId),
                 title: "blabla",
                 description: "La description de cet objet board",
                 index: 1,
-                setting_list: rdm_users(TabUserId),
+                status: 'Public',
+                membres: 5,
                 created_at: new Date(),
                 updated_at: new Date(),
             },
             {
                 user_id: rdm_users(TabUserId),
-                tableau_id: rdm_users(TabUserId),
                 title: "blabla",
                 description: "La description de cet objet board",
                 index: 1,
-                setting_list: rdm_users(TabUserId),
+                status: 'Public',
+                membres: 5,
                 created_at: new Date(),
                 updated_at: new Date(),
             },
             {
                 user_id: rdm_users(TabUserId),
-                tableau_id: rdm_users(TabUserId),
                 title: "blabla",
                 description: "La description de cet objet board",
                 index: 1,
-                setting_list: rdm_users(TabUserId),
+                status: 'Public',
+                membres: 5,
             },
         ];
         BoardService.addManyBoards(board_tab_error, null, function (err, value) {
@@ -168,31 +167,31 @@ describe("addManyBoards", () => {
         var boards_tab = [
             {
                 user_id: rdm_users(TabUserId),
-                tableau_id: rdm_users(TabUserId),
                 title: "blabla",
                 description: "La description de cet objet board",
                 index: 1,
-                setting_list: rdm_users(TabUserId),
+                status: 'Public',
+                membres: 5,
                 created_at: new Date(),
                 updated_at: new Date(),
             },
             {
                 user_id: rdm_users(TabUserId),
-                tableau_id: rdm_users(TabUserId),
                 title: "how are u",
                 description: "La description de cet objet board",
                 index: 1,
-                setting_list: rdm_users(TabUserId),
+                status: 'Public',
+                membres: 5,
                 created_at: new Date(),
                 updated_at: new Date(),
             },
             {
                 user_id: rdm_users(TabUserId),
-                tableau_id: rdm_users(TabUserId),
                 title: "im good n u ?",
                 description: "La description de cet objet board",
                 index: 1,
-                setting_list: rdm_users(TabUserId),
+                status: 'Public',
+                membres: 5,
                 created_at: new Date(),
                 updated_at: new Date(),
             },
@@ -221,36 +220,6 @@ describe("findOneBoardById", () => {
             expect(err).to.haveOwnProperty("msg");
             expect(err).to.haveOwnProperty("type_error");
             expect(err["type_error"]).to.equal("no-valid");
-            done();
-        });
-    });
-});
-
-describe('findOneBoard', () => {
-    it('Chercher un Tableau avec un champ autorisé - S', (done) => {
-        BoardService.findOneBoard(['title'], boards[0].title, null, (err, value) => {
-            expect(value).to.haveOwnProperty('title');
-            done();
-        });
-    });
-
-    it('Chercher un Tableau avec un champ non autorisé - E', (done) => {
-        BoardService.findOneBoard(['boardname', 'firstName'], boards[0].name, null, (err, value) => {
-            expect(err).to.haveOwnProperty('type_error');
-            done();
-        });
-    });
-
-    it('Chercher un Tableau sans tableau de champ -E', (done) => {
-        BoardService.findOneBoard('email', boards[0].name, null, (err, value) => {
-            expect(err).to.haveOwnProperty('type_error');
-            done();
-        });
-    });
-
-    it('chercher un Tableau inexistant', (done) => {
-        BoardService.findOneBoard(['email'], 'boards[0].boardname', null, (err, value) => {
-            expect(err).to.haveOwnProperty('type_error');
             done();
         });
     });

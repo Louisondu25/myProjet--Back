@@ -34,18 +34,18 @@ module.exports.addOneUser = async function (user, options, callback) {
       user.password = await bcrypt.hash(user.password, salt)
     }
     var new_user = new User(user);
-    var errors = new_user.validateSync();
-    if (errors) {
-      errors = errors['errors'];
-      var text = Object.keys(errors).map((e) => {
-        return errors[e]['properties']['message'];
-      }).join(' ');
-      var fields = _.transform(Object.keys(errors), function (result, value) {
-        result[value] = errors[value]['properties']['message'];
-      }, {});
+    var error = new_user.validateSync();
+    if (error) {
+            error = error['errors'];
+            var text = Object.keys(error).map((e) => {
+                return error[e]['properties'] ? error[e]['properties']['message'] : String(error[e]['reason']);
+            }).join(' ');
+            var fields = _.transform(Object.keys(error), function (result, value) {
+                result[value] = error[value]['properties'] ? error[value]['properties']['message'] : String(error[value]['reason']);
+            }, {});
       var err = {
         msg: text,
-        fields_with_error: Object.keys(errors),
+        fields_with_error: Object.keys(error),
         fields: fields,
         type_error: "validator"
       };
@@ -83,13 +83,13 @@ module.exports.addManyUsers = async function (users, options, callback) {
     var new_user = new User(user);
     var error = new_user.validateSync();
     if (error) {
-      error = error['errors'];
-      var text = Object.keys(error).map((e) => {
-        return error[e]['properties']['message'];
-      }).join(' ');
-      var fields = _.transform(Object.keys(error), function (result, value) {
-        result[value] = error[value]['properties']['message'];
-      }, {});
+            error = error['errors'];
+            var text = Object.keys(error).map((e) => {
+                return error[e]['properties'] ? error[e]['properties']['message'] : String(error[e]['reason']);
+            }).join(' ');
+            var fields = _.transform(Object.keys(error), function (result, value) {
+                result[value] = error[value]['properties'] ? error[value]['properties']['message'] : String(error[value]['reason']);
+            }, {});
       errors.push({
         msg: text,
         fields_with_error: Object.keys(error),

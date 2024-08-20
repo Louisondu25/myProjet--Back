@@ -115,6 +115,26 @@ describe("addOneTask", () => {
             done()
         });
     });
+    it("Tache incorrect. (Id board non conforme) - E", (done) => {
+        var InvalidTask = {
+            archive: false,
+            description: "description du title",
+            date_start: 1,
+            date_end: 2,
+            title: "blabla",
+            board_id: "",
+            status: "en cours",
+            user_id: rdm_users(TabUserId),
+            created_at: new Date(),
+            updated_at: new Date(),
+        };
+        TaskService.addOneTask(InvalidTask, null, function (err, value) {
+            expect(err).to.haveOwnProperty("msg");
+            expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
+            expect(err).to.haveOwnProperty("fields");
+            done()
+        });
+    });
 });
 
 describe("addManyTasks", () => {
@@ -330,7 +350,41 @@ describe("updateOneTask", () => {
     });
 });
 
-
+describe("updateManyTasks", () => {
+    it("Modifier plusieurs Taches correctement. - S", (done) => {
+        TaskService.updateManyTasks(TabTaskId, {title: 'hi', status: 'Finish' }, null, function (err, value) {
+            expect(value).to.haveOwnProperty("modifiedCount");
+            expect(value).to.haveOwnProperty("matchedCount");
+            expect(value["matchedCount"]).to.be.equal(TabTaskId.length);
+            expect(value["modifiedCount"]).to.be.equal(TabTaskId.length);
+            done();
+        }
+        );
+    });
+    it("Modifier plusieurs Taches avec id incorrect. - E", (done) => {
+        TaskService.updateManyTasks("1200", { firstName: "Jean", lastName: "Luc" }, null, function (err, value) {
+            expect(err).to.be.a("object");
+            expect(err).to.haveOwnProperty("msg");
+            expect(err).to.haveOwnProperty("type_error");
+            expect(err["type_error"]).to.be.equal("no-valid");
+            done();
+        }
+        );
+    });
+    it("Modifier plusieurs Taches avec des champs requis vide. - E", (done) => {
+        TaskService.updateManyTasks(
+            TabTaskId,
+            { text: "", status: false }, null,
+            function (err, value) {
+                expect(value).to.be.undefined;
+                expect(err).to.haveOwnProperty("msg");
+                expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
+                expect(err).to.haveOwnProperty("fields");
+                done();
+            }
+        );
+    });
+});
 
 describe("deleteOneTask", () => {
     it("Supprimer une Tache correctement. - S", (done) => {

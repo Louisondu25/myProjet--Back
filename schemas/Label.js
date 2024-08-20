@@ -6,6 +6,8 @@ var Label = mongoose.Schema ({
     text: {
         type: String,
         required: true,
+        index:true,
+        unique: true
     },
     date: {
         type: Number,
@@ -17,14 +19,17 @@ var Label = mongoose.Schema ({
     },
     task_id: {
         type: ObjectId,
+        ref:'Task',
         required: true,
     },
     user_id: {
         type: ObjectId,
+        ref:'UserSchema',
         required: true,
     },
     board_id: {
         type: ObjectId,
+        ref:'DashBoard',
         required: true,
     },
     created_at: {

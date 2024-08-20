@@ -72,10 +72,10 @@ module.exports.addManyTasks = async function (tasks, options, callback) {
         if (error) {
             error = error['errors'];
             var text = Object.keys(error).map((e) => {
-                return error[e]['properties']['message'];
+                return error[e]['properties'] ? error[e]['properties']['message'] : String(error[e]['reason']);
             }).join(' ');
             var fields = _.transform(Object.keys(error), function (result, value) {
-                result[value] = error[value]['properties']['message'];
+                result[value] = error[value]['properties'] ? error[value]['properties']['message'] : String(error[value]['reason']);
             }, {});
 
             errors.push({
@@ -148,7 +148,8 @@ module.exports.findOneTask = function (tab_field, value, options, callback) {
 
     if (tab_field && Array.isArray(tab_field) && value && _.filter(tab_field, (e) => {
         return field_unique.indexOf(e) == -1;
-    }).length == 0) {;
+    }).length == 0) {
+        ;
         var obj_find = []
         _.forEach(tab_field, (e) => {
             obj_find.push({ [e]: value })

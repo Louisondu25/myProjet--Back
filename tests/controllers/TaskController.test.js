@@ -19,42 +19,52 @@ var users = [
         lastName: "Iencli",
         username: "oui1",
         email: "Iencli@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
     {
         firstName: "detenteur  de la Tache 2",
         lastName: "Iencli",
         username: "oui2",
         email: "Iencli2@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
 
     }, {
         firstName: "detenteur  de la Tache 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
     {
         firstName: "detenteur  de la Tache 4",
         lastName: "Iencli",
         username: "oui4",
         email: "Iencli4@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
     {
         firstName: "detenteur  de la Tache 5",
         lastName: "Iencli",
         username: "oui5",
         email: "Iencli5@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
 ]
 
 describe('Gestion des utilisateurs.', () => {
     it('Creation des Utilisateurs fictif', (done) => {
         UserService.addManyUsers(users, null, function (err, value) {
-            tab_id_users = _.map(value, '_id')
+            TabUserId = _.map(value, '_id')
             done()
         })
     })
@@ -81,11 +91,16 @@ describe("POST - /login", () => {
 describe("POST - /task", () => {
     it("Ajouter une Taches. - S", (done) => {
         chai.request(server).post('/task').auth(token, { type: 'bearer' }).send({
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
-            user_id: rdm_users(tab_id_users),
+            archive: true,
+            title: "blabla",
+            description: "description de Blabla",
+            date_start: 1,
+            date_end: 1,
+            board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
+            status: "Finish",
+            user_id: rdm_users(TabUserId),
+            created_at: new Date(),
+            updated_at: new Date(),
             password: "higuys"
         }).end((err, res) => {
             res.should.have.status(201)
@@ -94,26 +109,35 @@ describe("POST - /task", () => {
             done()
         });
     })
-    it("Ajouter une Tache incorrect. (Sans firstName) - E", (done) => {
+    it("Ajouter une Tache incorrect. (Sans Title) - E", (done) => {
         chai.request(server).post('/task').auth(token, { type: 'bearer' }).send({
-            lastName: 'Us',
-            tasksname: 'dwarfSlayr',
-            email: 'lutfu.us@gmil.com',
-            user_id: rdm_users(tab_id_users),
+            archive: true,
+            description: "description de Blabla",
+            date_start: 1,
+            date_end: 1,
+            board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
+            status: "Error",
+            user_id: rdm_users(TabUserId),
+            created_at: new Date(),
+            updated_at: new Date(),
             password: "higuys"
         }).end((err, res) => {
             res.should.have.status(405)
             done()
         })
     })
-    it("Ajouter une Tache incorrect. (Avec un tasksname existant) - E", (done) => {
+    it("Ajouter une Tache incorrect. (Avec un nom de tache existant) - E", (done) => {
         chai.request(server).post('/task').auth(token, { type: 'bearer' }).send({
-            firstName: "luf",
-            lastName: "Us",
-            tasksname: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            archive: false,
+            title: "jetecreepourdestest",
+            description: "description de Blabla",
+            date_start: 8,
+            date_end: 10,
+            board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
+            status: "Error",
+            user_id: rdm_users(TabUserId),
+            created_at: new Date(),
+            updated_at: new Date(),
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -121,11 +145,16 @@ describe("POST - /task", () => {
     })
     it("Ajouter une Taches incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/task').auth(token, { type: 'bearer' }).send({
-            firstName: "luffu",
-            lastName: "",
-            tasksname: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
+            archive: true,
+            title: "",
+            description: "description de Blabla",
+            date_start: 1,
+            date_end: 1,
+            board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
+            status: "Error",
+            user_id: rdm_users(TabUserId),
+            created_at: new Date(),
+            updated_at: new Date(),
             password: "higuys"
         }).end((err, res) => {
             res.should.have.status(405)
@@ -138,21 +167,29 @@ describe("POST - /task", () => {
 describe("POST - /tasks", () => {
     it("Ajouter plusieurs Taches. - S", (done) => {
         chai.request(server).post('/tasks').auth(token, { type: 'bearer' }).send([{
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            archive: true,
+            title: "blabla",
+            description: "description de Blabla",
+            date_start: 1,
+            date_end: 1,
+            board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
+            status: "Finish",
+            user_id: rdm_users(TabUserId),
+            created_at: new Date(),
+            updated_at: new Date(),
         },
 
         {
-            name: "Pomme de terre",
-            description: "blabla",
-            price: 2.80,
-            quantity: 800,
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            archive: true,
+            title: "blabla",
+            description: "description de Blabla",
+            date_start: 1,
+            date_end: 1,
+            board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
+            status: "Finish",
+            user_id: rdm_users(TabUserId),
+            created_at: new Date(),
+            updated_at: new Date(),
         }]
         ).end((err, res) => {
             res.should.have.status(201)
@@ -163,33 +200,44 @@ describe("POST - /tasks", () => {
     it("Ajouter plusieurs Taches incorrect. - E", (done) => {
         chai.request(server).post('/tasks').auth(token, { type: 'bearer' }).send([
             {
-                lastName: 'Us',
-                arname: 'dwarfSlayr',
-                email: 'lutfu.us@gmil.com',
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
+                archive: true,
+                title: "blabla",
+                date_start: 1,
+                date_end: 1,
+                board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
+                status: "Finish",
+                user_id: rdm_users(TabUserId),
+                created_at: new Date(),
+                updated_at: new Date(),
             },
 
             {
-                lastName: 'Us',
-                tasksname: 'dwarfSlaycdsr',
-                email: 'lutffqzdsu.us@gmil.com',
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
+                archive: true,
+                title: "blabla",
+                description: "description de Blabla",
+                date_start: 1,
+                date_end: 1,
+                user_id: rdm_users(TabUserId),
+                created_at: new Date(),
+                updated_at: new Date(),
             }
         ]).end((err, res) => {
             res.should.have.status(405)
             done()
         })
     })
-    it("Ajouter plusieurs Taches incorrect. (Avec un tasksname existant) - E", (done) => {
+    it("Ajouter plusieurs Taches incorrect. (Avec un nom de tache existant) - E", (done) => {
         chai.request(server).post('/tasks').auth(token, { type: 'bearer' }).send([{
-            firstName: "luf",
-            lastName: "Us",
-            tasksname: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            archive: false,
+            title: "jetecreepourdestest",
+            description: "description de Blabla",
+            date_start: 8,
+            date_end: 10,
+            board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
+            status: "Error",
+            user_id: rdm_users(TabUserId),
+            created_at: new Date(),
+            updated_at: new Date(),
         }]).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -197,12 +245,16 @@ describe("POST - /tasks", () => {
     })
     it("Ajouter plusieurs Taches incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/tasks').auth(token, { type: 'bearer' }).send([{
-            firstName: "luffu",
-            lastName: "",
-            tasksname: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            archive: false,
+            title: "jetecreepourdestest",
+            description: "description de Blabla",
+            date_start: 8,
+            date_end: 10,
+            board_id: "", // en attendant d'avoir les bon ids
+            status: "Error",
+            user_id: rdm_users(TabUserId),
+            created_at: new Date(),
+            updated_at: new Date(),
         }]).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -212,7 +264,7 @@ describe("POST - /tasks", () => {
 
 describe('PUT - /task/:id', () => {
     it('Modifier une Tache -S', (done) => {
-        chai.request(server).put(`/task/${tasks[0]._id}`).auth(token, { type: 'bearer' }).send({ firstName: 'Jeanne', lastName: 'Lu' })
+        chai.request(server).put(`/task/${tasks[0]._id}`).auth(token, { type: 'bearer' }).send({ title: 'Jeanne', description: 'description de la Tache Jeanne' })
             .end((err, res) => {
                 res.should.status(200)
                 expect(res.body).to.be.a('object')
@@ -236,7 +288,7 @@ describe('PUT - /task/:id', () => {
             })
     })
     it('Modifier une Tache avec un champ requis vide -E', (done) => {
-        chai.request(server).put(`/task/${tasks[0]._id}`).auth(token, { type: 'bearer' }).send({ name: '', description: 'senerve' })
+        chai.request(server).put(`/task/${tasks[0]._id}`).auth(token, { type: 'bearer' }).send({ title: '', description: 'senerve' })
             .end((err, res) => {
                 res.should.status(405)
                 done()
@@ -246,7 +298,7 @@ describe('PUT - /task/:id', () => {
 
 describe('PUT /tasks', () => {
     it('Modifier plusieurs Taches - S', (done) => {
-        chai.request(server).put('/tasks').query({ id: _.map(tasks, '_id') }).auth(token, { type: 'bearer' }).send({ firstName: 'James' })
+        chai.request(server).put('/tasks').query({ id: _.map(tasks, '_id') }).auth(token, { type: 'bearer' }).send({ title: 'James' })
             .end((err, res) => {
                 res.should.have.status(200);
                 expect(res.body).to.be.an('object');
@@ -264,7 +316,7 @@ describe('PUT /tasks', () => {
     })
 
     it('Modifier plusieurs Taches  avec des ids inexistant- E', (done) => {
-        chai.request(server).put('/tasks').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ name: 'James' })
+        chai.request(server).put('/tasks').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ title: 'James' })
             .end((err, res) => {
                 res.should.have.status(404);
                 expect(res.body).to.be.an('object');
@@ -273,7 +325,7 @@ describe('PUT /tasks', () => {
     })
 
     it('Modifier plusieurs Taches  avec un champ requis vide - E', (done) => {
-        chai.request(server).put('/tasks').query({ id: _.map(tasks, '_id') }).auth(token, { type: 'bearer' }).send({ name: '' })
+        chai.request(server).put('/tasks').query({ id: _.map(tasks, '_id') }).auth(token, { type: 'bearer' }).send({ title: '' })
             .end((err, res) => {
                 res.should.have.status(405);
                 expect(res.body).to.be.an('object');
@@ -461,7 +513,7 @@ describe("DELETE - /tasks", () => {
 
 describe('Gestion des utilisateurs.', () => {
     it('Supprimer des Utilisateurs fictifs', (done) => {
-        UserService.deleteManyUsers(tab_id_users, null, function (err, value) {
+        UserService.deleteManyUsers(TabUserId, null, function (err, value) {
             done()
         })
     })
@@ -471,16 +523,3 @@ function rdm_users(tab) {
     var rdm_id = tab[Math.floor(Math.random() * tab.length)];
     return rdm_id;
 }
-
-describe("POST - /login", () => {
-    it("Connexion utilisateur - S", (done) => {
-        chai.request(server).post('/login').send({
-            username: "oui1",
-            password: "higuys",
-        }).end((err, res) => {
-            res.should.have.status(200)
-            token = res.body.token
-            done()
-        })
-    })
-})

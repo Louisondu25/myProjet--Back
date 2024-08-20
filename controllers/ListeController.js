@@ -1,6 +1,7 @@
-const TaskService = require('../services/TaskService')
+const ListeService = require('../services/ListeService')
 
-//La fonction permet de connecter un utilisateur.
+
+// La fonction permet de connecter un utilisateur.
 module.exports.loginUser = function (req, res, next) {
     passport.authenticate('login', { badRequestMessage: "Les champs sont manquants." }, async function (err, user) {
         if (err) {
@@ -21,10 +22,10 @@ module.exports.loginUser = function (req, res, next) {
     })(req, res, next)
 }
 
-// La fonction permet d'ajouter une Tache.
-module.exports.addOneTask = function (req, res) {
-    req.log.info('Creation d\'une Tache')
-    TaskService.addOneTask(req.body, null, function (err, value) {
+// La fonction permet d'ajouter un utilisateur.
+module.exports.addOneListe = function (req, res) {
+    req.log.info('Creation d\'un Liste')
+    ListeService.addOneListe(req.body, null, function (err, value) {
         if (err && err.type_error == "no-found") {
             res.statusCode = 404
             res.send(err)
@@ -44,9 +45,9 @@ module.exports.addOneTask = function (req, res) {
     })
 }
 
-module.exports.addManyTasks = function (req, res) {
-    req.log.info('Creation de plusieurs Taches')
-    TaskService.addManyTasks(req.body, null, function (err, value) {
+module.exports.addManyListes = function (req, res) {
+    req.log.info('Creation de plusieurs Listes')
+    ListeService.addManyListes(req.body, null, function (err, value) {
         if (err) {
             res.statusCode = 405
             res.send(err)
@@ -58,11 +59,11 @@ module.exports.addManyTasks = function (req, res) {
     })
 }
 
-module.exports.findOneTaskById = function (req, res) {
+module.exports.findOneListeById = function (req, res) {
 
-    req.log.info('Rechercher une Tache')
+    req.log.info('Rechercher un Liste')
     var opts = { populate: req.query.populate }
-    TaskService.findOneTaskById(req.params.id, opts, function (err, value) {
+    ListeService.findOneListeById(req.params.id, opts, function (err, value) {
         if (err && err.type_error == "no-found") {
             res.statusCode = 404
             res.send(err)
@@ -82,8 +83,8 @@ module.exports.findOneTaskById = function (req, res) {
     })
 }
 
-module.exports.findManyTaskByIds = function (req, res) {
-    req.log.info('Rechercher plusieurs Taches')
+module.exports.findManyListeByIds = function (req, res) {
+    req.log.info('Rechercher plusieurs Listes')
     var arg = req.query.id
     if (arg && !Array.isArray(arg))
         arg = [arg]
@@ -92,7 +93,7 @@ module.exports.findManyTaskByIds = function (req, res) {
         arg = [arg]
     var opts = { populate: req.query.populate }
 
-    TaskService.findManyTaskByIds(arg, opts, function (err, value) {
+    ListeService.findManyListeByIds(arg, opts, function (err, value) {
         if (err && err.type_error == "no-found") {
             res.statusCode = 404
             res.send(err)
@@ -112,13 +113,13 @@ module.exports.findManyTaskByIds = function (req, res) {
     })
 }
 
-module.exports.findOneTask = function (req, res) {
-    req.log.info('Rechercher une Tache avec un champs choisi')
+module.exports.findOneListe = function (req, res) {
+    req.log.info('Rechercher un Liste avec un champs choisi')
     var arg = req.query.id
     if (arg && !Array.isArray(arg))
         arg = [arg]
     var opts = { populate: req.query.populate }
-    TaskService.findOneTask(arg, req.query.value, opts, function (err, value) {
+    ListeService.findOneListe(arg, req.query.value, opts, function (err, value) {
         if (err && err.type_error == "no-found") {
             res.statusCode = 404
             res.send(err)
@@ -138,13 +139,13 @@ module.exports.findOneTask = function (req, res) {
     })
 }
 
-module.exports.findManyTasks = function (req, res) {
-    req.log.info('Rechercher des Taches')
+module.exports.findManyListes = function (req, res) {
+    req.log.info('Rechercher des Listes')
     var page = req.query.page
     var limit = req.query.limit
     var search = req.query.q
     var opts = { populate: req.query.populate }
-    TaskService.findManyTasks(search, page, limit, opts, function (err, value) {
+    ListeService.findManyListes(search, page, limit, opts, function (err, value) {
         if (err && err.type_error == 'no-valid') {
             res.statusCode = (405)
             res.send(err)
@@ -159,12 +160,12 @@ module.exports.findManyTasks = function (req, res) {
     })
 }
 
-module.exports.updateOneTask = function (req, res) {
-    req.log.info('Modifier une Tache')
-    const taskId = req.params.id;
-    const taskData = req.body;
+module.exports.updateOneListe = function (req, res) {
+    req.log.info('Modifier un Liste')
+    const listeId = req.params.id;
+    const listeData = req.body;
 
-    TaskService.updateOneTask(taskId, taskData, null, function (err, task) {
+    ListeService.updateOneListe(listeId, listeData, null, function (err, liste) {
         if (err && err.type_error == "no-found") {
             res.statusCode = 404
             res.send(err)
@@ -179,19 +180,19 @@ module.exports.updateOneTask = function (req, res) {
         }
         else {
             res.statusCode = 200
-            res.send(task)
+            res.send(liste)
         }
     })
 }
 
-module.exports.updateManyTasks = function (req, res) {
+module.exports.updateManyListes = function (req, res) {
 
-    req.log.info('Modifier plusieurs Taches')
+    req.log.info('Modifier plusieurs Listes')
     var arg = req.query.id
     if (arg && !Array.isArray(arg))
         arg = [arg]
     var updateData = req.body
-    TaskService.updateManyTasks(arg, updateData, null, function (err, value) {
+    ListeService.updateManyListes(arg, updateData, null, function (err, value) {
         if (err && err.type_error == "no-found") {
             res.statusCode = 404
             res.send(err)
@@ -211,10 +212,10 @@ module.exports.updateManyTasks = function (req, res) {
     })
 }
 
-module.exports.deleteOneTask = function (req, res) {
+module.exports.deleteOneListe = function (req, res) {
 
-    req.log.info('Supprimer une Tache')
-    TaskService.deleteOneTask(req.params.id, null, function (err, value) {
+    req.log.info('Supprimer un Liste')
+    ListeService.deleteOneListe(req.params.id, null, function (err, value) {
         if (err && err.type_error == "no-found") {
             res.statusCode = 404
             res.send(err)
@@ -234,12 +235,12 @@ module.exports.deleteOneTask = function (req, res) {
     })
 }
 
-module.exports.deleteManyTasks = function (req, res) {
-    req.log.info('Supprimer plusieurs Taches')
+module.exports.deleteManyListes = function (req, res) {
+    req.log.info('Supprimer plusieurs Listes')
     var arg = req.query.id
     if (arg && !Array.isArray(arg))
         arg = [arg]
-    TaskService.deleteManyTasks(arg, null, function (err, value) {
+    ListeService.deleteManyListes(arg, null, function (err, value) {
         if (err && err.type_error == "no-found") {
             res.statusCode = 404
             res.send(err)

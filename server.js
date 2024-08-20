@@ -85,31 +85,31 @@ app.delete(`/users`, database_middleware.checkMongooseConnection, passport.authe
 // Définit une route pour ajouter un Tableau
 app.post("/board", database_middleware.checkMongooseConnection, BoardController.addOneBoard);
 
-// // Définit une route pour ajouter plusieurs Tableaux
+ // Définit une route pour ajouter plusieurs Tableaux
 app.post(`/boards`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.addManyBoards);
 
-// // Définit une route pour récupérer un Tableau par Id
+ // Définit une route pour récupérer un Tableau par Id
 app.get(`/board/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.findOneBoardById);
 
-// // Définit une route pour récupérer un Tableau
+ // Définit une route pour récupérer un Tableau
 app.get(`/board`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.findOneBoard);
 
-// // Définit une route pour récupérer plusieur Tableaux
+ // Définit une route pour récupérer plusieur Tableaux
 app.get(`/boards_by_filters`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.findManyBoards);
 
-// // Définit une route pour récupérer plusieurs Tableaux par Ids
+ // Définit une route pour récupérer plusieurs Tableaux par Ids
 app.get(`/boards`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.findManyBoardByIds);
 
-// // Définit une route pour mettre à jour un Tableau
+ // Définit une route pour mettre à jour un Tableau
 app.put(`/board/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.updateOneBoard);
 
-// // Définit une route pour mettre à jour plusieurs Tableaux
+ // Définit une route pour mettre à jour plusieurs Tableaux
 app.put(`/boards`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.updateManyBoards);
 
-// // Définit une route pour supprimer un Tableau
+ // Définit une route pour supprimer un Tableau
 app.delete(`/board/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.deleteOneBoard);
 
-// // Définit une route pour supprimer plusieurs Tableaux
+ // Définit une route pour supprimer plusieurs Tableaux
 app.delete(`/boards`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BoardController.deleteManyBoards);
 
 // <--------------------------------------------------------------- Taches ------------------------------------------------------------------------------->
@@ -149,65 +149,128 @@ app.delete(`/tasks`, database_middleware.checkMongooseConnection, passport.authe
 // Définit une route pour ajouter un Commentaire
 app.post("/label", database_middleware.checkMongooseConnection, LabelController.addOneLabel);
 
-// // Définit une route pour ajouter plusieurs Commentaires
-// app.post(`/labels`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.addManyLabels);
+ // Définit une route pour ajouter plusieurs Commentaires
+app.post(`/labels`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.addManyLabels);
 
-// // Définit une route pour récupérer un Commentaire par Id
-// app.get(`/label/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.findOneLabelById);
+ // Définit une route pour récupérer un Commentaire par Id
+app.get(`/label/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.findOneLabelById);
 
-// // Définit une route pour récupérer un Commentaire
-// app.get(`/label`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.findOneLabel);
+ // Définit une route pour récupérer un Commentaire
+app.get(`/label`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.findOneLabel);
 
-// // Définit une route pour récupérer plusieur Commentaires
-// app.get(`/labels_by_filters`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.findManyLabels);
+ // Définit une route pour récupérer plusieur Commentaires
+app.get(`/labels_by_filters`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.findManyLabels);
 
-// // Définit une route pour récupérer plusieurs Commentaires par Ids
-// app.get(`/labels`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.findManyLabelByIds);
+ // Définit une route pour récupérer plusieurs Commentaires par Ids
+app.get(`/labels`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.findManyLabelByIds);
 
-// // Définit une route pour mettre à jour un Commentaire
-// app.put(`/label/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.updateOneLabel);
+ // Définit une route pour mettre à jour un Commentaire
+app.put(`/label/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.updateOneLabel);
 
-// // Définit une route pour mettre à jour plusieurs Commentaires
-// app.put(`/labels`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.updateManyLabels);
+ // Définit une route pour mettre à jour plusieurs Commentaires
+app.put(`/labels`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.updateManyLabels);
 
-// // Définit une route pour supprimer un Commentaire
-// app.delete(`/label/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.deleteOneLabel);
+ // Définit une route pour supprimer un Commentaire
+app.delete(`/label/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.deleteOneLabel);
 
 // // Définit une route pour supprimer plusieurs Commentaires
-// app.delete(`/labels`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.deleteManyLabels);
+app.delete(`/labels`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), LabelController.deleteManyLabels);
 
 // <----------------------------------------------------------- Commentaires ------------------------------------------------------------------------->
 
 // Définit une route pour ajouter un Commentaire
 app.post("/comment", database_middleware.checkMongooseConnection, CommentController.addOneComment);
 
-// // Définit une route pour ajouter plusieurs Commentaires
-// app.post(`/comments`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.addManyComments);
+// Définit une route pour ajouter plusieurs Commentaires
+app.post(`/comments`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.addManyComments);
 
-// // Définit une route pour récupérer un Commentaire par Id
-// app.get(`/comment/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.findOneCommentById);
+ // Définit une route pour récupérer un Commentaire par Id
+app.get(`/comment/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.findOneCommentById);
 
-// // Définit une route pour récupérer un Commentaire
-// app.get(`/comment`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.findOneComment);
+// Définit une route pour récupérer un Commentaire
+app.get(`/comment`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.findOneComment);
 
-// // Définit une route pour récupérer plusieur Commentaires
-// app.get(`/comments_by_filters`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.findManyComments);
+ // Définit une route pour récupérer plusieur Commentaires
+app.get(`/comments_by_filters`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.findManyComments);
 
-// // Définit une route pour récupérer plusieurs Commentaires par Ids
-// app.get(`/comments`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.findManyCommentByIds);
+// Définit une route pour récupérer plusieurs Commentaires par Ids
+app.get(`/comments`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.findManyCommentByIds);
 
-// // Définit une route pour mettre à jour un Commentaire
-// app.put(`/comment/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.updateOneComment);
+ // Définit une route pour mettre à jour un Commentaire
+app.put(`/comment/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.updateOneComment);
 
-// // Définit une route pour mettre à jour plusieurs Commentaires
-// app.put(`/comments`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.updateManyComments);
+ // Définit une route pour mettre à jour plusieurs Commentaires
+app.put(`/comments`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.updateManyComments);
 
-// // Définit une route pour supprimer un Commentaire
-// app.delete(`/comment/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.deleteOneComment);
+ // Définit une route pour supprimer un Commentaire
+app.delete(`/comment/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.deleteOneComment);
 
-// // Définit une route pour supprimer plusieurs Commentaires
-// app.delete(`/Comments`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.deleteManyComments);
+ // Définit une route pour supprimer plusieurs Commentaires
+app.delete(`/comments`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CommentController.deleteManyComments);
 
+// <----------------------------------------------------------- Cartes ------------------------------------------------------------------------->
+
+// Définit une route pour ajouter un Commentaire
+// app.post("/carte", database_middleware.checkMongooseConnection, CarteController.addOneCarte);
+
+// Définit une route pour ajouter plusieurs Commentaires
+// app.post(`/cartes`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.addManyCartes);
+
+// Définit une route pour récupérer un Commentaire par Id
+// app.get(`/carte/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.findOneCarteById);
+
+// Définit une route pour récupérer un Commentaire
+// app.get(`/carte`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.findOneCarte);
+
+// Définit une route pour récupérer plusieur Commentaires
+// app.get(`/carte_by_filters`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.findManyCartes);
+
+// Définit une route pour récupérer plusieurs Commentaires par Ids
+// app.get(`/cartes`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.findManyCarteByIds);
+
+// Définit une route pour mettre à jour un Commentaire
+// app.put(`/carte/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.updateOneCarte);
+
+// Définit une route pour mettre à jour plusieurs Commentaires
+// app.put(`/cartes`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.updateManyCartes);
+
+// Définit une route pour supprimer un Commentaire
+// app.delete(`/carte/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.deleteOneCarte);
+
+// Définit une route pour supprimer plusieurs Commentaires
+// app.delete(`/cartes`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.deleteManyCartes);
+
+// <----------------------------------------------------------- Listes ------------------------------------------------------------------------->
+
+// Définit une route pour ajouter un Commentaire
+// app.post("/liste", database_middleware.checkMongooseConnection, ListeController.addOneListe);
+
+// Définit une route pour ajouter plusieurs Commentaires
+// app.post(`/listes`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ListeController.addManyListes);
+
+// Définit une route pour récupérer un Commentaire par Id
+// app.get(`/liste/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ListeController.findOneListeById);
+
+// Définit une route pour récupérer un Commentaire
+// app.get(`/liste`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ListeController.findOneListe);
+
+// Définit une route pour récupérer plusieur Commentaires
+// app.get(`/liste_by_filters`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ListeController.findManyListes);
+
+// Définit une route pour récupérer plusieurs Commentaires par Ids
+// app.get(`/listes`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ListeController.findManyListeByIds);
+
+// Définit une route pour mettre à jour un Commentaire
+// app.put(`/liste/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ListeController.updateOneListe);
+
+// Définit une route pour mettre à jour plusieurs Commentaires
+// app.put(`/listes`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ListeController.updateManyListes);
+
+// Définit une route pour supprimer un Commentaire
+// app.delete(`/liste/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ListeController.deleteOneListe);
+
+// Définit une route pour supprimer plusieurs Commentaires
+// app.delete(`/listes`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ListeController.deleteManyListes);
 
 // Démarre le serveur et affiche un message de log
 app.listen(config.port, () => {

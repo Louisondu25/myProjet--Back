@@ -28,10 +28,10 @@ describe("BoardService", () => {
 });
 
 // /* Définition d'un bloc de tests pour le Controller "UserController" */
-// describe("BoardController", () => {
+describe("BoardController", () => {
 //   /* Importation des tests pour le service "UserController" */
-//   require("./controllers/BoardController.test");
-// });
+  require("./controllers/boardController.test");
+});
 
 // <------------ TaskService/Controller ---------------------->
 
@@ -42,10 +42,10 @@ require("./services/TaskService.test");
 });
 
 // /* Définition d'un bloc de tests pour le Controller "UserController" */
-// describe("TaskController", () => {
+describe("TaskController", () => {
 //   /* Importation des tests pour le service "UserController" */
-//   require("./controllers/TaskController.test");
-// });
+  require("./controllers/TaskController.test");
+});
 
 // <------------ LabelService/Controller ---------------------->
 
@@ -56,10 +56,10 @@ require("./services/LabelService.test");
 });
 
 // /* Définition d'un bloc de tests pour le Controller "UserController" */
-// describe("LabelController", () => {
+describe("LabelController", () => {
 //   /* Importation des tests pour le service "UserController" */
-//   require("./controllers/LabelController.test");
-// });
+  require("./controllers/LabelController.test");
+});
 
 // <------------ CommentService/Controller ---------------------->
 
@@ -70,9 +70,37 @@ describe("CommentService", () => {
 });
 
 // /* Définition d'un bloc de tests pour le Controller "CommentController" */
-// describe("CommentController", () => {
+describe("CommentController", () => {
 //   /* Importation des tests pour le service "CommentController" */
-//  // require("./controllers/CommentController.test");
+ require("./controllers/CommentController.test");
+});
+
+// <------------ CarteService/Controller ---------------------->
+
+// /* Définition d'un bloc de tests pour le service "CartesService" */
+// describe("CarteService", () => {
+  //   /* Importation des tests pour le service "CarteService" */
+//   require("./services/CarteService.test");
+// });
+
+// /* Définition d'un bloc de tests pour le Controller "CommentController" */
+// describe("CarteController", () => {
+  //   /* Importation des tests pour le service "CarteController" */
+//   require("./controllers/CarteController.test");
+// });
+
+// <------------ ListeService/Controller ---------------------->
+
+// /* Définition d'un bloc de tests pour le service "ListesService" */
+// describe("ListeService", () => {
+//   /* Importation des tests pour le service "ListeService" */
+//   require("./services/ListeService.test");
+// });
+
+// /* Définition d'un bloc de tests pour le Controller "ListeController" */
+// describe("ListeController", () => {
+//   /* Importation des tests pour le service "ListeController" */
+//   require("./controllers/ListeController.test");
 // });
 
 describe('API -Mongo', () => {

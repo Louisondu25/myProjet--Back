@@ -24,217 +24,217 @@ module.exports.addOneComment = function (req, res) {
     })
 }
 
-// module.exports.addManyArticles = function (req, res) {
-//     req.log.info('Creation de plusieurs Articles')
-//     ArticleService.addManyArticles(req.body, null, function (err, value) {
-//         if (err) {
-//             res.statusCode = 405
-//             res.send(err)
-//         }
-//         else {
-//             res.statusCode = 201
-//             res.send(value)
-//         }
-//     })
-// }
+module.exports.addManyComments = function (req, res) {
+    req.log.info('Creation de plusieurs Comments')
+    CommentService.addManyComments(req.body, null, function (err, value) {
+        if (err) {
+            res.statusCode = 405
+            res.send(err)
+        }
+        else {
+            res.statusCode = 201
+            res.send(value)
+        }
+    })
+}
 
-// module.exports.findOneArticleById = function (req, res) {
+module.exports.findOneCommentById = function (req, res) {
 
-//     req.log.info('Rechercher un Article')
-//     var opts = { populate: req.query.populate }
-//     ArticleService.findOneArticleById(req.params.id, opts, function (err, value) {
-//         if (err && err.type_error == "no-found") {
-//             res.statusCode = 404
-//             res.send(err)
-//         }
-//         else if (err && err.type_error == "no-valid") {
-//             res.statusCode = 405
-//             res.send(err)
-//         }
-//         else if (err && err.type_error == "error-mongo") {
-//             res.statusCode = 500
-//             res.send(err)
-//         }
-//         else {
-//             res.statusCode = 200
-//             res.send(value)
-//         }
-//     })
-// }
+    req.log.info('Rechercher un Comment')
+    var opts = { populate: req.query.populate }
+    CommentService.findOneCommentById(req.params.id, opts, function (err, value) {
+        if (err && err.type_error == "no-found") {
+            res.statusCode = 404
+            res.send(err)
+        }
+        else if (err && err.type_error == "no-valid") {
+            res.statusCode = 405
+            res.send(err)
+        }
+        else if (err && err.type_error == "error-mongo") {
+            res.statusCode = 500
+            res.send(err)
+        }
+        else {
+            res.statusCode = 200
+            res.send(value)
+        }
+    })
+}
 
-// module.exports.findManyArticleByIds = function (req, res) {
-//     req.log.info('Rechercher plusieurs Articles')
-//     var arg = req.query.id
-//     if (arg && !Array.isArray(arg))
-//         arg = [arg]
-//     var arg = req.query.id
-//     if (arg && !Array.isArray(arg))
-//         arg = [arg]
-//     var opts = { populate: req.query.populate }
+module.exports.findManyCommentByIds = function (req, res) {
+    req.log.info('Rechercher plusieurs Comments')
+    var arg = req.query.id
+    if (arg && !Array.isArray(arg))
+        arg = [arg]
+    var arg = req.query.id
+    if (arg && !Array.isArray(arg))
+        arg = [arg]
+    var opts = { populate: req.query.populate }
 
-//     ArticleService.findManyArticleByIds(arg, opts, function (err, value) {
-//         if (err && err.type_error == "no-found") {
-//             res.statusCode = 404
-//             res.send(err)
-//         }
-//         else if (err && err.type_error == "no-valid") {
-//             res.statusCode = 405
-//             res.send(err)
-//         }
-//         else if (err && err.type_error == "error-mongo") {
-//             res.statusCode = 500
-//             res.send(err)
-//         }
-//         else {
-//             res.statusCode = 200
-//             res.send(value)
-//         }
-//     })
-// }
+    CommentService.findManyCommentByIds(arg, opts, function (err, value) {
+        if (err && err.type_error == "no-found") {
+            res.statusCode = 404
+            res.send(err)
+        }
+        else if (err && err.type_error == "no-valid") {
+            res.statusCode = 405
+            res.send(err)
+        }
+        else if (err && err.type_error == "error-mongo") {
+            res.statusCode = 500
+            res.send(err)
+        }
+        else {
+            res.statusCode = 200
+            res.send(value)
+        }
+    })
+}
 
-// module.exports.findOneArticle = function (req, res) {
-//     req.log.info('Rechercher un Article avec un champs choisi')
-//     var arg = req.query.id
-//     if (arg && !Array.isArray(arg))
-//         arg = [arg]
-//     var opts = { populate: req.query.populate }
-//     ArticleService.findOneArticle(arg, req.query.value, opts, function (err, value) {
-//         if (err && err.type_error == "no-found") {
-//             res.statusCode = 404
-//             res.send(err)
-//         }
-//         else if (err && err.type_error == "validator") {
-//             res.statusCode = 405
-//             res.send(err)
-//         }
-//         else if (err && err.type_error == "duplicate") {
-//             res.statusCode = 405
-//             res.send(err)
-//         }
-//         else {
-//             res.statusCode = 201
-//             res.send(value)
-//         }
-//     })
-// }
+module.exports.findOneComment = function (req, res) {
+    req.log.info('Rechercher un Comment avec un champs choisi')
+    var arg = req.query.id
+    if (arg && !Array.isArray(arg))
+        arg = [arg]
+    var opts = { populate: req.query.populate }
+    CommentService.findOneComment(arg, req.query.value, opts, function (err, value) {
+        if (err && err.type_error == "no-found") {
+            res.statusCode = 404
+            res.send(err)
+        }
+        else if (err && err.type_error == "validator") {
+            res.statusCode = 405
+            res.send(err)
+        }
+        else if (err && err.type_error == "duplicate") {
+            res.statusCode = 405
+            res.send(err)
+        }
+        else {
+            res.statusCode = 201
+            res.send(value)
+        }
+    })
+}
 
-// module.exports.findManyArticles = function (req, res) {
-//     req.log.info('Rechercher des Articles')
-//     var page = req.query.page
-//     var limit = req.query.limit
-//     var search = req.query.q
-//     var opts = { populate: req.query.populate }
-//     ArticleService.findManyArticles(search, page, limit, opts, function (err, value) {
-//         if (err && err.type_error == 'no-valid') {
-//             res.statusCode = (405)
-//             res.send(err)
-//         } else if (err && err.type_error == 'error-mongo') {
-//             res.statusCode = (500)
-//             res.send(err)
-//         }
-//         else {
-//             res.statusCode = (200)
-//             res.send(value)
-//         }
-//     })
-// }
+module.exports.findManyComments = function (req, res) {
+    req.log.info('Rechercher des Comments')
+    var page = req.query.page
+    var limit = req.query.limit
+    var search = req.query.q
+    var opts = { populate: req.query.populate }
+    CommentService.findManyComments(search, page, limit, opts, function (err, value) {
+        if (err && err.type_error == 'no-valid') {
+            res.statusCode = (405)
+            res.send(err)
+        } else if (err && err.type_error == 'error-mongo') {
+            res.statusCode = (500)
+            res.send(err)
+        }
+        else {
+            res.statusCode = (200)
+            res.send(value)
+        }
+    })
+}
 
-// module.exports.updateOneArticle = function (req, res) {
-//     req.log.info('Modifier un Article')
-//     const articleId = req.params.id;
-//     const articleData = req.body;
+module.exports.updateOneComment = function (req, res) {
+    req.log.info('Modifier un Comment')
+    const commentId = req.params.id;
+    const commentData = req.body;
 
-//     ArticleService.updateOneArticle(articleId, articleData, null, function (err, article) {
-//         if (err && err.type_error == "no-found") {
-//             res.statusCode = 404
-//             res.send(err)
-//         }
-//         else if (err && (err.type_error == "no-valid" || err && err.type_error == "validator" || err && err.type_error == "duplicate")) {
-//             res.statusCode = 405
-//             res.send(err)
-//         }
-//         else if (err && err.type_error == "error-mongo") {
-//             res.statusCode = 500
-//             res.send(err)
-//         }
-//         else {
-//             res.statusCode = 200
-//             res.send(article)
-//         }
-//     })
-// }
+    CommentService.updateOneComment(commentId, commentData, null, function (err, comment) {
+        if (err && err.type_error == "no-found") {
+            res.statusCode = 404
+            res.send(err)
+        }
+        else if (err && (err.type_error == "no-valid" || err && err.type_error == "validator" || err && err.type_error == "duplicate")) {
+            res.statusCode = 405
+            res.send(err)
+        }
+        else if (err && err.type_error == "error-mongo") {
+            res.statusCode = 500
+            res.send(err)
+        }
+        else {
+            res.statusCode = 200
+            res.send(comment)
+        }
+    })
+}
 
-// module.exports.updateManyArticles = function (req, res) {
+module.exports.updateManyComments = function (req, res) {
 
-//     req.log.info('Modifier plusieurs Articles')
-//     var arg = req.query.id
-//     if (arg && !Array.isArray(arg))
-//         arg = [arg]
-//     var updateData = req.body
-//     ArticleService.updateManyArticles(arg, updateData, null, function (err, value) {
-//         if (err && err.type_error == "no-found") {
-//             res.statusCode = 404
-//             res.send(err)
-//         }
-//         else if (err && (err.type_error == "no-valid" || err.type_error == "validator" || err.type_error == "duplicate")) {
-//             res.statusCode = 405
-//             res.send(err)
-//         }
-//         else if (err && err.type_error == "error-mongo") {
-//             res.statusCode = 500
-//             res.send(err)
-//         }
-//         else {
-//             res.statusCode = 200
-//             res.send(value)
-//         }
-//     })
-// }
+    req.log.info('Modifier plusieurs Comments')
+    var arg = req.query.id
+    if (arg && !Array.isArray(arg))
+        arg = [arg]
+    var updateData = req.body
+    CommentService.updateManyComments(arg, updateData, null, function (err, value) {
+        if (err && err.type_error == "no-found") {
+            res.statusCode = 404
+            res.send(err)
+        }
+        else if (err && (err.type_error == "no-valid" || err.type_error == "validator" || err.type_error == "duplicate")) {
+            res.statusCode = 405
+            res.send(err)
+        }
+        else if (err && err.type_error == "error-mongo") {
+            res.statusCode = 500
+            res.send(err)
+        }
+        else {
+            res.statusCode = 200
+            res.send(value)
+        }
+    })
+}
 
-// module.exports.deleteOneArticle = function (req, res) {
+module.exports.deleteOneComment = function (req, res) {
 
-//     req.log.info('Supprimer un Article')
-//     ArticleService.deleteOneArticle(req.params.id, null, function (err, value) {
-//         if (err && err.type_error == "no-found") {
-//             res.statusCode = 404
-//             res.send(err)
-//         }
-//         else if (err && err.type_error == "no-valid") {
-//             res.statusCode = 405
-//             res.send(err)
-//         }
-//         else if (err && err.type_error == "error-mongo") {
-//             res.statusCode = 500
-//             res.send(err)
-//         }
-//         else {
-//             res.statusCode = 200
-//             res.send(value)
-//         }
-//     })
-// }
+    req.log.info('Supprimer un Comment')
+    CommentService.deleteOneComment(req.params.id, null, function (err, value) {
+        if (err && err.type_error == "no-found") {
+            res.statusCode = 404
+            res.send(err)
+        }
+        else if (err && err.type_error == "no-valid") {
+            res.statusCode = 405
+            res.send(err)
+        }
+        else if (err && err.type_error == "error-mongo") {
+            res.statusCode = 500
+            res.send(err)
+        }
+        else {
+            res.statusCode = 200
+            res.send(value)
+        }
+    })
+}
 
-// module.exports.deleteManyArticles = function (req, res) {
-//     req.log.info('Supprimer plusieurs Articles')
-//     var arg = req.query.id
-//     if (arg && !Array.isArray(arg))
-//         arg = [arg]
-//     ArticleService.deleteManyArticles(arg, null, function (err, value) {
-//         if (err && err.type_error == "no-found") {
-//             res.statusCode = 404
-//             res.send(err)
-//         }
-//         else if (err && err.type_error == "no-valid") {
-//             res.statusCode = 405
-//             res.send(err)
-//         }
-//         else if (err && err.type_error == "error-mongo") {
-//             res.statusCode = 500
-//             res.send(err)
-//         }
-//         else {
-//             res.statusCode = 200
-//             res.send(value)
-//         }
-//     })
-// }
+module.exports.deleteManyComments = function (req, res) {
+    req.log.info('Supprimer plusieurs Comments')
+    var arg = req.query.id
+    if (arg && !Array.isArray(arg))
+        arg = [arg]
+    CommentService.deleteManyComments(arg, null, function (err, value) {
+        if (err && err.type_error == "no-found") {
+            res.statusCode = 404
+            res.send(err)
+        }
+        else if (err && err.type_error == "no-valid") {
+            res.statusCode = 405
+            res.send(err)
+        }
+        else if (err && err.type_error == "error-mongo") {
+            res.statusCode = 500
+            res.send(err)
+        }
+        else {
+            res.statusCode = 200
+            res.send(value)
+        }
+    })
+}

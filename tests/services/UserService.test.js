@@ -25,7 +25,7 @@ describe("addOneUser", () => {
       done()
     });
   });
-  it("Utilisateur incorrect. (Sans firstName) - E", ( done) => {
+  it("Utilisateur incorrect. (Sans Title) - E", ( done) => {
     var user_no_valid = {
       lastName: "Dupont",
       email: "edouard.dupont@gmail.com",

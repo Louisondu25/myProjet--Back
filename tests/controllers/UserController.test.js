@@ -23,7 +23,6 @@ describe("POST - /user/", () => {
             password: "higuys"
         }).end((err, res) => {
             res.should.have.status(201)
-            //  expect(res).to.be.a('object')
             users.push(res.body)
             done()
         });

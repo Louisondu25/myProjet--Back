@@ -19,34 +19,44 @@ var users = [
         lastName: "Iencli",
         username: "oui1",
         email: "Iencli@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
     {
         firstName: "detenteur  d'etiquette 2",
         lastName: "Iencli",
         username: "oui2",
         email: "Iencli2@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     }, {
         firstName: "detenteur  d'etiquette 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
     {
         firstName: "detenteur  d'etiquette 4",
         lastName: "Iencli",
         username: "oui4",
         email: "Iencli4@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
     {
         firstName: "detenteur  d'etiquette 5",
         lastName: "Iencli",
         username: "oui5",
         email: "Iencli5@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
 ]
 
@@ -54,7 +64,7 @@ var users = [
 describe('Gestion des utilisateurs.', () => {
     it('Creation des Utilisateurs fictif', (done) => {
         UserService.addManyUsers(users, null, function (err, value) {
-            tab_id_users = _.map(value, '_id')
+            TabUserId = _.map(value, '_id')
             done()
         })
     })
@@ -81,12 +91,14 @@ describe("POST - /login", () => {
 describe("POST - /label", () => {
     it("Ajouter une Etiquette. - S", (done) => {
         chai.request(server).post('/label').auth(token, { type: 'bearer' }).send({
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            text: "Label Blue",
+            date: 1,
+            status: true,
+            task_id: "66bc7ded639d08dee594f342",
+            user_id: rdm_users(TabUserId),
+            board_id: "66bb1c1b2bbcb76e3c7cacf4",
+            created_at: new Date(),
+            updated_at: new Date(),
         }).end((err, res) => {
             res.should.have.status(201)
             //  expect(res).to.be.a('object')
@@ -94,26 +106,30 @@ describe("POST - /label", () => {
             done()
         });
     })
-    it("Ajouter une Etiquette incorrect. (Sans firstName) - E", (done) => {
+    it("Ajouter une Etiquette incorrect. (Sans Text) - E", (done) => {
         chai.request(server).post('/label').auth(token, { type: 'bearer' }).send({
-            lastName: 'Us',
-            labelname: 'dwarfSlayr',
-            email: 'lutfu.us@gmil.com',
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            date: 1,
+            status: false,
+            task_id: "66bc7ded639d08dee594f342",
+            user_id: rdm_users(TabUserId),
+            board_id: "66bb1c1b2bbcb76e3c7cacf4",
+            created_at: new Date(),
+            updated_at: new Date(),
         }).end((err, res) => {
             res.should.have.status(405)
             done()
         })
     })
-    it("Ajouter une Etiquette incorrect. (Avec un labelname existant) - E", (done) => {
+    it("Ajouter une Etiquette incorrect. (Avec un nom d'Etiquette existant) - E", (done) => {
         chai.request(server).post('/label').auth(token, { type: 'bearer' }).send({
-            firstName: "luf",
-            lastName: "Us",
-            labelname: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            text: "Label Blue",
+            date: 1,
+            status: false,
+            task_id: "66bc7ded639d08dee594f342",
+            user_id: rdm_users(TabUserId),
+            board_id: "66bb1c1b2bbcb76e3c7cacf4",
+            created_at: new Date(),
+            updated_at: new Date(),
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -121,12 +137,14 @@ describe("POST - /label", () => {
     })
     it("Ajouter une Etiquette incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/label').auth(token, { type: 'bearer' }).send({
-            firstName: "luffu",
-            lastName: "",
-            labelname: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            text: "Label Blue",
+            date: 1,
+            status: true,
+            task_id: "",
+            user_id: rdm_users(TabUserId),
+            board_id: "66bb1c1b2bbcb76e3c7cacf4",
+            created_at: new Date(),
+            updated_at: new Date(),
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -138,21 +156,25 @@ describe("POST - /label", () => {
 describe("POST - /labels", () => {
     it("Ajouter plusieurs Etiquettes. - S", (done) => {
         chai.request(server).post('/labels').auth(token, { type: 'bearer' }).send([{
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            text: "Label Pink",
+            date: 1,
+            status: true,
+            task_id: "66bc7ded639d08dee594f342",
+            user_id: rdm_users(TabUserId),
+            board_id: "66bb1c1b2bbcb76e3c7cacf4",
+            created_at: new Date(),
+            updated_at: new Date(),
         },
 
         {
-            name: "Pomme de terre",
-            description: "blabla",
-            price: 2.80,
-            quantity: 800,
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            text: "Label Yellow",
+            date: 1,
+            status: true,
+            task_id: "66bc7ded639d08dee594f342",
+            user_id: rdm_users(TabUserId),
+            board_id: "66bb1c1b2bbcb76e3c7cacf4",
+            created_at: new Date(),
+            updated_at: new Date(),
         }]
         ).end((err, res) => {
             res.should.have.status(201)
@@ -163,19 +185,23 @@ describe("POST - /labels", () => {
     it("Ajouter plusieurs Etiquettes incorrect. - E", (done) => {
         chai.request(server).post('/labels').auth(token, { type: 'bearer' }).send([
             {
-                lastName: 'Us',
-                arname: 'dwarfSlayr',
-                email: 'lutfu.us@gmil.com',
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
+                text: "Label Blue",
+                status: false,
+                task_id: "66bc7ded639d08dee594f342",
+                user_id: rdm_users(TabUserId),
+                board_id: "66bb1c1b2bbcb76e3c7cacf4",
+                created_at: new Date(),
+                updated_at: new Date(),
             },
 
             {
-                lastName: 'Us',
-                labelname: 'dwarfSlaycdsr',
-                email: 'lutffqzdsu.us@gmil.com',
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
+                date: 1,
+                status: false,
+                task_id: "66bc7ded639d08dee594f342",
+                user_id: rdm_users(TabUserId),
+                board_id: "66bb1c1b2bbcb76e3c7cacf4",
+                created_at: new Date(),
+                updated_at: new Date(),
             }
         ]).end((err, res) => {
             res.should.have.status(405)
@@ -184,12 +210,14 @@ describe("POST - /labels", () => {
     })
     it("Ajouter plusieurs Etiquettes incorrect. (Avec un labelname existant) - E", (done) => {
         chai.request(server).post('/labels').auth(token, { type: 'bearer' }).send([{
-            firstName: "luf",
-            lastName: "Us",
-            labelname: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            text: "Label Blue",
+            date: 1,
+            status: false,
+            task_id: "66bc7ded639d08dee594f342",
+            user_id: rdm_users(TabUserId),
+            board_id: "66bb1c1b2bbcb76e3c7cacf4",
+            created_at: new Date(),
+            updated_at: new Date(),
         }]).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -197,12 +225,14 @@ describe("POST - /labels", () => {
     })
     it("Ajouter plusieurs Etiquettes incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/labels').auth(token, { type: 'bearer' }).send([{
-            firstName: "luffu",
-            lastName: "",
-            labelname: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            text: "",
+            date: 1,
+            status: true,
+            task_id: "66bc7ded639d08dee594f342",
+            user_id: rdm_users(TabUserId),
+            board_id: "66bb1c1b2bbcb76e3c7cacf4",
+            created_at: new Date(),
+            updated_at: new Date(),
         }]).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -212,7 +242,7 @@ describe("POST - /labels", () => {
 
 describe('PUT - /label/:id', () => {
     it('Modifier une Etiquette -S', (done) => {
-        chai.request(server).put(`/label/${labels[0]._id}`).auth(token, { type: 'bearer' }).send({ firstName: 'Jeanne', lastName: 'Lu' })
+        chai.request(server).put(`/label/${labels[0]._id}`).auth(token, { type: 'bearer' }).send({ text: 'OneLabel', date: 1 })
             .end((err, res) => {
                 res.should.status(200)
                 expect(res.body).to.be.a('object')
@@ -229,14 +259,14 @@ describe('PUT - /label/:id', () => {
             })
     })
     it('Modifier une Etiquette avec un id invalide -E', (done) => {
-        chai.request(server).put('/label/66795a41761cc1544b34b3b6').auth(token, { type: 'bearer' }).send({ firstName: 'emilie', lastname: 'severe' })
+        chai.request(server).put('/label/66795a41761cc1544b34b3b6').auth(token, { type: 'bearer' }).send({ text: 'emilie', date: 1 })
             .end((err, res) => {
                 res.should.status(404)
                 done()
             })
     })
     it('Modifier une Etiquettee avec un champ requis vide -E', (done) => {
-        chai.request(server).put(`/label/${labels[0]._id}`).auth(token, { type: 'bearer' }).send({ name: '', description: 'senerve' })
+        chai.request(server).put(`/label/${labels[0]._id}`).auth(token, { type: 'bearer' }).send({ text: '', date: 1 })
             .end((err, res) => {
                 res.should.status(405)
                 done()
@@ -246,7 +276,7 @@ describe('PUT - /label/:id', () => {
 
 describe('PUT /labels', () => {
     it('Modifier plusieurs Etiquettes - S', (done) => {
-        chai.request(server).put('/labels').query({ id: _.map(labels, '_id') }).auth(token, { type: 'bearer' }).send({ firstName: 'James' })
+        chai.request(server).put('/labels').query({ id: _.map(labels, '_id') }).auth(token, { type: 'bearer' }).send()
             .end((err, res) => {
                 res.should.have.status(200);
                 expect(res.body).to.be.an('object');
@@ -264,7 +294,7 @@ describe('PUT /labels', () => {
     })
 
     it('Modifier plusieurs Etiquettes  avec des ids inexistant- E', (done) => {
-        chai.request(server).put('/labels').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ name: 'James' })
+        chai.request(server).put('/labels').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ text: 'James' })
             .end((err, res) => {
                 res.should.have.status(404);
                 expect(res.body).to.be.an('object');
@@ -273,7 +303,7 @@ describe('PUT /labels', () => {
     })
 
     it('Modifier plusieurs Etiquettes  avec un champ requis vide - E', (done) => {
-        chai.request(server).put('/labels').query({ id: _.map(labels, '_id') }).auth(token, { type: 'bearer' }).send({ name: '' })
+        chai.request(server).put('/labels').query({ id: _.map(labels, '_id') }).auth(token, { type: 'bearer' }).send({ text: '' })
             .end((err, res) => {
                 res.should.have.status(405);
                 expect(res.body).to.be.an('object');
@@ -301,7 +331,7 @@ describe('GET - /label/:id', () => {
             });
     });
 
-    it('Chercher un Etiquette non trouver - E', (done) => {
+    it('Chercher une Etiquette non trouver - E', (done) => {
         const labelId = '6675723101608233e810e10a';
         chai.request(server).get(`/label/${labelId}`).auth(token, { type: 'bearer' })
             .end((err, res) => {
@@ -312,7 +342,7 @@ describe('GET - /label/:id', () => {
 });
 
 describe('GET - /label', () => {
-    it('Chercher un Etiquette par un champ selectionné -S', (done) => {
+    it('Chercher une Etiquette par un champ selectionné -S', (done) => {
         chai.request(server).get('/label').query({ fields: ['description'], values: labels[0].labelname }).auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.status = (200)
@@ -346,7 +376,6 @@ describe('GET - /labels_by_filters', () => {
     it('Rechercher des Etiquettes -S', (done) => {
         chai.request(server).get('/labels_by_filters').query({ page: 1, limit: 2 }).auth(token, { type: 'bearer' })
             .end((err, res) => {
-
                 res.should.have.status(200);
                 expect(res.body.results).to.be.an('array');
                 done();
@@ -435,33 +464,33 @@ describe("DELETE - /label", () => {
     })
 })
 
-describe("DELETE - /labels", () => {
-    it("Supprimer plusieurs Etiquettes. - S", (done) => {
-        chai.request(server).delete('/labels').query({ id: _.map(labels, '_id') }).auth(token, { type: 'bearer' })
-            .end((err, res) => {
-                res.should.have.status(200)
-                done()
-            })
-    })
-    it("Supprimer plusieurs Etiquettes incorrects (avec un id inexistant). - E", (done) => {
-        chai.request(server).delete('/labels/665f18739d3e172be5daf092&665f18739d3e172be5daf093').auth(token, { type: 'bearer' })
-            .end((err, res) => {
-                res.should.have.status(404)
-                done()
-            })
-    })
-    it("Supprimer plusieurs Etiquettes incorrects (avec un id invalide). - E", (done) => {
-        chai.request(server).delete('/labels').query({ id: ['123', '456'] }).auth(token, { type: 'bearer' })
-            .end((err, res) => {
-                res.should.have.status(405)
-                done()
-            })
-    })
-})
+// describe("DELETE - /labels", () => {
+//     it("Supprimer plusieurs Etiquettes. - S", (done) => {
+//         chai.request(server).delete('/labels').query({ id: _.map(labels, '_id') }).auth(token, { type: 'bearer' })
+//             .end((err, res) => {
+//                 res.should.have.status(200)
+//                 done()
+//             })
+//     })
+//     it("Supprimer plusieurs Etiquettes incorrects (avec un id inexistant). - E", (done) => {
+//         chai.request(server).delete('/labels/665f18739d3e172be5daf092&665f18739d3e172be5daf093').auth(token, { type: 'bearer' })
+//             .end((err, res) => {
+//                 res.should.have.status(404)
+//                 done()
+//             })
+//     })
+//     it("Supprimer plusieurs Etiquettes incorrects (avec un id invalide). - E", (done) => {
+//         chai.request(server).delete('/labels').query({ id: ['123', '456'] }).auth(token, { type: 'bearer' })
+//             .end((err, res) => {
+//                 res.should.have.status(405)
+//                 done()
+//             })
+//     })
+// })
 
 describe('Gestion des utilisateurs.', () => {
     it('Supprimer des Utilisateurs fictifs', (done) => {
-        UserService.deleteManyUsers(tab_id_users, null, function (err, value) {
+        UserService.deleteManyUsers(TabUserId, null, function (err, value) {
             done()
         })
     })

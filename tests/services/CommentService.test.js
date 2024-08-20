@@ -191,7 +191,6 @@ describe("findOneCommentById", () => {
         CommentService.findOneCommentById(ValidCommentId, null, function (err, value) {
             expect(value).to.be.a("object");
             expect(value).to.haveOwnProperty("_id");
-            expect(value).to.haveOwnProperty("description");
             done();
         });
     });
@@ -207,14 +206,14 @@ describe("findOneCommentById", () => {
 
 describe('findOneComment', () => {
     it('Chercher un Commentaire avec un champ autorisé - S', (done) => {
-        CommentService.findOneComment(['name'], comments[0].name, null, (err, value) => {
-            expect(value).to.haveOwnProperty('name');
+        CommentService.findOneComment(['text'], comments[0].text, null, (err, value) => {
+            expect(value).to.haveOwnProperty('text');
             done();
         });
     });
 
     it('Chercher un Commentaire avec un champ non autorisé - E', (done) => {
-        CommentService.findOneComment(['commentname', 'firstName'], comments[0].name, null, (err, value) => {
+        CommentService.findOneComment(['commentname', 'firstName'], comments[0].text, null, (err, value) => {
             expect(err).to.haveOwnProperty('type_error');
             done();
         });
@@ -235,159 +234,150 @@ describe('findOneComment', () => {
     });
 });
 
-// describe('findManyComments', () => {
-//     it('Retourne 3 Commentaires sur les 4 - S ', (done) => {
-//         CommentService.findManyComments(null, 1, 3, null, function (err, value,) {
+describe('findManyComments', () => {
+    it('Retourne 3 Commentaires sur les 4 - S ', (done) => {
+        CommentService.findManyComments(null, 1, 3, null, function (err, value,) {
 
-//             expect(value).to.haveOwnProperty('count')
-//             expect(value).to.haveOwnProperty('results')
-//             expect(value['count']).to.be.equal(4)
-//             expect(value['results']).lengthOf(3)
-//             expect(err).to.be.null
-//             done()
-//         })
-//     })
-//     it('Envoi chaine de caractere sur page - E ', (done) => {
-//         CommentService.findManyComments(null, 'hi', 3, null, function (err, value) {
-//             expect(err).to.haveOwnProperty('type_error')
-//             expect(err['type_error']).to.be.equal('no-valid')
-//             expect(value).to.be.undefined
-//             done()
-//         })
-//     })
-// })
+            expect(value).to.haveOwnProperty('count')
+            expect(value).to.haveOwnProperty('results')
+            expect(value['count']).to.be.equal(4)
+            expect(value['results']).lengthOf(3)
+            expect(err).to.be.null
+            done()
+        })
+    })
+    it('Envoi chaine de caractere sur page - E ', (done) => {
+        CommentService.findManyComments(null, 'hi', 3, null, function (err, value) {
+            expect(err).to.haveOwnProperty('type_error')
+            expect(err['type_error']).to.be.equal('no-valid')
+            expect(value).to.be.undefined
+            done()
+        })
+    })
+})
 
-// describe("updateOneComment", () => {
-//     it("Modifier un Commentaire correct. - S", (done) => {
-//         CommentService.updateOneComment(
-//              ValidCommentId,
-//             { name: "Choux", description: "Hello" },
-//             null,
-//             function (err, value) {
-//                 expect(value).to.be.a("object");
-//                 expect(value).to.haveOwnProperty("_id");
-//                 expect(value).to.haveOwnProperty("name");
-//                 expect(value).to.haveOwnProperty("description");
-//                 expect(value["name"]).to.be.equal("Choux");
-//                 expect(value["description"]).to.be.equal("Hello");
-//                 done();
-//             }
-//         );
-//     });
-//     it("Modifier un Commentaire avec id incorrect. - E", (done) => {
-//         CommentService.updateOneComment(
-//             "1200",
-//             { firstName: "Jean", lastName: "Luc" }, null,
-//             function (err, value) {
-//                 expect(err).to.be.a("object");
-//                 expect(err).to.haveOwnProperty("msg");
-//                 expect(err).to.haveOwnProperty("type_error");
-//                 expect(err["type_error"]).to.be.equal("no-valid");
-//                 done();
-//             }
-//         );
-//     });
-//     it("Modifier un Commentaire avec des champs requis vide. - E", (done) => {
-//         CommentService.updateOneComment(
-//             ValidCommentId,
-//             { name: "", description: "Hello" }, null,
-//             function (err, value) {
-//                 expect(value).to.be.undefined;
-//                 expect(err).to.haveOwnProperty("msg");
-//                 expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
-//                 expect(err).to.haveOwnProperty("fields");
-//                 expect(err["fields"]).to.haveOwnProperty("name");
-//                 expect(err["fields"]["name"]).to.equal("Path `name` is required.");
-//                 done();
-//             }
-//         );
-//     });
-// });
+describe("updateOneComment", () => {
+    it("Modifier un Commentaire correct. - S", (done) => {
+        CommentService.updateOneComment(ValidCommentId, { text: "Choux", status: "Infos" },null,function (err, value) {
+                expect(value).to.be.a("object");
+                expect(value).to.haveOwnProperty("_id");
+                expect(value).to.haveOwnProperty("text");
+                expect(value).to.haveOwnProperty("status");
+                expect(value["text"]).to.be.equal("Choux");
+                expect(value["status"]).to.be.equal("Infos");
+                done();
+            }
+        );
+    });
+    it("Modifier un Commentaire avec id incorrect. - E", (done) => {
+        CommentService.updateOneComment(
+            "1200",
+            { firstName: "Jean", lastName: "Luc" }, null,
+            function (err, value) {
+                expect(err).to.be.a("object");
+                expect(err).to.haveOwnProperty("msg");
+                expect(err).to.haveOwnProperty("type_error");
+                expect(err["type_error"]).to.be.equal("no-valid");
+                done();
+            }
+        );
+    });
+    it("Modifier un Commentaire avec des champs requis vide. - E", (done) => {
+        CommentService.updateOneComment(ValidCommentId, { text: "", status: "Error" }, null,function (err, value) {
+                expect(value).to.be.undefined;
+                expect(err).to.haveOwnProperty("msg");
+                expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
+                expect(err).to.haveOwnProperty("fields");
+                expect(err["fields"]).to.haveOwnProperty("text");
+                expect(err["fields"]["text"]).to.equal("Path `text` is required.");
+                done();
+            }
+        );
+    });
+});
 
-// describe("updateManyComments", () => {
-//     it("Modifier plusieurs Commentaires correctement. - S", (done) => {
-//         CommentService.updateManyComments(TabCommentId, { name: "Choux", description: "Hello" }, null, function (err, value) {
-//             expect(value).to.haveOwnProperty("modifiedCount");
-//             expect(value).to.haveOwnProperty("matchedCount");
-//             expect(value["matchedCount"]).to.be.equal(TabCommentId.length);
-//             expect(value["modifiedCount"]).to.be.equal(TabCommentId.length);
-//             done();
-//         }
-//         );
-//     });
-//     it("Modifier plusieurs Commentaires avec id incorrect. - E", (done) => {
-//         CommentService.updateManyComments("1200", { firstName: "Jean", lastName: "Luc" }, null, function (err, value) {
-//             expect(err).to.be.a("object");
-//             expect(err).to.haveOwnProperty("msg");
-//             expect(err).to.haveOwnProperty("type_error");
-//             expect(err["type_error"]).to.be.equal("no-valid");
-//             done();
-//         }
-//         );
-//     });
-//     it("Modifier plusieurs Commentaires avec des champs requis vide. - E", (done) => {
-//         CommentService.updateManyComments(
-//             TabCommentId,
-//             { name: "", description: "Luc" }, null,
-//             function (err, value) {
-//                 expect(value).to.be.undefined;
-//                 expect(err).to.haveOwnProperty("msg");
-//                 expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
-//                 expect(err).to.haveOwnProperty("fields");
+describe("updateManyComments", () => {
+    it("Modifier plusieurs Commentaires correctement. - S", (done) => {
+        CommentService.updateManyComments(TabCommentId, { text: "Choux", status: "Infos" }, null, function (err, value) {
+            expect(value).to.haveOwnProperty("modifiedCount");
+            expect(value).to.haveOwnProperty("matchedCount");
+            expect(value["matchedCount"]).to.be.equal(TabCommentId.length);
+            expect(value["modifiedCount"]).to.be.equal(TabCommentId.length);
+            done();
+        }
+        );
+    });
+    it("Modifier plusieurs Commentaires avec id incorrect. - E", (done) => {
+        CommentService.updateManyComments("1200", { firstName: "Jean", lastName: "Luc" }, null, function (err, value) {
+            expect(err).to.be.a("object");
+            expect(err).to.haveOwnProperty("msg");
+            expect(err).to.haveOwnProperty("type_error");
+            expect(err["type_error"]).to.be.equal("no-valid");
+            done();
+        }
+        );
+    });
+    it("Modifier plusieurs Commentaires avec des champs requis vide. - E", (done) => {
+        CommentService.updateManyComments(TabCommentId,{ text: "", status: "Error" }, null,function (err, value) {
+                expect(value).to.be.undefined;
+                expect(err).to.haveOwnProperty("msg");
+                expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
+                expect(err).to.haveOwnProperty("fields");
 
-//                 done();
-//             }
-//         );
-//     });
-// });
+                done();
+            }
+        );
+    });
+});
 
-// describe("deleteOneComment", () => {
-//     it("Supprimer un Commentaire correctement. - S", () => {
-//         CommentService.deleteOneComment(ValidCommentId, null, function (err, value) {
-//             expect(value).to.be.a('Object')
-//             expect(value).to.haveOwnProperty("firstName");
-//             expect(value).to.haveOwnProperty("lastName");
-//         });
-//     });
-//     it("Supprimer un Commentaires avec id incorrect. - E", (done) => {
-//         CommentService.deleteOneComment("1200", null, function (err, value) {
-//             expect(err).to.be.a("object");
-//             expect(err).to.haveOwnProperty("msg");
-//             expect(err).to.haveOwnProperty("type_error");
-//             expect(err["type_error"]).to.be.equal("no-valid");
-//             done();
-//         });
-//     });
-//     it("Supprimer un Commentaire qui n'existe pas. - E", () => {
-//         CommentService.deleteOneComment(ValidCommentId, null, function (err, value) {
-//             expect(err).to.be.a("object");
-//             expect(err).to.haveOwnProperty("msg");
-//             expect(err).to.haveOwnProperty("type_error");
-//             expect(err["type_error"]).to.be.equal("no-found");
-//         });
-//     });
-// });
+describe("deleteOneComment", () => {
+    it("Supprimer un Commentaire correctement. - S", (done) => {
+        CommentService.deleteOneComment(ValidCommentId, null, function (err, value) {
+            expect(value).to.be.a('Object')
+            expect(value).to.haveOwnProperty("text");
+            expect(value).to.haveOwnProperty("status");
+            done();
+        });
+    });
+    it("Supprimer un Commentaires avec id incorrect. - E", (done) => {
+        CommentService.deleteOneComment("1200", null, function (err, value) {
+            expect(err).to.be.a("object");
+            expect(err).to.haveOwnProperty("msg");
+            expect(err).to.haveOwnProperty("type_error");
+            expect(err["type_error"]).to.be.equal("no-valid");
+            done();
+        });
+    });
+    it("Supprimer un Commentaire qui n'existe pas. - E", () => {
+        CommentService.deleteOneComment(ValidCommentId, null, function (err, value) {
+            expect(err).to.be.a("object");
+            expect(err).to.haveOwnProperty("msg");
+            expect(err).to.haveOwnProperty("type_error");
+            expect(err["type_error"]).to.be.equal("no-found");
+        });
+    });
+});
 
-// describe("deleteManyComments", () => {
-//     it("Supprimer plusieurs Commentaires correctement. - S", (done) => {
-//         CommentService.deleteManyComments(TabCommentId, null, (err, value) => {
-//             expect(value).to.be.a("object");
-//             expect(value).to.haveOwnProperty("deletedCount");
-//             expect(value.deletedCount).to.equal(TabCommentId.length);
-//             done();
-//         });
-//     });
+describe("deleteManyComments", () => {
+    it("Supprimer plusieurs Commentaires correctement. - S", (done) => {
+        CommentService.deleteManyComments(TabCommentId, null, (err, value) => {
+            expect(value).to.be.a("object");
+            expect(value).to.haveOwnProperty("deletedCount");
+            expect(value.deletedCount).to.equal(TabCommentId.length);
+            done();
+        });
+    });
 
-//     it("Supprimer plusieurs Commentaires avec id incorrect. - E", (done) => {
-//         CommentService.deleteManyComments("1200", null, (err, value) => {
-//             expect(err).to.be.a("object");
-//             expect(err).to.haveOwnProperty("msg");
-//             expect(err).to.haveOwnProperty("type_error");
-//             expect(err.type_error).to.equal("no-valid");
-//             done();
-//         });
-//     });
-// });
+    it("Supprimer plusieurs Commentaires avec id incorrect. - E", (done) => {
+        CommentService.deleteManyComments("1200", null, (err, value) => {
+            expect(err).to.be.a("object");
+            expect(err).to.haveOwnProperty("msg");
+            expect(err).to.haveOwnProperty("type_error");
+            expect(err.type_error).to.equal("no-valid");
+            done();
+        });
+    });
+});
 
 it('Supprimer des Utilisateurs fictifs', (done) => {
     UserService.deleteManyUsers(TabUsersId, null, function (err, value) {

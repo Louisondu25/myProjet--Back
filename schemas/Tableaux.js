@@ -1,51 +1,36 @@
 const mongoose = require('mongoose')
 const ObjectId = mongoose.Types.ObjectId
 
-var Task = mongoose.Schema ({
-
-    archive: {
-        type: Boolean,
+var TableSchema = mongoose.Schema({
+    user_id: {
+        type: ObjectId,
+        ref: 'UserSchema',
         required: true,
     },
     title: {
         type: String,
         required: true,
     },
-    description: {
-        type: String,
-        required: true,
-    },
+
     date_start: {
         type: Number,
         required: true,
     },
+
     date_end: {
         type: Number,
         required: true,
     },
-    board_id: {
-        type: ObjectId,
-        ref:'Dashboard',
-        required: true,
-    },
-    status: {
-        type: String,
-        enum: ['Finish', 'en cours'],
-        required: true,
-    },
-    user_id: {
-        type: ObjectId,
-        ref:'UserSchema',
-        required: true,
-    },
+
     created_at: {
         type: Date,
         default: Date.now
     },
+
     updated_at: {
         type: Date,
         default: Date.now
     }
 })
 
-module.exports = Task
+module.exports = TableSchema

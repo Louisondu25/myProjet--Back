@@ -19,34 +19,44 @@ var users = [
         lastName: "Iencli",
         username: "oui1",
         email: "Iencli@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
     {
         firstName: "detenteur  du commentaire 2",
         lastName: "Iencli",
         username: "oui2",
         email: "Iencli2@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     }, {
         firstName: "detenteur  du commentaire 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
     {
         firstName: "detenteur  du commentaire 4",
         lastName: "Iencli",
         username: "oui4",
         email: "Iencli4@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
     {
         firstName: "detenteur  du commentaire 5",
         lastName: "Iencli",
         username: "oui5",
         email: "Iencli5@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        age: 10,
+        phone_Number: "15415215"
     },
 ]
 
@@ -54,7 +64,7 @@ var users = [
 describe('Gestion des utilisateurs.', () => {
     it('Creation des Utilisateurs fictif', (done) => {
         UserService.addManyUsers(users, null, function (err, value) {
-            tab_id_users = _.map(value, '_id')
+            TabUsersId = _.map(value, '_id')
             done()
         })
     })
@@ -81,12 +91,13 @@ describe("POST - /login", () => {
 describe("POST - /comment", () => {
     it("Ajouter un Commentaire. - S", (done) => {
         chai.request(server).post('/comment').auth(token, { type: 'bearer' }).send({
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            text: "Prendre de la creme solaire",
+            date: 1,
+            status: 'Infos',
+            user_id: rdm_users(TabUsersId),
+            task_id: '66bc7e4d639d08dee594f348',
+            created_at: new Date(),
+            updated_at: new Date(),
         }).end((err, res) => {
             res.should.have.status(201)
             //  expect(res).to.be.a('object')
@@ -94,26 +105,14 @@ describe("POST - /comment", () => {
             done()
         });
     })
-    it("Ajouter un Commentaire incorrect. (Sans firstName) - E", (done) => {
+    it("Ajouter un Commentaire incorrect. (Sans Text) - E", (done) => {
         chai.request(server).post('/comment').auth(token, { type: 'bearer' }).send({
-            lastName: 'Us',
-            commentname: 'dwarfSlayr',
-            email: 'lutfu.us@gmil.com',
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
-        }).end((err, res) => {
-            res.should.have.status(405)
-            done()
-        })
-    })
-    it("Ajouter un Commentaire incorrect. (Avec un commentname existant) - E", (done) => {
-        chai.request(server).post('/comment').auth(token, { type: 'bearer' }).send({
-            firstName: "luf",
-            lastName: "Us",
-            commentname: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            date: 1,
+            status: 'Error',
+            user_id: rdm_users(TabUsersId),
+            task_id: '66bc7e4d639d08dee594f348',
+            created_at: new Date(),
+            updated_at: new Date(),
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -121,12 +120,13 @@ describe("POST - /comment", () => {
     })
     it("Ajouter un Commentaire incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/comment').auth(token, { type: 'bearer' }).send({
-            firstName: "luffu",
-            lastName: "",
-            commentname: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            text: "",
+            date: 1,
+            status: 'Error',
+            user_id: rdm_users(TabUsersId),
+            task_id: '66bc7e4d639d08dee594f348',
+            created_at: new Date(),
+            updated_at: new Date(),
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -137,21 +137,23 @@ describe("POST - /comment", () => {
 describe("POST - /comments", () => {
     it("Ajouter plusieurs Commentaires. - S", (done) => {
         chai.request(server).post('/comments').auth(token, { type: 'bearer' }).send([{
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            text: "Prendre de la creme solaire",
+            date: 1,
+            status: 'Infos',
+            user_id: rdm_users(TabUsersId),
+            task_id: '66bc7e4d639d08dee594f348',
+            created_at: new Date(),
+            updated_at: new Date(),
         },
 
         {
-            name: "Pomme de terre",
-            description: "blabla",
-            price: 2.80,
-            quantity: 800,
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            text: "Prendre un ballon",
+            date: 1,
+            status: 'Infos',
+            user_id: rdm_users(TabUsersId),
+            task_id: '66bc7e4d639d08dee594f348',
+            created_at: new Date(),
+            updated_at: new Date(),
         }]
         ).end((err, res) => {
             res.should.have.status(201)
@@ -162,46 +164,35 @@ describe("POST - /comments", () => {
     it("Ajouter plusieurs Commentaires incorrect. - E", (done) => {
         chai.request(server).post('/comments').auth(token, { type: 'bearer' }).send([
             {
-                lastName: 'Us',
-                arname: 'dwarfSlayr',
-                email: 'lutfu.us@gmil.com',
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
+                text: "Prendre de la creme solaire",
+                status: 'Infos',
+                user_id: rdm_users(TabUsersId),
+                task_id: '66bc7e4d639d08dee594f348',
+                created_at: new Date(),
+                updated_at: new Date(),
             },
-
             {
-                lastName: 'Us',
-                commentname: 'dwarfSlaycdsr',
-                email: 'lutffqzdsu.us@gmil.com',
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
+                date: 1,
+                status: 'Infos',
+                user_id: rdm_users(TabUsersId),
+                task_id: '66bc7e4d639d08dee594f348',
+                created_at: new Date(),
+                updated_at: new Date(),
             }
         ]).end((err, res) => {
             res.should.have.status(405)
             done()
         })
     })
-    it("Ajouter plusieurs Commentaires incorrect. (Avec un commentname existant) - E", (done) => {
-        chai.request(server).post('/comments').auth(token, { type: 'bearer' }).send([{
-            firstName: "luf",
-            lastName: "Us",
-            commentname: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
-        }]).end((err, res) => {
-            res.should.have.status(405)
-            done()
-        })
-    })
     it("Ajouter plusieurs Commentaires incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/comments').auth(token, { type: 'bearer' }).send([{
-            firstName: "luffu",
-            lastName: "",
-            commentname: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            text: "Prendre de la creme solaire",
+            date: 1,
+            status: '',
+            user_id: rdm_users(TabUsersId),
+            task_id: '66bc7e4d639d08dee594f348',
+            created_at: new Date(),
+            updated_at: new Date(),
         }]).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -211,7 +202,7 @@ describe("POST - /comments", () => {
 
 describe('PUT - /comment/:id', () => {
     it('Modifier un Commentaire -S', (done) => {
-        chai.request(server).put(`/comment/${comments[0]._id}`).auth(token, { type: 'bearer' }).send({ firstName: 'Jeanne', lastName: 'Lu' })
+        chai.request(server).put(`/comment/${comments[0]._id}`).auth(token, { type: 'bearer' }).send({ text: 'Jeanne', date: 1 })
             .end((err, res) => {
                 res.should.status(200)
                 expect(res.body).to.be.a('object')
@@ -220,7 +211,7 @@ describe('PUT - /comment/:id', () => {
     })
 
     it('Modifier un Commentaire avec un id non valide -E', (done) => {
-        chai.request(server).put('/comment/86156100').auth(token, { type: 'bearer' }).send({ firstName: 'Marie', lastName: 'fils' })
+        chai.request(server).put('/comment/86156100').auth(token, { type: 'bearer' }).send({ text: 'Marie', date: 1 })
             .end((err, res) => {
                 res.should.status(405)
                 expect(res.body).to.be.a('object')
@@ -235,7 +226,7 @@ describe('PUT - /comment/:id', () => {
             })
     })
     it('Modifier un Commentaire avec un champ requis vide -E', (done) => {
-        chai.request(server).put(`/comment/${comments[0]._id}`).auth(token, { type: 'bearer' }).send({ name: '', description: 'senerve' })
+        chai.request(server).put(`/comment/${comments[0]._id}`).auth(token, { type: 'bearer' }).send({ text: '', date: 1 })
             .end((err, res) => {
                 res.should.status(405)
                 done()
@@ -245,7 +236,7 @@ describe('PUT - /comment/:id', () => {
 
 describe('PUT /comments', () => {
     it('Modifier plusieurs Commentaires - S', (done) => {
-        chai.request(server).put('/comments').query({ id: _.map(comments, '_id') }).auth(token, { type: 'bearer' }).send({ firstName: 'James' })
+        chai.request(server).put('/comments').query({ id: _.map(comments, '_id') }).auth(token, { type: 'bearer' }).send({ text: 'James' })
             .end((err, res) => {
                 res.should.have.status(200);
                 expect(res.body).to.be.an('object');
@@ -254,7 +245,7 @@ describe('PUT /comments', () => {
     })
 
     it('Modifier plusieurs Commentaires avec un Id non valide - E', (done) => {
-        chai.request(server).put('/comments').query({ id: ['84655616846865', '84517613'] }).auth(token, { type: 'bearer' }).send({ firstName: 'James' })
+        chai.request(server).put('/comments').query({ id: ['84655616846865', '84517613'] }).auth(token, { type: 'bearer' }).send()
             .end((err, res) => {
                 res.should.have.status(405);
                 expect(res.body).to.be.an('object');
@@ -263,7 +254,7 @@ describe('PUT /comments', () => {
     })
 
     it('Modifier plusieurs Comentaires  avec des ids inexistant- E', (done) => {
-        chai.request(server).put('/comments').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ name: 'James' })
+        chai.request(server).put('/comments').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ text: 'James' })
             .end((err, res) => {
                 res.should.have.status(404);
                 expect(res.body).to.be.an('object');
@@ -272,7 +263,7 @@ describe('PUT /comments', () => {
     })
 
     it('Modifier plusieurs Commentaires  avec un champ requis vide - E', (done) => {
-        chai.request(server).put('/comments').query({ id: _.map(comments, '_id') }).auth(token, { type: 'bearer' }).send({ name: '' })
+        chai.request(server).put('/comments').query({ id: _.map(comments, '_id') }).auth(token, { type: 'bearer' }).send({ text: '' })
             .end((err, res) => {
                 res.should.have.status(405);
                 expect(res.body).to.be.an('object');
@@ -381,7 +372,7 @@ describe('GET - /comments', () => {
     });
 
     it('Rechercher plusieurs Commentaires avec un seul ID', (done) => {
-        chai.request(server).get('/Commentaires').query({ id: ['1458781', '656216532'] }).auth(token, { type: 'bearer' })
+        chai.request(server).get('/comments').query({ id: ['1458781', '656216532'] }).auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.have.status(405);
                 done();
@@ -460,7 +451,7 @@ describe("DELETE - /comments", () => {
 
 describe('Gestion des utilisateurs.', () => {
     it('Supprimer des Utilisateurs fictifs', (done) => {
-        UserService.deleteManyUsers(tab_id_users, null, function (err, value) {
+        UserService.deleteManyUsers(TabUsersId, null, function (err, value) {
             done()
         })
     })

@@ -18,13 +18,13 @@ var Comment = mongoose.Schema ({
     },
     user_id: {
         type: ObjectId,
-        ref: 'User',
+        ref: 'UserSchema',
         required: true,
     },
     task_id: {
         type: ObjectId,
         ref: 'Task',
-        required: false,
+        required: true,
     },
     created_at: {
         type: Date,

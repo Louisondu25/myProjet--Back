@@ -5,11 +5,8 @@ var DashBoard = mongoose.Schema({
 
     user_id: {
         type: ObjectId,
+        ref:'UserSchema',
         required: true,
-    },
-    tableau_id: {
-        type: ObjectId,
-        required: false,
     },
     title: {
         type: String,
@@ -23,10 +20,6 @@ var DashBoard = mongoose.Schema({
         type: Number,
         required: true,
     },
-    setting_list: {
-        type: ObjectId,
-        required: false,
-    },
     created_at: {
         type: Date,
         default: Date.now
@@ -34,6 +27,15 @@ var DashBoard = mongoose.Schema({
     updated_at: {
         type: Date,
         default: Date.now
+    },
+    status: {
+        type: String,
+        enum: ['Private', 'Public'],
+        required: true,
+    },
+    membres: {
+        type: Number,
+        required: true,
     },
 })
 

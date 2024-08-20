@@ -83,8 +83,8 @@ module.exports.findOneLabelById = function (req, res) {
     })
 }
 
-module.exports.findManyLabels = function (req, res) {
-    req.log.info('Rechercher plusieurs Etiquettes')
+module.exports.findManyLabelByIds = function (req, res) {
+    req.log.info('Rechercher plusieurs Taches')
     var arg = req.query.id
     if (arg && !Array.isArray(arg))
         arg = [arg]
@@ -93,7 +93,7 @@ module.exports.findManyLabels = function (req, res) {
         arg = [arg]
     var opts = { populate: req.query.populate }
 
-    LabelService.findManyLabels(arg, opts, function (err, value) {
+    LabelService.findManyLabelByIds(arg, opts, function (err, value) {
         if (err && err.type_error == "no-found") {
             res.statusCode = 404
             res.send(err)

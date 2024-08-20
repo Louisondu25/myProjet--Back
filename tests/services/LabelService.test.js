@@ -1,3 +1,4 @@
+const { text } = require("express");
 const LabelService = require("../../services/LabelService");
 const UserService = require('../../services/UserService')
 const chai = require("chai");
@@ -89,28 +90,28 @@ describe("addOneLabel", () => {
             done()
             //
         });
-    });-
-    it("Etiquette incorrect. (Sans Text) - E", (done) => {
-        var InvalidLabel = {
-            date: 1,
-            status: true,
-            task_id: "66bc7ded639d08dee594f342",
-            user_id: rdm_users(TabUserId),
-            board_id: "66bb1c1b2bbcb76e3c7cacf4",
-            created_at: new Date(),
-            updated_at: new Date(),
-        };
-        LabelService.addOneLabel(InvalidLabel, null, function (err, value) {
-            expect(err).to.haveOwnProperty("msg");
-            expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
-            expect(err).to.haveOwnProperty("fields");
-            expect(err["fields"]).to.haveOwnProperty("text");
-            expect(err["fields"]["text"]).to.equal(
-                "Path `text` is required."
-            );
-            done()
+    }); -
+        it("Etiquette incorrect. (Sans Text) - E", (done) => {
+            var InvalidLabel = {
+                date: 1,
+                status: true,
+                task_id: "66bc7ded639d08dee594f342",
+                user_id: rdm_users(TabUserId),
+                board_id: "66bb1c1b2bbcb76e3c7cacf4",
+                created_at: new Date(),
+                updated_at: new Date(),
+            };
+            LabelService.addOneLabel(InvalidLabel, null, function (err, value) {
+                expect(err).to.haveOwnProperty("msg");
+                expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
+                expect(err).to.haveOwnProperty("fields");
+                expect(err["fields"]).to.haveOwnProperty("text");
+                expect(err["fields"]["text"]).to.equal(
+                    "Path `text` is required."
+                );
+                done()
+            });
         });
-    });
 });
 
 describe("addManyLabels", () => {
@@ -158,7 +159,7 @@ describe("addManyLabels", () => {
     it("Etiquettes à ajouter, valide. - S", (done) => {
         var TabLabel = [
             {
-                text: "Label Blue",
+                text: "Label Green",
                 date: 1,
                 status: true,
                 task_id: "66bc7ded639d08dee594f342",
@@ -168,8 +169,8 @@ describe("addManyLabels", () => {
                 updated_at: new Date(),
             },
             {
-                text: "Label Blue",
-                date: 1,
+                text: "Label Red",
+                date: 2,
                 status: true,
                 task_id: "66bc7ded639d08dee594f342",
                 user_id: rdm_users(TabUserId),
@@ -178,8 +179,8 @@ describe("addManyLabels", () => {
                 updated_at: new Date(),
             },
             {
-                text: "Label Blue",
-                date: 1,
+                text: "Label Purple",
+                date: 3,
                 status: true,
                 task_id: "66bc7ded639d08dee594f342",
                 user_id: rdm_users(TabUserId),
@@ -285,7 +286,7 @@ describe("updateOneLabel", () => {
         );
     });
     it("Modifier une Etiquette avec id incorrect. - E", (done) => {
-        LabelService.updateOneLabel("1200",{ firstName: "Jean", lastname: "Luc" }, null,
+        LabelService.updateOneLabel("1200", { firstName: "Jean", lastname: "Luc" }, null,
             function (err, value) {
                 expect(err).to.be.a("object");
                 expect(err).to.haveOwnProperty("msg");
@@ -296,22 +297,22 @@ describe("updateOneLabel", () => {
         );
     });
     it("Modifier une Etriquette avec des champs requis vide. - E", (done) => {
-        LabelService.updateOneLabel(ValidLabelId,{ text: "", status: false }, null,function (err, value) {
-                expect(value).to.be.undefined;
-                expect(err).to.haveOwnProperty("msg");
-                expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
-                expect(err).to.haveOwnProperty("fields");
-                expect(err["fields"]).to.haveOwnProperty("text");
-                expect(err["fields"]["text"]).to.equal("Path `text` is required.");
-                done();
-            }
+        LabelService.updateOneLabel(ValidLabelId, { text: "", status: false }, null, function (err, value) {
+            expect(value).to.be.undefined;
+            expect(err).to.haveOwnProperty("msg");
+            expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
+            expect(err).to.haveOwnProperty("fields");
+            expect(err["fields"]).to.haveOwnProperty("text");
+            expect(err["fields"]["text"]).to.equal("Path `text` is required.");
+            done();
+        }
         );
     });
 });
 
 describe("updateManyLabels", () => {
     it("Modifier plusieurs Etiquettes correctement. - S", (done) => {
-        LabelService.updateManyLabels(TabLabelId, { text: "Choux", status: true }, null, function (err, value) {
+        LabelService.updateManyLabels(TabLabelId, { status: false }, null, function (err, value) {
             expect(value).to.haveOwnProperty("modifiedCount");
             expect(value).to.haveOwnProperty("matchedCount");
             expect(value["matchedCount"]).to.be.equal(TabLabelId.length);
@@ -333,7 +334,7 @@ describe("updateManyLabels", () => {
     it("Modifier plusieurs Etiquettes avec des champs requis vide. - E", (done) => {
         LabelService.updateManyLabels(
             TabLabelId,
-            { text: "", stat: false }, null,
+            { text: "", status: false }, null,
             function (err, value) {
                 expect(value).to.be.undefined;
                 expect(err).to.haveOwnProperty("msg");

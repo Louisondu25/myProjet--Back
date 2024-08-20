@@ -25,18 +25,18 @@ module.exports.loginUser = async function (username, password, options, callback
 module.exports.addOneComment = async function (comment, options, callback) {
     try {
         var new_comment = new Comment(comment);
-        var errors = new_comment.validateSync();
-        if (errors) {
-            errors = errors['errors'];
-            var text = Object.keys(errors).map((e) => {
-                return errors[e]['properties'] ? errors[e]['properties']['message']:errors[e]['reason'] ;
+        var error = new_comment.validateSync();
+        if (error) {
+            error = error['errors'];
+            var text = Object.keys(error).map((e) => {
+                return error[e]['properties'] ? error[e]['properties']['message'] : String(error[e]['reason']);
             }).join(' ');
-            var fields = _.transform(Object.keys(errors), function (result, value) {
-                result[value] = errors[value]['properties'] ? errors[value]['properties']['message']:String(errors[value]['reason']) ;
+            var fields = _.transform(Object.keys(error), function (result, value) {
+                result[value] = error[value]['properties'] ? error[value]['properties']['message'] : String(error[value]['reason']);
             }, {});
             var err = {
                 msg: text,
-                fields_with_error: Object.keys(errors),
+                fields_with_error: Object.keys(error),
                 fields: fields,
                 type_error: "validator"
             };
@@ -143,7 +143,7 @@ module.exports.findOneCommentById = function (comment_id, options, callback) {
 };
 
 module.exports.findOneComment = function (tab_field, value, options, callback) {
-    var field_unique = ['name', 'price']
+    var field_unique = ['text']
     var opts = { populate: options && options.populate ? [user_Id] : [] }
 
     if (tab_field && Array.isArray(tab_field) && value && _.filter(tab_field, (e) => {
@@ -213,21 +213,21 @@ module.exports.findManyCommentByIds = function (comment_id, options, callback) {
                 });
             });
     } else if (
-        comments_id &&
-        Array.isArray(comments_id) &&
-        comments_id.length > 0 &&
-        comments_id.filter((e) => {
+        comment_id &&
+        Array.isArray(comment_id) &&
+        comment_id.length > 0 &&
+        comment_id.filter((e) => {
             return mongoose.isValidObjectId(e);
-        }).length != comments_id.length
+        }).length != comment_id.length
     ) {
         callback({
             msg: "Tableau non conforme plusieurs éléments ne sont pas des ObjectId.",
             type_error: "no-valid",
-            fields: comments_id.filter((e) => {
+            fields: comment_id.filter((e) => {
                 return !mongoose.isValidObjectId(e);
             }),
         });
-    } else if (comments_id && !Array.isArray(comments_id)) {
+    } else if (comment_id && !Array.isArray(comment_id)) {
         callback({
             msg: "L'argement n'est pas un tableau.",
             type_error: "no-valid",
@@ -283,7 +283,6 @@ module.exports.updateOneComment = function (comment_id, update, options, callbac
                         callback({ msg: "Commentaire non trouvé.", type_error: "no-found" });
                     }
                 } catch (e) {
-
                     callback(e);
                 }
             })
