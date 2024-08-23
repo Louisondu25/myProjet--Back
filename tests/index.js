@@ -103,6 +103,20 @@ describe("CommentController", () => {
 //   require("./controllers/ListeController.test");
 // });
 
+// <------------ BackgroundPictureService/Controller ---------------------->
+
+// /* Définition d'un bloc de tests pour le service "BackgroundPictureService" */
+// describe("BackgroundPictureService", () => {
+//   /* Importation des tests pour le service "BackgroundPictureService" */
+//   require("./services/BackgroundPictureService.test");
+// });
+
+// /* Définition d'un bloc de tests pour le Controller "BackgroundPictureController" */
+// describe("BackgroundPictureController", () => {
+//   /* Importation des tests pour le service "BackgroundPictureController" */
+//   require("./controllers/BackgroundPictureController.test");
+// });
+
 describe('API -Mongo', () => {
   it('Vider Les base datas -S', () => {
     if (process.env.npm_lifecycle_event == 'test') {
