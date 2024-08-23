@@ -117,6 +117,62 @@ describe("CommentController", () => {
 //   require("./controllers/BackgroundPictureController.test");
 // });
 
+// <------------ BackgroundColorService/Controller ---------------------->
+
+// /* Définition d'un bloc de tests pour le service "BackgroundColorService" */
+// describe("BackgroundColorService", () => {
+//   /* Importation des tests pour le service "BackgroundColorService" */
+//   require("./services/BackgroundColorService.test");
+// });
+
+// /* Définition d'un bloc de tests pour le Controller "BackgroundColorController" */
+// describe("BackgroundColorController", () => {
+//   /* Importation des tests pour le service "BackgroundColorController" */
+//   require("./controllers/BackgroundColorController.test");
+// });
+
+// <------------ AstuceService/Controller ---------------------->
+
+// /* Définition d'un bloc de tests pour le service "AstuceService" */
+// describe("AstuceService", () => {
+//   /* Importation des tests pour le service "AstuceService" */
+//   require("./services/AstuceService.test");
+// });
+
+// /* Définition d'un bloc de tests pour le Controller "AstuceController" */
+// describe("AstuceController", () => {
+//   /* Importation des tests pour le service "AstuceController" */
+//   require("./controllers/AstuceController.test");
+// });
+
+// <------------ ThemeService/Controller ---------------------->
+
+// /* Définition d'un bloc de tests pour le service "ThemeService" */
+// describe("ThemeService", () => {
+//   /* Importation des tests pour le service "ThemeService" */
+//   require("./services/ThemeService.test");
+// });
+
+// /* Définition d'un bloc de tests pour le Controller "ThemeController" */
+// describe("ThemeController", () => {
+//   /* Importation des tests pour le service "ThemeController" */
+//   require("./controllers/ThemeController.test");
+// });
+
+// <------------ TableauxService/Controller ---------------------->
+
+// /* Définition d'un bloc de tests pour le service "TableauxService" */
+// describe("TableauxService", () => {
+//   /* Importation des tests pour le service "TableauxService" */
+//   require("./services/TableauxService.test");
+// });
+
+// /* Définition d'un bloc de tests pour le Controller "TableauxController" */
+// describe("TableauxController", () => {
+//   /* Importation des tests pour le service "TableauxController" */
+//   require("./controllers/TableauxController.test");
+// });
+
 describe('API -Mongo', () => {
   it('Vider Les base datas -S', () => {
     if (process.env.npm_lifecycle_event == 'test') {

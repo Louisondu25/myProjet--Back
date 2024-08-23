@@ -1,10 +1,10 @@
-const ListeSchema = require("../schemas/Liste");
+const ListSchema = require("../schemas/Liste");
 const _ = require("lodash");
 const async = require("async");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
-var Liste = mongoose.model("Liste", ListeSchema);
+var Liste = mongoose.model("Liste", ListSchema);
 
 module.exports.loginUser = async function (username, password, options, callback) {
     module.exports.findOneUser(['name', 'description'], username, null, async (err, value) => {

@@ -210,34 +210,34 @@ app.delete(`/comments`, database_middleware.checkMongooseConnection, passport.au
 
 // <----------------------------------------------------------- Cartes ------------------------------------------------------------------------->
 
-// Définit une route pour ajouter un Commentaire
+// Définit une route pour ajouter une Carte
 // app.post("/carte", database_middleware.checkMongooseConnection, CarteController.addOneCarte);
 
-// Définit une route pour ajouter plusieurs Commentaires
+// Définit une route pour ajouter plusieurs Cartes
 // app.post(`/cartes`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.addManyCartes);
 
-// Définit une route pour récupérer un Commentaire par Id
+// Définit une route pour récupérer une Carte par Id
 // app.get(`/carte/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.findOneCarteById);
 
-// Définit une route pour récupérer un Commentaire
+// Définit une route pour récupérer une Carte
 // app.get(`/carte`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.findOneCarte);
 
-// Définit une route pour récupérer plusieur Commentaires
+// Définit une route pour récupérer plusieurs Cartes
 // app.get(`/carte_by_filters`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.findManyCartes);
 
-// Définit une route pour récupérer plusieurs Commentaires par Ids
+// Définit une route pour récupérer plusieurs Cartes par Ids
 // app.get(`/cartes`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.findManyCarteByIds);
 
-// Définit une route pour mettre à jour un Commentaires
+// Définit une route pour mettre à jour une Carte
 // app.put(`/carte/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.updateOneCarte);
 
-// Définit une route pour mettre à jour plusieurs Commentaires
+// Définit une route pour mettre à jour plusieurs Cartes
 // app.put(`/cartes`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.updateManyCartes);
 
-// Définit une route pour supprimer un Commentaire
+// Définit une route pour supprimer une Carte
 // app.delete(`/carte/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.deleteOneCarte);
 
-// Définit une route pour supprimer plusieurs Commentaires
+// Définit une route pour supprimer plusieurs Cartes
 // app.delete(`/cartes`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), CarteController.deleteManyCartes);
 
 // <----------------------------------------------------------- Listes ------------------------------------------------------------------------->
@@ -281,10 +281,10 @@ app.delete(`/comments`, database_middleware.checkMongooseConnection, passport.au
 // app.post(`/backgroundpictures`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundPictureController.addManyBackgroundPictures);
 
 // Définit une route pour récupérer une Photo par Id
-// app.get(`/backgroundpicture/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ListeController.findOneBackgroundPictureById);
+// app.get(`/backgroundpicture/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundPictureController.findOneBackgroundPictureById);
 
 // Définit une route pour récupérer une Photo
-// app.get(`/backgroundpicture`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ListeController.findOneListe);
+// app.get(`/backgroundpicture`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundPictureController.findOneBackgroundPicture);
 
 // Définit une route pour récupérer plusieur Photos
 // app.get(`/backgroundpicture_by_filters`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundPictureController.findManyBackgroundPictures);
@@ -296,13 +296,141 @@ app.delete(`/comments`, database_middleware.checkMongooseConnection, passport.au
 // app.put(`/backgroundpicture/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundPictureController.updateOneBackgroundPicture);
 
 // Définit une route pour mettre à jour plusieurs Photos
-// app.put(`/BackgroundPictures`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundPictureController.updateManyBackgroundPictures);
+// app.put(`/backgroundpictures`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundPictureController.updateManyBackgroundPictures);
 
 // Définit une route pour supprimer une Photo
 // app.delete(`/backgroundpicture/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundPictureController.deleteOneBackgroundPicture);
 
 // Définit une route pour supprimer plusieurs Photos
 // app.delete(`/backgroundpictures`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundPictureController.deleteManyBackgroundPictures);
+
+// <----------------------------------------------------------- BackgroundColor ------------------------------------------------------------------------->
+
+// Définit une route pour ajouter une Couleur
+// app.post("/backgroundcolor", database_middleware.checkMongooseConnection, BackgroundColorController.addOneBackgroundColor);
+
+// Définit une route pour ajouter plusieurs Couleurs
+// app.post(`/backgroundcolors`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundColorController.addManyBackgroundColors);
+
+// Définit une route pour récupérer une Couleur par Id
+// app.get(`/backgroundcolor/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundColorController.findOneBackgroundColorById);
+
+// Définit une route pour récupérer une Couleur
+// app.get(`/backgroundcolor`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundColorController.findOneBackgroundColor);
+
+// Définit une route pour récupérer plusieur Couleurs
+// app.get(`/backgroundcolor_by_filters`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundColorController.findManyBackgroundColors);
+
+// Définit une route pour récupérer plusieurs Couleurs par Ids
+// app.get(`/backgroundcolors`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundColorController.findManyBackgroundColorByIds);
+
+// Définit une route pour mettre à jour une Couleur
+// app.put(`/backgroundcolor/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundColorController.updateOneBackgroundColor);
+
+// Définit une route pour mettre à jour plusieurs Couleurs
+// app.put(`/backgroundcolors`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundColorController.updateManyBackgroundColors);
+
+// Définit une route pour supprimer une Couleur
+// app.delete(`/backgroundcolor/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundColorController.deleteOneBackgroundColor);
+
+// Définit une route pour supprimer plusieurs Couleurs
+// app.delete(`/backgroundcolors`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), BackgroundColorController.deleteManyBackgroundColors);
+
+// <----------------------------------------------------------- Tableaux ------------------------------------------------------------------------->
+
+// Définit une route pour ajouter un Tableau
+// app.post("/tableau", database_middleware.checkMongooseConnection, TableauxController.addOneTableaux);
+
+// Définit une route pour ajouter plusieurs Tableaux
+// app.post(`/tableaux`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TableauxController.addManyTableaux);
+
+// Définit une route pour récupérer un Tableau par Id
+// app.get(`/tableau/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TableauxController.findOneTableauById);
+
+// Définit une route pour récupérer un Tableau
+// app.get(`/tableau`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TableauxController.findOneTableau);
+
+// Définit une route pour récupérer plusieur Tableaux
+// app.get(`/tableaux_by_filters`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TableauxController.findManyTableaux);
+
+// Définit une route pour récupérer plusieurs Tableaux par Ids
+// app.get(`/tableaux`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TableauxController.findManyTableauByIds);
+
+// Définit une route pour mettre à jour un Tableau
+// app.put(`/tableau/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TableauxController.updateOneTableau);
+
+// Définit une route pour mettre à jour plusieurs Tableaux
+// app.put(`/tableaux`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TableauxController.updateManyTableaux);
+
+// Définit une route pour supprimer un Tableau
+// app.delete(`/tableau/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TableauxController.deleteOneTableau);
+
+// Définit une route pour supprimer plusieurs Tableaux
+// app.delete(`/tableaux`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), TableauxController.deleteManyTableaux);
+
+// <----------------------------------------------------------- Themes ------------------------------------------------------------------------->
+
+// Définit une route pour ajouter un Theme
+// app.post("/theme", database_middleware.checkMongooseConnection, ThemeController.addOneThemes);
+
+// Définit une route pour ajouter plusieurs Themes
+// app.post(`/themes`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ThemeController.addManyThemes);
+
+// Définit une route pour récupérer un Theme par Id
+// app.get(`/theme/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ThemeController.findOneThemeById);
+
+// Définit une route pour récupérer un Tableau
+// app.get(`/theme`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ThemeController.findOneTableau);
+
+// Définit une route pour récupérer plusieur Themes
+// app.get(`/themes_by_filters`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ThemeController.findManyThemes);
+
+// Définit une route pour récupérer plusieurs Themes par Ids
+// app.get(`/themes`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ThemeController.findManyThemeByIds);
+
+// Définit une route pour mettre à jour un Tableau
+// app.put(`/theme/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ThemeController.updateOneTheme);
+
+// Définit une route pour mettre à jour plusieurs Themes
+// app.put(`/themes`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ThemeController.updateManyThemes);
+
+// Définit une route pour supprimer un Theme
+// app.delete(`/theme/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ThemeController.deleteOneTheme);
+
+// Définit une route pour supprimer plusieurs Themes
+// app.delete(`/themes`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), ThemeController.deleteManyThemes);
+
+// <----------------------------------------------------------- Astuces ------------------------------------------------------------------------->
+
+// Définit une route pour ajouter une Astuce
+// app.post("/astuce", database_middleware.checkMongooseConnection, AstuceController.addOneAstuces);
+
+// Définit une route pour ajouter plusieurs Astuces
+// app.post(`/astuces`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), AstuceController.addManyAstuces);
+
+// Définit une route pour récupérer une Astuce par Id
+// app.get(`/astuce/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), AstuceController.findOneAstuceById);
+
+// Définit une route pour récupérer une Astuce
+// app.get(`/astuce`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), AstucesController.findOneAstuce);
+
+// Définit une route pour récupérer plusieur Astuces
+// app.get(`/astuces_by_filters`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), AstuceController.findManyAstuces);
+
+// Définit une route pour récupérer plusieurs Astuces par Ids
+// app.get(`/astuces`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), AstuceController.findManyAstuceByIds);
+
+// Définit une route pour mettre à jour une Astuce
+// app.put(`/astuce/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), AstuceController.updateOneAstuces);
+
+// Définit une route pour mettre à jour plusieurs Astuces
+// app.put(`/astuces`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), AstuceController.updateManyAstuces);
+
+// Définit une route pour supprimer une Astuce
+// app.delete(`/astuce/:id`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), AstuceController.deleteOneAstuce);
+
+// Définit une route pour supprimer plusieurs Astuces
+// app.delete(`/astuces`, database_middleware.checkMongooseConnection, passport.authenticate('jwt', { session: false }), AstuceController.deleteManyAstuces);
 // Démarre le serveur et affiche un message de log
 app.listen(config.port, () => {
     Logger.info(`Le Serveur est démarré ${config.port}`)

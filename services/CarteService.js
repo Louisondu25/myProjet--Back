@@ -1,10 +1,10 @@
-const CarteSchema = require("../schemas/Carte");
+const CardSchema = require("../schemas/Carte");
 const _ = require("lodash");
 const async = require("async");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
-var Carte = mongoose.model("Carte", CarteSchema);
+var Carte = mongoose.model("Carte", CardSchema);
 
 module.exports.loginUser = async function (username, password, options, callback) {
     module.exports.findOneUser(['name', 'description'], username, null, async (err, value) => {
