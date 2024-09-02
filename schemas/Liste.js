@@ -28,25 +28,29 @@ var ListSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    archive: {
+        type: Boolean,
+        required: true,
+    },
 
     // <-------------------- List setting -------------------->
 
-    copie_liste_setting: {
-        type: String,
-        required: true,
-    },
-    deplacer_liste_setting: {
-        type: String,
-        required: true,
-    },
-    deplacer_toute_les_listes_setting: {
-        type: String,
-        required: true,
-    },
-    supprimer_liste_setting: {
-        type: String,
-        required: true,
-    },
+    // copie_liste_setting: {
+    //     type: String,
+    //     required: true,
+    // },
+    // deplacer_liste_setting: {
+    //     type: String,
+    //     required: true,
+    // },
+    // deplacer_toute_les_listes_setting: {
+    //     type: String,
+    //     required: true,
+    // },
+    // supprimer_liste_setting: {
+    //     type: String,
+    //     required: true,
+    // },
 })
 
 module.exports = ListSchema

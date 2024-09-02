@@ -26,7 +26,6 @@ module.exports.addOneBackgroundColor = async function (backgroundcolor, options,
     try {
         var new_backgroundcolor = new BackgroundColor(backgroundcolor);
         var errors = new_backgroundcolor.validateSync();
-        // console.log(errors)
         if (errors) {
             errors = errors['errors'];
             var text = Object.keys(errors).map((e) => {
@@ -145,7 +144,7 @@ module.exports.findOneBackgroundColorById = function (backgroundcolor_id, option
 };
 
 module.exports.findOneBackgroundColor = function (tab_field, value, options, callback) {
-    var field_unique = ['name', 'price']
+    var field_unique = ['title']
     var opts = { populate: options && options.populate ? [user_Id] : [] }
 
     if (tab_field && Array.isArray(tab_field) && value && _.filter(tab_field, (e) => {
@@ -390,7 +389,6 @@ module.exports.deleteOneBackgroundColor = function (backgroundcolor_id, options,
         BackgroundColor.findByIdAndDelete(backgroundcolor_id)
             .then((value) => {
                 try {
-                    console.log(value)
                     if (value) callback(null, value.toObject());
                     else
                         callback({

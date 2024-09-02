@@ -16,8 +16,7 @@ var users = [
         username: "oui1",
         email: "Iencli@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  de la Tache 2",
@@ -25,8 +24,7 @@ var users = [
         username: "oui2",
         email: "Iencli2@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
 
     }, {
         firstName: "detenteur  de la Tache 3",
@@ -34,8 +32,7 @@ var users = [
         username: "oui3",
         email: "Iencli3@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  de la Tache 4",
@@ -43,8 +40,7 @@ var users = [
         username: "oui4",
         email: "Iencli4@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  de la Tache 5",
@@ -52,8 +48,7 @@ var users = [
         username: "oui5",
         email: "Iencli5@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
 ]
 
@@ -74,9 +69,10 @@ describe("addOneTask", () => {
         var task = {
             archive: true,
             title: "blabla",
-            description: "description de Blabla",
-            date_start: 1,
-            date_end: 1,
+            content: "content de Blabla",
+            category: 'Discussion',
+            started_at: 1,
+            finished_at: 1,
             board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
             status: "Finish",
             user_id: rdm_users(TabUserId),
@@ -95,9 +91,10 @@ describe("addOneTask", () => {
     it("Tache incorrect. (Sans Name) - E", (done) => {
         var InvalidTask = {
             archive: false,
-            description: "description du title",
-            date_start: 1,
-            date_end: 2,
+            content: "content du title",
+            category: 'Discussion',
+            started_at: 1,
+            finished_at: 2,
             board_id: "66bb1c1b2bbcb76e3c7cacf4",
             status: "en cours",
             user_id: rdm_users(TabUserId),
@@ -118,9 +115,10 @@ describe("addOneTask", () => {
     it("Tache incorrect. (Id board non conforme) - E", (done) => {
         var InvalidTask = {
             archive: false,
-            description: "description du title",
-            date_start: 1,
-            date_end: 2,
+            content: "content du title",
+            category: 'Discussion',
+            started_at: 1,
+            finished_at: 2,
             title: "blabla",
             board_id: "",
             status: "en cours",
@@ -142,9 +140,10 @@ describe("addManyTasks", () => {
         var ErrorTabTask = [
             {
                 archive: false,
-                description: "description du title",
-                date_start: 1,
-                date_end: 2,
+                content: "content du title",
+                category: 'Discussion',
+                started_at: 1,
+                finished_at: 2,
                 board_id: "66bb1c1b2bbcb76e3c7cacf4",
                 status: "en cours",
                 user_id: rdm_users(TabUserId),
@@ -153,9 +152,10 @@ describe("addManyTasks", () => {
             },
             {
                 archive: false,
-                date_start: 1,
-                date_end: 1,
-                board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
+                started_at: 1,
+                finished_at: 1,
+                board_id: "66bb1c1b2bbcb76e3c7cacf4",
+                category: 'Discussion', // en attendant d'avoir les bon ids
                 status: "en cours",
                 user_id: rdm_users(TabUserId),
                 created_at: new Date(),
@@ -163,15 +163,16 @@ describe("addManyTasks", () => {
             },
             {
                 archive: false,
-                date_start: 1,
-                date_end: 1,
+                category: 'Discussion',
+                started_at: 1,
+                finished_at: 1,
                 board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
                 status: "en cours",
                 user_id: rdm_users(TabUserId),
             },
             {
                 archive: false,
-                description: "description du title",
+                content: "content du title",
                 status: "en cours",
                 user_id: rdm_users(TabUserId),
             },
@@ -188,9 +189,10 @@ describe("addManyTasks", () => {
             {
                 archive: true,
                 title: "blabla",
-                description: "description de Blabla",
-                date_start: 1,
-                date_end: 1,
+                content: "content de Blabla",
+                category: 'Discussion',
+                started_at: 1,
+                finished_at: 1,
                 board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
                 status: "Finish",
                 user_id: rdm_users(TabUserId),
@@ -200,9 +202,10 @@ describe("addManyTasks", () => {
             {
                 archive: true,
                 title: "blabla",
-                description: "description de Blabla",
-                date_start: 2,
-                date_end: 2,
+                content: "content de Blabla",
+                category: 'Discussion',
+                started_at: 2,
+                finished_at: 2,
                 board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
                 status: "Finish",
                 user_id: rdm_users(TabUserId),
@@ -212,9 +215,10 @@ describe("addManyTasks", () => {
             {
                 archive: true,
                 title: "blabla",
-                description: "description de Blabla",
-                date_start: 3,
-                date_end: 3,
+                content: "content de Blabla",
+                category: 'Discussion',
+                started_at: 3,
+                finished_at: 3,
                 board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
                 status: "Finish",
                 user_id: rdm_users(TabUserId),
@@ -237,7 +241,7 @@ describe("findOneTaskById", () => {
         TaskService.findOneTaskById(ValidTaskId, null, function (err, value) {
             expect(value).to.be.a("object");
             expect(value).to.haveOwnProperty("_id");
-            expect(value).to.haveOwnProperty("description");
+            expect(value).to.haveOwnProperty("content");
             done();
         });
     });
@@ -307,15 +311,15 @@ describe("updateOneTask", () => {
     it("Modifier une Tache correct. - S", (done) => {
         TaskService.updateOneTask(
             ValidTaskId,
-            { title: "Choux", description: "Hello" },
+            { title: "Choux", content: "Hello" },
             null,
             function (err, value) {
                 expect(value).to.be.a("object");
                 expect(value).to.haveOwnProperty("_id");
                 expect(value).to.haveOwnProperty("title");
-                expect(value).to.haveOwnProperty("description");
+                expect(value).to.haveOwnProperty("content");
                 expect(value["title"]).to.be.equal("Choux");
-                expect(value["description"]).to.be.equal("Hello");
+                expect(value["content"]).to.be.equal("Hello");
                 done();
             }
         );
@@ -336,7 +340,7 @@ describe("updateOneTask", () => {
     it("Modifier une Tache avec des champs requis vide. - E", (done) => {
         TaskService.updateOneTask(
             ValidTaskId,
-            { title: "", description: "Hello" }, null,
+            { title: "", content: "Hello" }, null,
             function (err, value) {
                 expect(value).to.be.undefined;
                 expect(err).to.haveOwnProperty("msg");
@@ -391,7 +395,7 @@ describe("deleteOneTask", () => {
         TaskService.deleteOneTask(ValidTaskId, null, function (err, value) {
             expect(value).to.be.a('object')
             expect(value).to.haveOwnProperty("title");
-            expect(value).to.haveOwnProperty("description");
+            expect(value).to.haveOwnProperty("content");
             done();
         });
     });

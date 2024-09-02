@@ -11,11 +11,7 @@ var UserSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    age: {
-        type: Number,
-        required: true,
-    },
-    phone_Number: {
+    phoneNumber: { 
         type: String,
         required: true,
     },
@@ -41,29 +37,29 @@ var UserSchema = mongoose.Schema({
     },
     // <-------------------- User setting -------------------->
 
-    dark_and_light_mode_setting: {
-        type: String,
-        enum: ['dark', 'light'],
-        default: 'light',
-        required: true,
-    },
-    notification_setting: {
-        type: String,
-        enum: ['Son', 'Vibreur', 'Muet'],
-        default: 'Son',
-        required: true,
-    },
-    fontsize_setting: {
-        type: Number,
-        default: 14,
-        required: true,
-    },
-    status_setting: {
-        type: String,
-        enum: ['active', 'inactive', 'invisible', 'indisponible', 'deconnecter'],
-        default: 'active',
-        required: true,
-    },
+    // dark_and_light_mode_setting: {
+    //     type: String,
+    //     enum: ['dark', 'light'],
+    //     default: 'light',
+    //     required: true,
+    // },
+    // notification_setting: {
+    //     type: String,
+    //     enum: ['Son', 'Vibreur', 'Muet'],
+    //     default: 'Son',
+    //     required: true,
+    // },
+    // fontsize_setting: {
+    //     type: Number,
+    //     default: 14,
+    //     required: true,
+    // },
+    // status_setting: {
+    //     type: String,
+    //     enum: ['active', 'inactive', 'invisible', 'indisponible', 'deconnecter'],
+    //     default: 'active',
+    //     required: true,
+    // },
     //     // <-------------------- Password Reset -------------------->
     //     password_reset_user_id: {
     //         type: ObjectId,
@@ -81,14 +77,14 @@ var UserSchema = mongoose.Schema({
     //         type: String,
     //         required: true,
     //     },
-    //     created_at: {
-    //         type: Date,
-    //         default: Date.now
-    //     },
-    //     updated_at: {
-    //         type: Date,
-    //         default: Date.now
-    //     },
+        created_at: {
+            type: Date,
+            default: new Date()
+        },
+        updated_at: {
+            type: Date,
+            default: new Date()
+        },
 })
 
 module.exports = UserSchema;

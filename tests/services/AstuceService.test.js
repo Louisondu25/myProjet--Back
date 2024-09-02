@@ -15,35 +15,40 @@ var users = [
         lastName: "Iencli",
         username: "oui1",
         email: "Iencli@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'astuce 2",
         lastName: "Iencli",
         username: "oui2",
         email: "Iencli2@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
 
     }, {
         firstName: "detenteur  d'astuce 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'astuce 4",
         lastName: "Iencli",
         username: "oui4",
         email: "Iencli4@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'astuce 5",
         lastName: "Iencli",
         username: "oui5",
         email: "Iencli5@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
 ]
 
@@ -62,14 +67,13 @@ function rdm_users(tab) {
 describe("addOneAstuce", () => {
     it("Astuce correct. - S", (done) => {
         var astuce = {
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            title: 'Carottes',
+            astuce: "Plantez vos graines",
+            theme_id: '66cc482f14bfa7cf4dc496ad',
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
             created_at: new Date(),
             updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         };
         AstuceService.addOneAstuce(astuce, null, function (err, value) {
             expect(value).to.be.a("object");
@@ -80,23 +84,22 @@ describe("addOneAstuce", () => {
             //
         });
     });
-    it("Astuce incorrect. (Sans Name) - E", (done) => {
+    it("Astuce incorrect. (Sans Title) - E", (done) => {
         var astuce_no_valid = {
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            astuce: "Plantez vos graines",
+            theme_id: '66cc482f14bfa7cf4dc496ad',
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
             created_at: new Date(),
             updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         };
         AstuceService.addOneAstuce(astuce_no_valid, null, function (err, value) {
             expect(err).to.haveOwnProperty("msg");
             expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
             expect(err).to.haveOwnProperty("fields");
-            expect(err["fields"]).to.haveOwnProperty("name");
-            expect(err["fields"]["name"]).to.equal(
-                "Path `name` is required."
+            expect(err["fields"]).to.haveOwnProperty("title");
+            expect(err["fields"]["title"]).to.equal(
+                "Path `title` is required."
             );
             done()
         });
@@ -107,37 +110,30 @@ describe("addManyAstuces", () => {
     it("Astuces à ajouter, non valide. - E", (done) => {
         var astuces_tab_error = [
             {
-                name: "Carottes",
-                description: "Hey Honey",
-                price: 2.50,
-                quantity: "500",
+                astuce: "Plantez vos graines",
+                theme_id: '66cc482f14bfa7cf4dc496ad',
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Carottes",
-                description: "blabla",
-                price: 2.50,
+                theme_id: '66cc482f14bfa7cf4dc496ad',
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Carottes",
-                description: "pookie",
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Carottes",
-                description: "blabla",
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
+                created_at: new Date(),
+                updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
         ];
         AstuceService.addManyAstuces(astuces_tab_error, null, function (err, value) {
@@ -148,34 +144,31 @@ describe("addManyAstuces", () => {
     it("Astuces à ajouter, valide. - S", (done) => {
         var astuces_tab = [
             {
-                name: "Carottes",
-                description: "blabla",
-                price: 2.50,
-                quantity: 500,
+                title: 'Pomme de terre',
+                astuce: "Arroser votre terreau",
+                theme_id: '66cc482f14bfa7cf4dc496ad',
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Pomme de terre",
-                description: "blabla",
-                price: 2.80,
-                quantity: 800,
+                title: 'Tomate',
+                astuce: "Meetre dans une serre",
+                theme_id: '66cc482f14bfa7cf4dc496ad',
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Navet",
-                description: "blabla",
-                price: 3.10,
-                quantity: 200,
+                title: 'Navet',
+                astuce: "Gerez l'Humidité de vos Navet",
+                theme_id: '66cc482f14bfa7cf4dc496ad',
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
         ];
 
@@ -189,11 +182,10 @@ describe("addManyAstuces", () => {
 });
 
 describe("findOneAstuceById", () => {
-    it("Chercher un Astuce existant correct. - S", (done) => {
+    it("Chercher une Astuce existant correct. - S", (done) => {
         AstuceService.findOneAstuceById(id_astuce_valid, null, function (err, value) {
             expect(value).to.be.a("object");
             expect(value).to.haveOwnProperty("_id");
-            expect(value).to.haveOwnProperty("description");
             done();
         });
     });
@@ -209,8 +201,8 @@ describe("findOneAstuceById", () => {
 
 describe('findOneAstuce', () => {
     it('Chercher un Astuce avec un champ autorisé - S', (done) => {
-        AstuceService.findOneAstuce(['name'], astuces[0].name, null, (err, value) => {
-            expect(value).to.haveOwnProperty('name');
+        AstuceService.findOneAstuce(['title'], astuces[0].title, null, (err, value) => {
+            expect(value).to.haveOwnProperty('title');
             done();
         });
     });
@@ -263,15 +255,15 @@ describe("updateOneAstuce", () => {
     it("Modifier un Astuce correct. - S", (done) => {
         AstuceService.updateOneAstuce(
             id_astuce_valid,
-            { name: "Choux", description: "Hello" },
+            { title: "Choux", astuce:"Arroser vos champs", },
             null,
             function (err, value) {
                 expect(value).to.be.a("object");
                 expect(value).to.haveOwnProperty("_id");
-                expect(value).to.haveOwnProperty("name");
-                expect(value).to.haveOwnProperty("description");
-                expect(value["name"]).to.be.equal("Choux");
-                expect(value["description"]).to.be.equal("Hello");
+                expect(value).to.haveOwnProperty("title");
+                expect(value).to.haveOwnProperty("astuce");
+                expect(value["title"]).to.be.equal("Choux");
+                expect(value["astuce"]).to.be.equal("Arroser vos champs");
                 done();
             }
         );
@@ -292,14 +284,14 @@ describe("updateOneAstuce", () => {
     it("Modifier un Astuce avec des champs requis vide. - E", (done) => {
         AstuceService.updateOneAstuce(
             id_astuce_valid,
-            { name: "", description: "Hello" }, null,
+            { title: "", astuce: "Creuser un trou de 20 cm" }, null,
             function (err, value) {
                 expect(value).to.be.undefined;
                 expect(err).to.haveOwnProperty("msg");
                 expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
                 expect(err).to.haveOwnProperty("fields");
-                expect(err["fields"]).to.haveOwnProperty("name");
-                expect(err["fields"]["name"]).to.equal("Path `name` is required.");
+                expect(err["fields"]).to.haveOwnProperty("title");
+                expect(err["fields"]["title"]).to.equal("Path `title` is required.");
                 done();
             }
         );
@@ -308,7 +300,7 @@ describe("updateOneAstuce", () => {
 
 describe("updateManyAstuces", () => {
     it("Modifier plusieurs Astuces correctement. - S", (done) => {
-        AstuceService.updateManyAstuces(tab_id_astuces, { name: "Choux", description: "Hello" }, null, function (err, value) {
+        AstuceService.updateManyAstuces(tab_id_astuces, { title: "Preparation" }, null, function (err, value) {
             expect(value).to.haveOwnProperty("modifiedCount");
             expect(value).to.haveOwnProperty("matchedCount");
             expect(value["matchedCount"]).to.be.equal(tab_id_astuces.length);
@@ -330,7 +322,7 @@ describe("updateManyAstuces", () => {
     it("Modifier plusieurs Astuces avec des champs requis vide. - E", (done) => {
         AstuceService.updateManyAstuces(
             tab_id_astuces,
-            { name: "", description: "Luc" }, null,
+            { title: "", astuce: "Creuser un trou" }, null,
             function (err, value) {
                 expect(value).to.be.undefined;
                 expect(err).to.haveOwnProperty("msg");
@@ -347,8 +339,7 @@ describe("deleteOneAstuce", () => {
     it("Supprimer un Astuce correctement. - S", (done) => {
         AstuceService.deleteOneAstuce(id_astuce_valid, null, function (err, value) {
             expect(value).to.be.a('Object')
-            expect(value).to.haveOwnProperty("name");
-            expect(value).to.haveOwnProperty("description");
+            expect(value).to.haveOwnProperty("title");
             done()
         });
     });

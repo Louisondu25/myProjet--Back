@@ -19,34 +19,39 @@ var users = [
         lastName: "Iencli",
         username: "oui1",
         email: "Iencli@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'theme 2",
         lastName: "Iencli",
         username: "oui2",
         email: "Iencli2@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     }, {
         firstName: "detenteur  d'theme 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'theme 4",
         lastName: "Iencli",
         username: "oui4",
         email: "Iencli4@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'theme 5",
         lastName: "Iencli",
         username: "oui5",
         email: "Iencli5@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
 ]
 
@@ -81,12 +86,12 @@ describe("POST - /login", () => {
 describe("POST - /theme", () => {
     it("Ajouter un Theme. - S", (done) => {
         chai.request(server).post('/theme').auth(token, { type: 'bearer' }).send({
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            title: "Carottes",
+            themes: "blabla",
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
         }).end((err, res) => {
             res.should.have.status(201)
             //  expect(res).to.be.a('object')
@@ -96,11 +101,11 @@ describe("POST - /theme", () => {
     })
     it("Ajouter un Theme incorrect. (Sans firstName) - E", (done) => {
         chai.request(server).post('/theme').auth(token, { type: 'bearer' }).send({
-            lastName: 'Us',
-            themename: 'dwarfSlayr',
-            email: 'lutfu.us@gmil.com',
+            themes: "blabla",
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -108,12 +113,12 @@ describe("POST - /theme", () => {
     })
     it("Ajouter un Theme incorrect. (Avec un themename existant) - E", (done) => {
         chai.request(server).post('/theme').auth(token, { type: 'bearer' }).send({
-            firstName: "luf",
-            lastName: "Us",
-            themename: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
+            title: "Carottes",
+            themes: "blabla",
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -121,12 +126,12 @@ describe("POST - /theme", () => {
     })
     it("Ajouter un Theme incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/theme').auth(token, { type: 'bearer' }).send({
-            firstName: "luffu",
-            lastName: "",
-            themename: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
+            title: "",
+            themes: "blabla",
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -138,21 +143,21 @@ describe("POST - /theme", () => {
 describe("POST - /themes", () => {
     it("Ajouter plusieurs Themes. - S", (done) => {
         chai.request(server).post('/themes').auth(token, { type: 'bearer' }).send([{
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            title: "Lune",
+            themes: "Moon",
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
         },
 
         {
-            name: "Pomme de terre",
-            description: "blabla",
-            price: 2.80,
-            quantity: 800,
+            title: "Pomme de terre",
+            themes: "Jardinage",
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
         }]
         ).end((err, res) => {
             res.should.have.status(201)
@@ -163,19 +168,18 @@ describe("POST - /themes", () => {
     it("Ajouter plusieurs Themes incorrect. - E", (done) => {
         chai.request(server).post('/themes').auth(token, { type: 'bearer' }).send([
             {
-                lastName: 'Us',
-                arname: 'dwarfSlayr',
-                email: 'lutfu.us@gmil.com',
+                themes: "Piscine",
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
+                created_at: new Date(),
+                updated_at: new Date(),
             },
 
             {
-                lastName: 'Us',
-                themename: 'dwarfSlaycdsr',
-                email: 'lutffqzdsu.us@gmil.com',
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
+            user_id: rdm_users(tab_id_users),
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             }
         ]).end((err, res) => {
             res.should.have.status(405)
@@ -184,12 +188,12 @@ describe("POST - /themes", () => {
     })
     it("Ajouter plusieurs Themes incorrect. (Avec un themename existant) - E", (done) => {
         chai.request(server).post('/themes').auth(token, { type: 'bearer' }).send([{
-            firstName: "luf",
-            lastName: "Us",
-            themename: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
+            title: "Carottes",
+            themes: "blabla",
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
         }]).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -197,12 +201,12 @@ describe("POST - /themes", () => {
     })
     it("Ajouter plusieurs Themes incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/themes').auth(token, { type: 'bearer' }).send([{
-            firstName: "luffu",
-            lastName: "",
-            themename: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
+            title: "Carottes",
+            themes: "",
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
         }]).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -212,7 +216,7 @@ describe("POST - /themes", () => {
 
 describe('PUT - /theme/:id', () => {
     it('Modifier un Theme -S', (done) => {
-        chai.request(server).put(`/theme/${themes[0]._id}`).auth(token, { type: 'bearer' }).send({ firstName: 'Jeanne', lastName: 'Lu' })
+        chai.request(server).put(`/theme/${themes[0]._id}`).auth(token, { type: 'bearer' }).send({ title: 'Model d\'ardoise', themes: 'Slate_Mod' })
             .end((err, res) => {
                 res.should.status(200)
                 expect(res.body).to.be.a('object')
@@ -236,7 +240,7 @@ describe('PUT - /theme/:id', () => {
             })
     })
     it('Modifier un Theme avec un champ requis vide -E', (done) => {
-        chai.request(server).put(`/theme/${themes[0]._id}`).auth(token, { type: 'bearer' }).send({ name: '', description: 'senerve' })
+        chai.request(server).put(`/theme/${themes[0]._id}`).auth(token, { type: 'bearer' }).send({ title: '', themes: 'senerve' })
             .end((err, res) => {
                 res.should.status(405)
                 done()
@@ -246,7 +250,7 @@ describe('PUT - /theme/:id', () => {
 
 describe('PUT /themes', () => {
     it('Modifier plusieurs Themes - S', (done) => {
-        chai.request(server).put('/themes').query({ id: _.map(themes, '_id') }).auth(token, { type: 'bearer' }).send({ firstName: 'James' })
+        chai.request(server).put('/themes').query({ id: _.map(themes, '_id') }).auth(token, { type: 'bearer' }).send()
             .end((err, res) => {
                 res.should.have.status(200);
                 expect(res.body).to.be.an('object');
@@ -264,7 +268,7 @@ describe('PUT /themes', () => {
     })
 
     it('Modifier plusieurs Themes  avec des ids inexistant- E', (done) => {
-        chai.request(server).put('/themes').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ name: 'James' })
+        chai.request(server).put('/themes').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ title: 'James' })
             .end((err, res) => {
                 res.should.have.status(404);
                 expect(res.body).to.be.an('object');
@@ -273,7 +277,7 @@ describe('PUT /themes', () => {
     })
 
     it('Modifier plusieurs Themes  avec un champ requis vide - E', (done) => {
-        chai.request(server).put('/themes').query({ id: _.map(themes, '_id') }).auth(token, { type: 'bearer' }).send({ name: '' })
+        chai.request(server).put('/themes').query({ id: _.map(themes, '_id') }).auth(token, { type: 'bearer' }).send({ title: '' })
             .end((err, res) => {
                 res.should.have.status(405);
                 expect(res.body).to.be.an('object');
@@ -313,7 +317,7 @@ describe('GET - /theme/:id', () => {
 
 describe('GET - /theme', () => {
     it('Chercher un Theme par un champ selectionné -S', (done) => {
-        chai.request(server).get('/theme').query({ fields: ['description'], values: themes[0].themename }).auth(token, { type: 'bearer' })
+        chai.request(server).get('/theme').query({ fields: ['title'], values: themes[0].title }).auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.status = (200)
                 done()
@@ -334,7 +338,7 @@ describe('GET - /theme', () => {
             })
     })
     it('Chercher un Theme inexistant -E', (done) => {
-        chai.request(server).get('/theme').query({ fields: ['description'], values: 'helloguys' }).auth(token, { type: 'bearer' })
+        chai.request(server).get('/theme').query({ fields: ['content'], values: 'helloguys' }).auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.status = (404)
                 done()

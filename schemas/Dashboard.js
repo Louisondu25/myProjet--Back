@@ -5,14 +5,14 @@ var DashBoard = mongoose.Schema({
 
     user_id: {
         type: ObjectId,
-        ref:'UserSchema',
+        ref:'User',
         required: true,
     },
     title: {
         type: String,
         required: true,
     },
-    description: {
+    content: {
         type: String,
         required: true,
     },
@@ -20,23 +20,27 @@ var DashBoard = mongoose.Schema({
         type: Number,
         required: true,
     },
+    archive: {
+        type: Boolean,
+        required: true,
+    },
     created_at: {
         type: Date,
-        default: Date.now
+        default: new Date()
     },
     updated_at: {
         type: Date,
-        default: Date.now
+        default: new Date()
     },
     status: {
         type: String,
         enum: ['Private', 'Public'],
         required: true,
     },
-    membres: {
-        type: Number,
-        required: true,
-    },
+    // membres: {
+    //     type: Number,
+    //     required: true,
+    // },
 })
 
 module.exports = DashBoard   

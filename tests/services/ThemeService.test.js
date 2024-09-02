@@ -15,35 +15,40 @@ var users = [
         lastName: "Iencli",
         username: "oui1",
         email: "Iencli@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'theme 2",
         lastName: "Iencli",
         username: "oui2",
         email: "Iencli2@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
 
     }, {
         firstName: "detenteur  d'theme 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'theme 4",
         lastName: "Iencli",
         username: "oui4",
         email: "Iencli4@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'theme 5",
         lastName: "Iencli",
         username: "oui5",
         email: "Iencli5@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
 ]
 
@@ -62,14 +67,12 @@ function rdm_users(tab) {
 describe("addOneTheme", () => {
     it("Theme correct. - S", (done) => {
         var theme = {
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            title: "Carottes",
+            themes: "blabla",
+            user_id: rdm_users(tab_id_users),
+            board_id:'66bb1c1b2bbcb76e3c7cacf4',
             created_at: new Date(),
             updated_at: new Date(),
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
         };
         ThemeService.addOneTheme(theme, null, function (err, value) {
             expect(value).to.be.a("object");
@@ -82,21 +85,19 @@ describe("addOneTheme", () => {
     });
     it("Theme incorrect. (Sans Name) - E", (done) => {
         var theme_no_valid = {
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            themes: "blabla",
+            user_id: rdm_users(tab_id_users),
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
             created_at: new Date(),
             updated_at: new Date(),
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
         };
         ThemeService.addOneTheme(theme_no_valid, null, function (err, value) {
             expect(err).to.haveOwnProperty("msg");
             expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
             expect(err).to.haveOwnProperty("fields");
-            expect(err["fields"]).to.haveOwnProperty("name");
-            expect(err["fields"]["name"]).to.equal(
-                "Path `name` is required."
+            expect(err["fields"]).to.haveOwnProperty("title");
+            expect(err["fields"]["title"]).to.equal(
+                "Path `title` is required."
             );
             done()
         });
@@ -107,37 +108,28 @@ describe("addManyThemes", () => {
     it("Themes à ajouter, non valide. - E", (done) => {
         var themes_tab_error = [
             {
-                name: "Carottes",
-                description: "Hey Honey",
-                price: 2.50,
-                quantity: "500",
+                themes: "Ski",
+                user_id: rdm_users(tab_id_users),
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Carottes",
-                description: "blabla",
-                price: 2.50,
+                user_id: rdm_users(tab_id_users),
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Carottes",
-                description: "pookie",
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Carottes",
-                description: "blabla",
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
+                title: "Decembre",
+                themes: "Hiver",
+                created_at: new Date(),
+                updated_at: new Date(),
             },
         ];
         ThemeService.addManyThemes(themes_tab_error, null, function (err, value) {
@@ -148,34 +140,28 @@ describe("addManyThemes", () => {
     it("Themes à ajouter, valide. - S", (done) => {
         var themes_tab = [
             {
-                name: "Carottes",
-                description: "blabla",
-                price: 2.50,
-                quantity: 500,
+                title: "Marie",
+                themes: "Anniversaire",
+                user_id: rdm_users(tab_id_users),
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Pomme de terre",
-                description: "blabla",
-                price: 2.80,
-                quantity: 800,
+                title: "Pomme de terre",
+                themes: "Plage",
+                user_id: rdm_users(tab_id_users),
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Navet",
-                description: "blabla",
-                price: 3.10,
-                quantity: 200,
+                title: "Navet",
+                themes: "Noel",
+                user_id: rdm_users(tab_id_users),
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
         ];
 
@@ -193,7 +179,6 @@ describe("findOneThemeById", () => {
         ThemeService.findOneThemeById(id_theme_valid, null, function (err, value) {
             expect(value).to.be.a("object");
             expect(value).to.haveOwnProperty("_id");
-            expect(value).to.haveOwnProperty("description");
             done();
         });
     });
@@ -209,8 +194,8 @@ describe("findOneThemeById", () => {
 
 describe('findOneTheme', () => {
     it('Chercher un Theme avec un champ autorisé - S', (done) => {
-        ThemeService.findOneTheme(['name'], themes[0].name, null, (err, value) => {
-            expect(value).to.haveOwnProperty('name');
+        ThemeService.findOneTheme(['title'], themes[0].title, null, (err, value) => {
+            expect(value).to.haveOwnProperty('title');
             done();
         });
     });
@@ -222,7 +207,7 @@ describe('findOneTheme', () => {
         });
     });
 
-    it('Chercher un Theme sans themeau de champ -E', (done) => {
+    it('Chercher un Theme sans theme de champ -E', (done) => {
         ThemeService.findOneTheme('email', themes[0].name, null, (err, value) => {
             expect(err).to.haveOwnProperty('type_error');
             done();
@@ -263,15 +248,15 @@ describe("updateOneTheme", () => {
     it("Modifier un Theme correct. - S", (done) => {
         ThemeService.updateOneTheme(
             id_theme_valid,
-            { name: "Choux", description: "Hello" },
+            { title: "Choux", themes: "Black Hole", },
             null,
             function (err, value) {
                 expect(value).to.be.a("object");
                 expect(value).to.haveOwnProperty("_id");
-                expect(value).to.haveOwnProperty("name");
-                expect(value).to.haveOwnProperty("description");
-                expect(value["name"]).to.be.equal("Choux");
-                expect(value["description"]).to.be.equal("Hello");
+                expect(value).to.haveOwnProperty("title");
+                expect(value).to.haveOwnProperty("themes");
+                expect(value["title"]).to.be.equal("Choux");
+                expect(value["themes"]).to.be.equal("Black Hole");
                 done();
             }
         );
@@ -292,14 +277,14 @@ describe("updateOneTheme", () => {
     it("Modifier un Theme avec des champs requis vide. - E", (done) => {
         ThemeService.updateOneTheme(
             id_theme_valid,
-            { name: "", description: "Hello" }, null,
+            { title: "", themes: "Space Nebulla" }, null,
             function (err, value) {
                 expect(value).to.be.undefined;
                 expect(err).to.haveOwnProperty("msg");
                 expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
                 expect(err).to.haveOwnProperty("fields");
-                expect(err["fields"]).to.haveOwnProperty("name");
-                expect(err["fields"]["name"]).to.equal("Path `name` is required.");
+                expect(err["fields"]).to.haveOwnProperty("title");
+                expect(err["fields"]["title"]).to.equal("Path `title` is required.");
                 done();
             }
         );
@@ -308,7 +293,7 @@ describe("updateOneTheme", () => {
 
 describe("updateManyThemes", () => {
     it("Modifier plusieurs Themes correctement. - S", (done) => {
-        ThemeService.updateManyThemes(tab_id_themes, { name: "Choux", description: "Hello" }, null, function (err, value) {
+        ThemeService.updateManyThemes(tab_id_themes, { title: "Lune"}, null, function (err, value) {
             expect(value).to.haveOwnProperty("modifiedCount");
             expect(value).to.haveOwnProperty("matchedCount");
             expect(value["matchedCount"]).to.be.equal(tab_id_themes.length);
@@ -330,7 +315,7 @@ describe("updateManyThemes", () => {
     it("Modifier plusieurs Themes avec des champs requis vide. - E", (done) => {
         ThemeService.updateManyThemes(
             tab_id_themes,
-            { name: "", description: "Luc" }, null,
+            { title: "", themes: "Luc" }, null,
             function (err, value) {
                 expect(value).to.be.undefined;
                 expect(err).to.haveOwnProperty("msg");
@@ -347,8 +332,7 @@ describe("deleteOneTheme", () => {
     it("Supprimer un Theme correctement. - S", (done) => {
         ThemeService.deleteOneTheme(id_theme_valid, null, function (err, value) {
             expect(value).to.be.a('Object')
-            expect(value).to.haveOwnProperty("name");
-            expect(value).to.haveOwnProperty("description");
+            expect(value).to.haveOwnProperty("title");
             done()
         });
     });

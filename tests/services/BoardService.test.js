@@ -15,8 +15,7 @@ var users = [
         username: "oui1",
         email: "Iencli@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'un tableau 2",
@@ -24,8 +23,7 @@ var users = [
         username: "oui2",
         email: "Iencli2@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
 
     }, {
         firstName: "detenteur  d'un tableau 3",
@@ -33,8 +31,7 @@ var users = [
         username: "oui3",
         email: "Iencli3@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'un tableau 4",
@@ -42,8 +39,7 @@ var users = [
         username: "oui4",
         email: "Iencli4@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'un tableau 5",
@@ -51,8 +47,7 @@ var users = [
         username: "oui5",
         email: "Iencli5@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
 ]
 
@@ -73,12 +68,12 @@ function rdm_users(tab) {
 describe("addOneBoard", () => {
     it("Tableau correct. - S", (done) => {
         var board = {
-            user_id: rdm_users(TabUserId), // en attendant que j'ai les bon ids
+            user_id: rdm_users(TabUserId),
             title: "blabla",
-            description: "La description de cet objet board",
+            content: "La content de cet objet board",
             index: 1,
             status:'Public',
-            membres:5,
+            archive: true,
             created_at: new Date(),
             updated_at: new Date(),
         };
@@ -94,10 +89,10 @@ describe("addOneBoard", () => {
     it("Tableau incorrect. (Sans Name) - E", (done) => {
         var InvalidUser = {
             user_id: rdm_users(TabUserId),
-            description: "La description de cet objet board",
+            content: "La content de cet objet board",
             index: 1,
             status: 'Public',
-            membres: 5,
+            archive: false,
             created_at: new Date(),
             updated_at: new Date(),
         };
@@ -119,40 +114,40 @@ describe("addManyBoards", () => {
         var board_tab_error = [
             {
                 user_id: rdm_users(TabUserId),
-                description: "La description de cet objet board",
+                content: "La content de cet objet board",
                 index: 1,
                 status: 'Public',
-                membres: 5,
+                archive: false,
                 created_at: new Date(),
                 updated_at: new Date(),
             },
             {
                 user_id: rdm_users(TabUserId),
                 title: "blabla",
-                description: "La description de cet objet board",
+                content: "La content de cet objet board",
                 index: 1,
                 status: 'Public',
-                membres: 5,
+                archive: false,
                 created_at: new Date(),
                 updated_at: new Date(),
             },
             {
                 user_id: rdm_users(TabUserId),
                 title: "blabla",
-                description: "La description de cet objet board",
+                content: "La content de cet objet board",
                 index: 1,
                 status: 'Public',
-                membres: 5,
+                archive: false,
                 created_at: new Date(),
                 updated_at: new Date(),
             },
             {
                 user_id: rdm_users(TabUserId),
                 title: "blabla",
-                description: "La description de cet objet board",
+                content: "La content de cet objet board",
                 index: 1,
                 status: 'Public',
-                membres: 5,
+                archive: false,
             },
         ];
         BoardService.addManyBoards(board_tab_error, null, function (err, value) {
@@ -168,30 +163,30 @@ describe("addManyBoards", () => {
             {
                 user_id: rdm_users(TabUserId),
                 title: "blabla",
-                description: "La description de cet objet board",
+                content: "La content de cet objet board",
                 index: 1,
                 status: 'Public',
-                membres: 5,
+                archive: true,
                 created_at: new Date(),
                 updated_at: new Date(),
             },
             {
                 user_id: rdm_users(TabUserId),
                 title: "how are u",
-                description: "La description de cet objet board",
+                content: "La content de cet objet board",
                 index: 1,
                 status: 'Public',
-                membres: 5,
+                archive: true,
                 created_at: new Date(),
                 updated_at: new Date(),
             },
             {
                 user_id: rdm_users(TabUserId),
                 title: "im good n u ?",
-                description: "La description de cet objet board",
+                content: "La content de cet objet board",
                 index: 1,
                 status: 'Public',
-                membres: 5,
+                archive: true,
                 created_at: new Date(),
                 updated_at: new Date(),
             },
@@ -211,7 +206,7 @@ describe("findOneBoardById", () => {
         BoardService.findOneBoardById(ValidBoardId, null, function (err, value) {
             expect(value).to.be.a("object");
             expect(value).to.haveOwnProperty("_id");
-            expect(value).to.haveOwnProperty("description");
+            expect(value).to.haveOwnProperty("content");
             done();
         });
     });
@@ -280,15 +275,15 @@ describe("updateOneBoard", () => {
     it("Modifier un Tableau correct. - S", (done) => {
         BoardService.updateOneBoard(
             ValidBoardId,
-            { title: "Choux", description: "Hello" },
+            { title: "Choux", content: "Hello" },
             null,
             function (err, value) {
                 expect(value).to.be.a("object");
                 expect(value).to.haveOwnProperty("_id");
                 expect(value).to.haveOwnProperty("title");
-                expect(value).to.haveOwnProperty("description");
+                expect(value).to.haveOwnProperty("content");
                 expect(value["title"]).to.be.equal("Choux");
-                expect(value["description"]).to.be.equal("Hello");
+                expect(value["content"]).to.be.equal("Hello");
                 done();
             }
         );
@@ -309,7 +304,7 @@ describe("updateOneBoard", () => {
     it("Modifier un Tableau avec des champs requis vide. - E", (done) => {
         BoardService.updateOneBoard(
             ValidBoardId,
-            { title: "", description: "Hello" }, null,
+            { title: "", content: "Hello" }, null,
             function (err, value) {
                 expect(value).to.be.undefined;
                 expect(err).to.haveOwnProperty("msg");
@@ -325,7 +320,7 @@ describe("updateOneBoard", () => {
 
 describe("updateManyBoards", () => {
     it("Modifier plusieurs Tableaux correctement. - S", (done) => {
-        BoardService.updateManyBoards(TabBoardId, { title: "Choux", description: "Hello" }, null, function (err, value) {
+        BoardService.updateManyBoards(TabBoardId, { title: "Choux", content: "Hello" }, null, function (err, value) {
             expect(value).to.haveOwnProperty("modifiedCount");
             expect(value).to.haveOwnProperty("matchedCount");
             expect(value["matchedCount"]).to.be.equal(TabBoardId.length);
@@ -347,7 +342,7 @@ describe("updateManyBoards", () => {
     it("Modifier plusieurs Tableaux avec des champs requis vide. - E", (done) => {
         BoardService.updateManyBoards(
             TabBoardId,
-            { title: "", description: "Luc" }, null,
+            { title: "", content: "Luc" }, null,
             function (err, value) {
                 expect(value).to.be.undefined;
                 expect(err).to.haveOwnProperty("msg");

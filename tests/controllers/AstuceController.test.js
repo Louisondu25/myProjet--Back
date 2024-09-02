@@ -19,34 +19,39 @@ var users = [
         lastName: "Iencli",
         username: "oui1",
         email: "Iencli@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'astuce 2",
         lastName: "Iencli",
         username: "oui2",
         email: "Iencli2@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     }, {
         firstName: "detenteur  d'astuce 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'astuce 4",
         lastName: "Iencli",
         username: "oui4",
         email: "Iencli4@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'astuce 5",
         lastName: "Iencli",
         username: "oui5",
         email: "Iencli5@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
 ]
 
@@ -81,12 +86,13 @@ describe("POST - /login", () => {
 describe("POST - /astuce", () => {
     it("Ajouter un Astuce. - S", (done) => {
         chai.request(server).post('/astuce').auth(token, { type: 'bearer' }).send({
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            title: 'Carottes',
+            astuce: "Plantez vos graines",
+            theme_id: '66cc482f14bfa7cf4dc496ad',
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }).end((err, res) => {
             res.should.have.status(201)
             //  expect(res).to.be.a('object')
@@ -94,13 +100,14 @@ describe("POST - /astuce", () => {
             done()
         });
     })
-    it("Ajouter un Astuce incorrect. (Sans firstName) - E", (done) => {
+    it("Ajouter un Astuce incorrect. (Sans Title) - E", (done) => {
         chai.request(server).post('/astuce').auth(token, { type: 'bearer' }).send({
-            lastName: 'Us',
-            astucename: 'dwarfSlayr',
-            email: 'lutfu.us@gmil.com',
+            astuce: "Creuser un trou",
+            theme_id: '66cc482f14bfa7cf4dc496ad',
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -108,12 +115,13 @@ describe("POST - /astuce", () => {
     })
     it("Ajouter un Astuce incorrect. (Avec un astucename existant) - E", (done) => {
         chai.request(server).post('/astuce').auth(token, { type: 'bearer' }).send({
-            firstName: "luf",
-            lastName: "Us",
-            astucename: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
+            title: 'Carottes',
+            astuce: "Plantez vos graines",
+            theme_id: '66cc482f14bfa7cf4dc496ad',
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -121,12 +129,13 @@ describe("POST - /astuce", () => {
     })
     it("Ajouter un Astuce incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/astuce').auth(token, { type: 'bearer' }).send({
-            firstName: "luffu",
-            lastName: "",
-            astucename: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
+            title: '',
+            astuce: "Utiliser differents outils pour planter vos graines",
+            theme_id: '66cc482f14bfa7cf4dc496ad',
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -138,21 +147,23 @@ describe("POST - /astuce", () => {
 describe("POST - /astuces", () => {
     it("Ajouter plusieurs Astuces. - S", (done) => {
         chai.request(server).post('/astuces').auth(token, { type: 'bearer' }).send([{
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            title: 'MaÏs',
+            astuce: "Semer vos sachet de MaÏs",
+            theme_id: '66cc482f14bfa7cf4dc496ad',
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         },
 
         {
-            name: "Pomme de terre",
-            description: "blabla",
-            price: 2.80,
-            quantity: 800,
+            title: 'Astraunaute',
+            astuce: "Voyager dans l'espace",
+            theme_id: '66cc482f14bfa7cf4dc496ad',
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }]
         ).end((err, res) => {
             res.should.have.status(201)
@@ -163,19 +174,20 @@ describe("POST - /astuces", () => {
     it("Ajouter plusieurs Astuces incorrect. - E", (done) => {
         chai.request(server).post('/astuces').auth(token, { type: 'bearer' }).send([
             {
-                lastName: 'Us',
-                arname: 'dwarfSlayr',
-                email: 'lutfu.us@gmil.com',
+                astuce: "Plantez vos graines",
+                theme_id: '66cc482f14bfa7cf4dc496ad',
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
+                created_at: new Date(),
+                updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
 
             {
-                lastName: 'Us',
-                astucename: 'dwarfSlaycdsr',
-                email: 'lutffqzdsu.us@gmil.com',
+                theme_id: '66cc482f14bfa7cf4dc496ad',
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
+                created_at: new Date(),
+                updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             }
         ]).end((err, res) => {
             res.should.have.status(405)
@@ -184,12 +196,13 @@ describe("POST - /astuces", () => {
     })
     it("Ajouter plusieurs Astuces incorrect. (Avec un astucename existant) - E", (done) => {
         chai.request(server).post('/astuces').auth(token, { type: 'bearer' }).send([{
-            firstName: "luf",
-            lastName: "Us",
-            astucename: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
+            title: 'Carottes',
+            astuce: "Plantez vos graines",
+            theme_id: '66cc482f14bfa7cf4dc496ad',
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }]).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -197,12 +210,13 @@ describe("POST - /astuces", () => {
     })
     it("Ajouter plusieurs Astuces incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/astuces').auth(token, { type: 'bearer' }).send([{
-            firstName: "luffu",
-            lastName: "",
-            astucename: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
+            title: '',
+            astuce: "Plantez vos graines",
+            theme_id: '66cc482f14bfa7cf4dc496ad',
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }]).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -212,7 +226,7 @@ describe("POST - /astuces", () => {
 
 describe('PUT - /astuce/:id', () => {
     it('Modifier un Astuce -S', (done) => {
-        chai.request(server).put(`/astuce/${astuces[0]._id}`).auth(token, { type: 'bearer' }).send({ firstName: 'Jeanne', lastName: 'Lu' })
+        chai.request(server).put(`/astuce/${astuces[0]._id}`).auth(token, { type: 'bearer' }).send({ title: 'Jeanne', astuce: " Road Trip" })
             .end((err, res) => {
                 res.should.status(200)
                 expect(res.body).to.be.a('object')
@@ -236,7 +250,7 @@ describe('PUT - /astuce/:id', () => {
             })
     })
     it('Modifier un Astuce avec un champ requis vide -E', (done) => {
-        chai.request(server).put(`/astuce/${astuces[0]._id}`).auth(token, { type: 'bearer' }).send({ name: '', description: 'senerve' })
+        chai.request(server).put(`/astuce/${astuces[0]._id}`).auth(token, { type: 'bearer' }).send({ title: '', astuce: 'senerve' })
             .end((err, res) => {
                 res.should.status(405)
                 done()
@@ -246,7 +260,7 @@ describe('PUT - /astuce/:id', () => {
 
 describe('PUT /astuces', () => {
     it('Modifier plusieurs Astuces - S', (done) => {
-        chai.request(server).put('/astuces').query({ id: _.map(astuces, '_id') }).auth(token, { type: 'bearer' }).send({ firstName: 'James' })
+        chai.request(server).put('/astuces').query({ id: _.map(astuces, '_id') }).auth(token, { type: 'bearer' }).send({ title: 'James' })
             .end((err, res) => {
                 res.should.have.status(200);
                 expect(res.body).to.be.an('object');
@@ -264,7 +278,7 @@ describe('PUT /astuces', () => {
     })
 
     it('Modifier plusieurs Astuces  avec des ids inexistant- E', (done) => {
-        chai.request(server).put('/astuces').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ name: 'James' })
+        chai.request(server).put('/astuces').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ title: 'James' })
             .end((err, res) => {
                 res.should.have.status(404);
                 expect(res.body).to.be.an('object');
@@ -273,7 +287,7 @@ describe('PUT /astuces', () => {
     })
 
     it('Modifier plusieurs Astuces  avec un champ requis vide - E', (done) => {
-        chai.request(server).put('/astuces').query({ id: _.map(astuces, '_id') }).auth(token, { type: 'bearer' }).send({ name: '' })
+        chai.request(server).put('/astuces').query({ id: _.map(astuces, '_id') }).auth(token, { type: 'bearer' }).send({ title: '' })
             .end((err, res) => {
                 res.should.have.status(405);
                 expect(res.body).to.be.an('object');
@@ -313,7 +327,7 @@ describe('GET - /astuce/:id', () => {
 
 describe('GET - /astuce', () => {
     it('Chercher un Astuce par un champ selectionné -S', (done) => {
-        chai.request(server).get('/astuce').query({ fields: ['description'], values: astuces[0].astucename }).auth(token, { type: 'bearer' })
+        chai.request(server).get('/astuce').query({ fields: ['title'], values: astuces[0].title }).auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.status = (200)
                 done()
@@ -334,7 +348,7 @@ describe('GET - /astuce', () => {
             })
     })
     it('Chercher un Astuce inexistant -E', (done) => {
-        chai.request(server).get('/astuce').query({ fields: ['description'], values: 'helloguys' }).auth(token, { type: 'bearer' })
+        chai.request(server).get('/astuce').query({ fields: ['content'], values: 'helloguys' }).auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.status = (404)
                 done()

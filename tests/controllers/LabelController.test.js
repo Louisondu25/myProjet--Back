@@ -20,8 +20,7 @@ var users = [
         username: "oui1",
         email: "Iencli@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'etiquette 2",
@@ -29,16 +28,14 @@ var users = [
         username: "oui2",
         email: "Iencli2@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     }, {
         firstName: "detenteur  d'etiquette 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'etiquette 4",
@@ -46,8 +43,7 @@ var users = [
         username: "oui4",
         email: "Iencli4@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'etiquette 5",
@@ -55,8 +51,7 @@ var users = [
         username: "oui5",
         email: "Iencli5@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
 ]
 
@@ -97,6 +92,7 @@ describe("POST - /label", () => {
             task_id: "66bc7ded639d08dee594f342",
             user_id: rdm_users(TabUserId),
             board_id: "66bb1c1b2bbcb76e3c7cacf4",
+            category_id: '66c898fc0438b81066f0ede3',
             created_at: new Date(),
             updated_at: new Date(),
         }).end((err, res) => {
@@ -113,6 +109,7 @@ describe("POST - /label", () => {
             task_id: "66bc7ded639d08dee594f342",
             user_id: rdm_users(TabUserId),
             board_id: "66bb1c1b2bbcb76e3c7cacf4",
+            category_id: '66c898fc0438b81066f0ede3',
             created_at: new Date(),
             updated_at: new Date(),
         }).end((err, res) => {
@@ -162,6 +159,7 @@ describe("POST - /labels", () => {
             task_id: "66bc7ded639d08dee594f342",
             user_id: rdm_users(TabUserId),
             board_id: "66bb1c1b2bbcb76e3c7cacf4",
+            category_id: '66c898fc0438b81066f0ede3',
             created_at: new Date(),
             updated_at: new Date(),
         },
@@ -173,6 +171,7 @@ describe("POST - /labels", () => {
             task_id: "66bc7ded639d08dee594f342",
             user_id: rdm_users(TabUserId),
             board_id: "66bb1c1b2bbcb76e3c7cacf4",
+            category_id: '66c898fc0438b81066f0ede3',
             created_at: new Date(),
             updated_at: new Date(),
         }]
@@ -343,7 +342,7 @@ describe('GET - /label/:id', () => {
 
 describe('GET - /label', () => {
     it('Chercher une Etiquette par un champ selectionné -S', (done) => {
-        chai.request(server).get('/label').query({ fields: ['description'], values: labels[0].labelname }).auth(token, { type: 'bearer' })
+        chai.request(server).get('/label').query({ fields: ['content'], values: labels[0].labelname }).auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.status = (200)
                 done()
@@ -364,7 +363,7 @@ describe('GET - /label', () => {
             })
     })
     it('Chercher une Etiquette inexistant -E', (done) => {
-        chai.request(server).get('/label').query({ fields: ['description'], values: 'helloguys' }).auth(token, { type: 'bearer' })
+        chai.request(server).get('/label').query({ fields: ['content'], values: 'helloguys' }).auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.status = (404)
                 done()

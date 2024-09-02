@@ -20,8 +20,7 @@ var users = [
         username: "oui1",
         email: "Iencli@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  de la Tache 2",
@@ -29,8 +28,7 @@ var users = [
         username: "oui2",
         email: "Iencli2@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
 
     }, {
         firstName: "detenteur  de la Tache 3",
@@ -38,8 +36,7 @@ var users = [
         username: "oui3",
         email: "Iencli3@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  de la Tache 4",
@@ -47,8 +44,8 @@ var users = [
         username: "oui4",
         email: "Iencli4@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  de la Tache 5",
@@ -56,8 +53,7 @@ var users = [
         username: "oui5",
         email: "Iencli5@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
 ]
 
@@ -93,9 +89,10 @@ describe("POST - /task", () => {
         chai.request(server).post('/task').auth(token, { type: 'bearer' }).send({
             archive: true,
             title: "blabla",
-            description: "description de Blabla",
-            date_start: 1,
-            date_end: 1,
+            content: "content de Blabla",
+            category: 'Discussion',
+            start_at: 1,
+            finish_at: 1,
             board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
             status: "Finish",
             user_id: rdm_users(TabUserId),
@@ -112,7 +109,8 @@ describe("POST - /task", () => {
     it("Ajouter une Tache incorrect. (Sans Title) - E", (done) => {
         chai.request(server).post('/task').auth(token, { type: 'bearer' }).send({
             archive: true,
-            description: "description de Blabla",
+            content: "content de Blabla",
+            category: 'Discussion',
             date_start: 1,
             date_end: 1,
             board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
@@ -130,7 +128,8 @@ describe("POST - /task", () => {
         chai.request(server).post('/task').auth(token, { type: 'bearer' }).send({
             archive: false,
             title: "jetecreepourdestest",
-            description: "description de Blabla",
+            content: "content de Blabla",
+            category: 'Discussion',
             date_start: 8,
             date_end: 10,
             board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
@@ -147,7 +146,8 @@ describe("POST - /task", () => {
         chai.request(server).post('/task').auth(token, { type: 'bearer' }).send({
             archive: true,
             title: "",
-            description: "description de Blabla",
+            content: "content de Blabla",
+            category: 'Discussion',
             date_start: 1,
             date_end: 1,
             board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
@@ -169,7 +169,8 @@ describe("POST - /tasks", () => {
         chai.request(server).post('/tasks').auth(token, { type: 'bearer' }).send([{
             archive: true,
             title: "blabla",
-            description: "description de Blabla",
+            content: "content de Blabla",
+            category: 'Discussion',
             date_start: 1,
             date_end: 1,
             board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
@@ -181,8 +182,9 @@ describe("POST - /tasks", () => {
 
         {
             archive: true,
-            title: "blabla",
-            description: "description de Blabla",
+            title: "hey ho",
+            content: "content de Blabla",
+            category: 'Discussion',
             date_start: 1,
             date_end: 1,
             board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
@@ -214,7 +216,7 @@ describe("POST - /tasks", () => {
             {
                 archive: true,
                 title: "blabla",
-                description: "description de Blabla",
+                content: "content de Blabla",
                 date_start: 1,
                 date_end: 1,
                 user_id: rdm_users(TabUserId),
@@ -230,7 +232,7 @@ describe("POST - /tasks", () => {
         chai.request(server).post('/tasks').auth(token, { type: 'bearer' }).send([{
             archive: false,
             title: "jetecreepourdestest",
-            description: "description de Blabla",
+            content: "content de Blabla",
             date_start: 8,
             date_end: 10,
             board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
@@ -247,7 +249,7 @@ describe("POST - /tasks", () => {
         chai.request(server).post('/tasks').auth(token, { type: 'bearer' }).send([{
             archive: false,
             title: "jetecreepourdestest",
-            description: "description de Blabla",
+            content: "content de Blabla",
             date_start: 8,
             date_end: 10,
             board_id: "", // en attendant d'avoir les bon ids
@@ -264,7 +266,7 @@ describe("POST - /tasks", () => {
 
 describe('PUT - /task/:id', () => {
     it('Modifier une Tache -S', (done) => {
-        chai.request(server).put(`/task/${tasks[0]._id}`).auth(token, { type: 'bearer' }).send({ title: 'Jeanne', description: 'description de la Tache Jeanne' })
+        chai.request(server).put(`/task/${tasks[0]._id}`).auth(token, { type: 'bearer' }).send({ title: 'Jeanne', content: 'content de la Tache Jeanne' })
             .end((err, res) => {
                 res.should.status(200)
                 expect(res.body).to.be.a('object')
@@ -288,7 +290,7 @@ describe('PUT - /task/:id', () => {
             })
     })
     it('Modifier une Tache avec un champ requis vide -E', (done) => {
-        chai.request(server).put(`/task/${tasks[0]._id}`).auth(token, { type: 'bearer' }).send({ title: '', description: 'senerve' })
+        chai.request(server).put(`/task/${tasks[0]._id}`).auth(token, { type: 'bearer' }).send({ title: '', content: 'senerve' })
             .end((err, res) => {
                 res.should.status(405)
                 done()
@@ -365,7 +367,7 @@ describe('GET - /task/:id', () => {
 
 describe('GET - /task', () => {
     it('Chercher une Tache par un champ selectionné -S', (done) => {
-        chai.request(server).get('/task').query({ fields: ['description'], values: tasks[0].tasksname }).auth(token, { type: 'bearer' })
+        chai.request(server).get('/task').query({ fields: ['content'], values: tasks[0].tasksname }).auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.status = (200)
                 done()
@@ -386,7 +388,7 @@ describe('GET - /task', () => {
             })
     })
     it('Chercher une Tache inexistant -E', (done) => {
-        chai.request(server).get('/task').query({ fields: ['description'], values: 'helloguys' }).auth(token, { type: 'bearer' })
+        chai.request(server).get('/task').query({ fields: ['content'], values: 'helloguys' }).auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.status = (404)
                 done()

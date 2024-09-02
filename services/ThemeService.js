@@ -1,4 +1,4 @@
-const ThemeSchema = require("../schemas/Theme");
+const ThemeSchema = require("../schemas/Themes");
 const _ = require("lodash");
 const async = require("async");
 const mongoose = require("mongoose");
@@ -26,7 +26,6 @@ module.exports.addOneTheme = async function (theme, options, callback) {
     try {
         var new_theme = new Theme(theme);
         var errors = new_theme.validateSync();
-        // console.log(errors)
         if (errors) {
             errors = errors['errors'];
             var text = Object.keys(errors).map((e) => {
@@ -145,7 +144,7 @@ module.exports.findOneThemeById = function (theme_id, options, callback) {
 };
 
 module.exports.findOneTheme = function (tab_field, value, options, callback) {
-    var field_unique = ['name', 'price']
+    var field_unique = ['title']
     var opts = { populate: options && options.populate ? [user_Id] : [] }
 
     if (tab_field && Array.isArray(tab_field) && value && _.filter(tab_field, (e) => {
@@ -390,7 +389,6 @@ module.exports.deleteOneTheme = function (theme_id, options, callback) {
         Theme.findByIdAndDelete(theme_id)
             .then((value) => {
                 try {
-                    console.log(value)
                     if (value) callback(null, value.toObject());
                     else
                         callback({

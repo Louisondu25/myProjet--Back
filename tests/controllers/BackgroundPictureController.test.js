@@ -19,34 +19,39 @@ var users = [
         lastName: "Iencli",
         username: "oui1",
         email: "Iencli@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'backgroundpicture 2",
         lastName: "Iencli",
         username: "oui2",
         email: "Iencli2@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     }, {
         firstName: "detenteur  d'backgroundpicture 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'backgroundpicture 4",
         lastName: "Iencli",
         username: "oui4",
         email: "Iencli4@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'backgroundpicture 5",
         lastName: "Iencli",
         username: "oui5",
         email: "Iencli5@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
 ]
 
@@ -81,12 +86,12 @@ describe("POST - /login", () => {
 describe("POST - /backgroundpicture", () => {
     it("Ajouter un BackgroundPicture. - S", (done) => {
         chai.request(server).post('/backgroundpicture').auth(token, { type: 'bearer' }).send({
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            title: "Voyage",
+            image: "New York",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }).end((err, res) => {
             res.should.have.status(201)
             //  expect(res).to.be.a('object')
@@ -96,11 +101,11 @@ describe("POST - /backgroundpicture", () => {
     })
     it("Ajouter un BackgroundPicture incorrect. (Sans firstName) - E", (done) => {
         chai.request(server).post('/backgroundpicture').auth(token, { type: 'bearer' }).send({
-            lastName: 'Us',
-            backgroundpicturename: 'dwarfSlayr',
-            email: 'lutfu.us@gmil.com',
+            image: "Paysage",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -108,12 +113,12 @@ describe("POST - /backgroundpicture", () => {
     })
     it("Ajouter un BackgroundPicture incorrect. (Avec un backgroundpicturename existant) - E", (done) => {
         chai.request(server).post('/backgroundpicture').auth(token, { type: 'bearer' }).send({
-            firstName: "luf",
-            lastName: "Us",
-            backgroundpicturename: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
+            title: "Voyage",
+            image: "New York",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -121,12 +126,12 @@ describe("POST - /backgroundpicture", () => {
     })
     it("Ajouter un BackgroundPicture incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/backgroundpicture').auth(token, { type: 'bearer' }).send({
-            firstName: "luffu",
-            lastName: "",
-            backgroundpicturename: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
+            title: "Histoire",
+            image: "",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -138,21 +143,21 @@ describe("POST - /backgroundpicture", () => {
 describe("POST - /backgroundpictures", () => {
     it("Ajouter plusieurs BackgroundPictures. - S", (done) => {
         chai.request(server).post('/backgroundpictures').auth(token, { type: 'bearer' }).send([{
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            title: "Vacances",
+            image: "Mer",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         },
 
         {
-            name: "Pomme de terre",
-            description: "blabla",
-            price: 2.80,
-            quantity: 800,
+            title: "Oiseaux",
+            image: "Aigle Royal",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }]
         ).end((err, res) => {
             res.should.have.status(201)
@@ -163,19 +168,18 @@ describe("POST - /backgroundpictures", () => {
     it("Ajouter plusieurs BackgroundPictures incorrect. - E", (done) => {
         chai.request(server).post('/backgroundpictures').auth(token, { type: 'bearer' }).send([
             {
-                lastName: 'Us',
-                arname: 'dwarfSlayr',
-                email: 'lutfu.us@gmil.com',
+                image: "Galaxie",
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
+                created_at: new Date(),
+                updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
 
             {
-                lastName: 'Us',
-                backgroundpicturename: 'dwarfSlaycdsr',
-                email: 'lutffqzdsu.us@gmil.com',
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
+                created_at: new Date(),
+                updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             }
         ]).end((err, res) => {
             res.should.have.status(405)
@@ -184,10 +188,11 @@ describe("POST - /backgroundpictures", () => {
     })
     it("Ajouter plusieurs BackgroundPictures incorrect. (Avec un backgroundpicturename existant) - E", (done) => {
         chai.request(server).post('/backgroundpictures').auth(token, { type: 'bearer' }).send([{
-            firstName: "luf",
-            lastName: "Us",
-            backgroundpicturename: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
+            title: "Voyage",
+            image: "New York",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
             password: "higuys"
         }]).end((err, res) => {
@@ -197,12 +202,12 @@ describe("POST - /backgroundpictures", () => {
     })
     it("Ajouter plusieurs BackgroundPictures incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/backgroundpictures').auth(token, { type: 'bearer' }).send([{
-            firstName: "luffu",
-            lastName: "",
-            backgroundpicturename: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
+            title: "Voyage",
+            image: "",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }]).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -236,7 +241,7 @@ describe('PUT - /backgroundpicture/:id', () => {
             })
     })
     it('Modifier un BackgroundPicture avec un champ requis vide -E', (done) => {
-        chai.request(server).put(`/backgroundpicture/${backgroundpictures[0]._id}`).auth(token, { type: 'bearer' }).send({ name: '', description: 'senerve' })
+        chai.request(server).put(`/backgroundpicture/${backgroundpictures[0]._id}`).auth(token, { type: 'bearer' }).send({ title: '', description: 'senerve' })
             .end((err, res) => {
                 res.should.status(405)
                 done()
@@ -264,7 +269,7 @@ describe('PUT /backgroundpictures', () => {
     })
 
     it('Modifier plusieurs BackgroundPictures  avec des ids inexistant- E', (done) => {
-        chai.request(server).put('/backgroundpictures').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ name: 'James' })
+        chai.request(server).put('/backgroundpictures').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ title: 'James' })
             .end((err, res) => {
                 res.should.have.status(404);
                 expect(res.body).to.be.an('object');
@@ -273,7 +278,7 @@ describe('PUT /backgroundpictures', () => {
     })
 
     it('Modifier plusieurs BackgroundPictures  avec un champ requis vide - E', (done) => {
-        chai.request(server).put('/backgroundpictures').query({ id: _.map(backgroundpictures, '_id') }).auth(token, { type: 'bearer' }).send({ name: '' })
+        chai.request(server).put('/backgroundpictures').query({ id: _.map(backgroundpictures, '_id') }).auth(token, { type: 'bearer' }).send({ title: '' })
             .end((err, res) => {
                 res.should.have.status(405);
                 expect(res.body).to.be.an('object');
@@ -346,7 +351,6 @@ describe('GET - /backgroundpictures_by_filters', () => {
     it('Rechercher des BackgroundPictures -S', (done) => {
         chai.request(server).get('/backgroundpictures_by_filters').query({ page: 1, limit: 2 }).auth(token, { type: 'bearer' })
             .end((err, res) => {
-
                 res.should.have.status(200);
                 expect(res.body.results).to.be.an('array');
                 done();

@@ -19,34 +19,39 @@ var users = [
         lastName: "Iencli",
         username: "oui1",
         email: "Iencli@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'liste 2",
         lastName: "Iencli",
         username: "oui2",
         email: "Iencli2@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     }, {
         firstName: "detenteur  d'liste 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'liste 4",
         lastName: "Iencli",
         username: "oui4",
         email: "Iencli4@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'liste 5",
         lastName: "Iencli",
         username: "oui5",
         email: "Iencli5@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
 ]
 
@@ -79,14 +84,14 @@ describe("POST - /login", () => {
 })
 
 describe("POST - /liste", () => {
-    it("Ajouter un Liste. - S", (done) => {
+    it("Ajouter une Liste. - S", (done) => {
         chai.request(server).post('/liste').auth(token, { type: 'bearer' }).send({
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            title: "Carottes",
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            board_id: '66bb1c2a2bbcb76e3c7cacfa',
+            archive: true,
+            created_at: new Date(),
+            updated_at: new Date(),
         }).end((err, res) => {
             res.should.have.status(201)
             //  expect(res).to.be.a('object')
@@ -94,39 +99,26 @@ describe("POST - /liste", () => {
             done()
         });
     })
-    it("Ajouter un Liste incorrect. (Sans firstName) - E", (done) => {
+    it("Ajouter une Liste incorrect. (Sans Title) - E", (done) => {
         chai.request(server).post('/liste').auth(token, { type: 'bearer' }).send({
-            lastName: 'Us',
-            listename: 'dwarfSlayr',
-            email: 'lutfu.us@gmil.com',
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            board_id: '66bb1c2a2bbcb76e3c7cacfa',
+            archive: false,
+            created_at: new Date(),
+            updated_at: new Date(),
         }).end((err, res) => {
             res.should.have.status(405)
             done()
         })
     })
-    it("Ajouter un Liste incorrect. (Avec un listename existant) - E", (done) => {
+    it("Ajouter une Liste incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/liste').auth(token, { type: 'bearer' }).send({
-            firstName: "luf",
-            lastName: "Us",
-            listename: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
+            title: "",
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
-        }).end((err, res) => {
-            res.should.have.status(405)
-            done()
-        })
-    })
-    it("Ajouter un Liste incorrect. (Avec un champ vide) - E", (done) => {
-        chai.request(server).post('/liste').auth(token, { type: 'bearer' }).send({
-            firstName: "luffu",
-            lastName: "",
-            listename: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            board_id: '66bb1c2a2bbcb76e3c7cacfa',
+            archive: false,
+            created_at: new Date(),
+            updated_at: new Date(),
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -138,21 +130,21 @@ describe("POST - /liste", () => {
 describe("POST - /listes", () => {
     it("Ajouter plusieurs Listes. - S", (done) => {
         chai.request(server).post('/listes').auth(token, { type: 'bearer' }).send([{
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            title: "Carottes",
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            board_id: '66bb1c2a2bbcb76e3c7cacfa',
+            archive: true,
+            created_at: new Date(),
+            updated_at: new Date(),
         },
 
         {
-            name: "Pomme de terre",
-            description: "blabla",
-            price: 2.80,
-            quantity: 800,
+            title: "Pommes de terre",
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            board_id: '66bb1c2a2bbcb76e3c7cacfa',
+            archive: true,
+            created_at: new Date(),
+            updated_at: new Date(),
         }]
         ).end((err, res) => {
             res.should.have.status(201)
@@ -163,46 +155,31 @@ describe("POST - /listes", () => {
     it("Ajouter plusieurs Listes incorrect. - E", (done) => {
         chai.request(server).post('/listes').auth(token, { type: 'bearer' }).send([
             {
-                lastName: 'Us',
-                arname: 'dwarfSlayr',
-                email: 'lutfu.us@gmil.com',
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
+                board_id: '66bb1c2a2bbcb76e3c7cacfa',
+                archive: false,
+                created_at: new Date(),
+                updated_at: new Date(),
             },
 
             {
-                lastName: 'Us',
-                listename: 'dwarfSlaycdsr',
-                email: 'lutffqzdsu.us@gmil.com',
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
+                archive: false,
+                created_at: new Date(),
+                updated_at: new Date(),
             }
         ]).end((err, res) => {
             res.should.have.status(405)
             done()
         })
     })
-    it("Ajouter plusieurs Listes incorrect. (Avec un listename existant) - E", (done) => {
-        chai.request(server).post('/listes').auth(token, { type: 'bearer' }).send([{
-            firstName: "luf",
-            lastName: "Us",
-            listename: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
-        }]).end((err, res) => {
-            res.should.have.status(405)
-            done()
-        })
-    })
     it("Ajouter plusieurs Listes incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/listes').auth(token, { type: 'bearer' }).send([{
-            firstName: "luffu",
-            lastName: "",
-            listename: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
+            title: "",
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
+            board_id: '66bb1c2a2bbcb76e3c7cacfa',
+            archive: false,
+            created_at: new Date(),
+            updated_at: new Date(),
         }]).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -212,7 +189,7 @@ describe("POST - /listes", () => {
 
 describe('PUT - /liste/:id', () => {
     it('Modifier un Liste -S', (done) => {
-        chai.request(server).put(`/liste/${listes[0]._id}`).auth(token, { type: 'bearer' }).send({ firstName: 'Jeanne', lastName: 'Lu' })
+        chai.request(server).put(`/liste/${listes[0]._id}`).auth(token, { type: 'bearer' }).send({ title: 'Jeanne', deplacer_liste_setting: 'Menage' })
             .end((err, res) => {
                 res.should.status(200)
                 expect(res.body).to.be.a('object')
@@ -236,7 +213,7 @@ describe('PUT - /liste/:id', () => {
             })
     })
     it('Modifier un Liste avec un champ requis vide -E', (done) => {
-        chai.request(server).put(`/liste/${listes[0]._id}`).auth(token, { type: 'bearer' }).send({ name: '', description: 'senerve' })
+        chai.request(server).put(`/liste/${listes[0]._id}`).auth(token, { type: 'bearer' }).send({ title: '', deplacer_liste_setting: 'Menage'})
             .end((err, res) => {
                 res.should.status(405)
                 done()
@@ -246,7 +223,7 @@ describe('PUT - /liste/:id', () => {
 
 describe('PUT /listes', () => {
     it('Modifier plusieurs Listes - S', (done) => {
-        chai.request(server).put('/listes').query({ id: _.map(listes, '_id') }).auth(token, { type: 'bearer' }).send({ firstName: 'James' })
+        chai.request(server).put('/listes').query({ id: _.map(listes, '_id') }).auth(token, { type: 'bearer' }).send()
             .end((err, res) => {
                 res.should.have.status(200);
                 expect(res.body).to.be.an('object');
@@ -264,7 +241,7 @@ describe('PUT /listes', () => {
     })
 
     it('Modifier plusieurs Listes  avec des ids inexistant- E', (done) => {
-        chai.request(server).put('/listes').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ name: 'James' })
+        chai.request(server).put('/listes').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ title: 'James' })
             .end((err, res) => {
                 res.should.have.status(404);
                 expect(res.body).to.be.an('object');
@@ -273,7 +250,7 @@ describe('PUT /listes', () => {
     })
 
     it('Modifier plusieurs Listes  avec un champ requis vide - E', (done) => {
-        chai.request(server).put('/listes').query({ id: _.map(listes, '_id') }).auth(token, { type: 'bearer' }).send({ name: '' })
+        chai.request(server).put('/listes').query({ id: _.map(listes, '_id') }).auth(token, { type: 'bearer' }).send({ title: '' })
             .end((err, res) => {
                 res.should.have.status(405);
                 expect(res.body).to.be.an('object');
@@ -313,7 +290,7 @@ describe('GET - /liste/:id', () => {
 
 describe('GET - /liste', () => {
     it('Chercher un Liste par un champ selectionné -S', (done) => {
-        chai.request(server).get('/liste').query({ fields: ['description'], values: listes[0].listename }).auth(token, { type: 'bearer' })
+        chai.request(server).get('/liste').query({ fields: ['description'], values: listes[0].title }).auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.status = (200)
                 done()

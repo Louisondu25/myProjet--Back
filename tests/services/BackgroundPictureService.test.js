@@ -15,35 +15,40 @@ var users = [
         lastName: "Iencli",
         username: "oui1",
         email: "Iencli@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'backgroundpicture 2",
         lastName: "Iencli",
         username: "oui2",
         email: "Iencli2@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
 
     }, {
         firstName: "detenteur  d'backgroundpicture 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'backgroundpicture 4",
         lastName: "Iencli",
         username: "oui4",
         email: "Iencli4@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'backgroundpicture 5",
         lastName: "Iencli",
         username: "oui5",
         email: "Iencli5@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
 ]
 
@@ -62,14 +67,12 @@ function rdm_users(tab) {
 describe("addOneBackgroundPicture", () => {
     it("BackgroundPicture correct. - S", (done) => {
         var backgroundpicture = {
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            title: "Histoire",
+            image: "blabla",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
             created_at: new Date(),
             updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         };
         BackgroundPictureService.addOneBackgroundPicture(backgroundpicture, null, function (err, value) {
             expect(value).to.be.a("object");
@@ -80,23 +83,21 @@ describe("addOneBackgroundPicture", () => {
             //
         });
     });
-    it("BackgroundPicture incorrect. (Sans Name) - E", (done) => {
+    it("BackgroundPicture incorrect. (Sans Title) - E", (done) => {
         var backgroundpicture_no_valid = {
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            image: "Equipe Equipe",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
             created_at: new Date(),
             updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         };
         BackgroundPictureService.addOneBackgroundPicture(backgroundpicture_no_valid, null, function (err, value) {
             expect(err).to.haveOwnProperty("msg");
             expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
             expect(err).to.haveOwnProperty("fields");
-            expect(err["fields"]).to.haveOwnProperty("name");
-            expect(err["fields"]["name"]).to.equal(
-                "Path `name` is required."
+            expect(err["fields"]).to.haveOwnProperty("title");
+            expect(err["fields"]["title"]).to.equal(
+                "Path `title` is required."
             );
             done()
         });
@@ -107,37 +108,26 @@ describe("addManyBackgroundPictures", () => {
     it("BackgroundPictures à ajouter, non valide. - E", (done) => {
         var backgroundpictures_tab_error = [
             {
-                name: "Carottes",
-                description: "Hey Honey",
-                price: 2.50,
-                quantity: "500",
+                image: "blabla",
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Carottes",
-                description: "blabla",
-                price: 2.50,
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Carottes",
-                description: "pookie",
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Carottes",
-                description: "blabla",
+                updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
         ];
         BackgroundPictureService.addManyBackgroundPictures(backgroundpictures_tab_error, null, function (err, value) {
@@ -148,34 +138,28 @@ describe("addManyBackgroundPictures", () => {
     it("BackgroundPictures à ajouter, valide. - S", (done) => {
         var backgroundpictures_tab = [
             {
-                name: "Carottes",
-                description: "blabla",
-                price: 2.50,
-                quantity: 500,
+                title: "Informatique",
+                image: "CPU",
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Pomme de terre",
-                description: "blabla",
-                price: 2.80,
-                quantity: 800,
+                title: "Image",
+                image: "Photo",
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Navet",
-                description: "blabla",
-                price: 3.10,
-                quantity: 200,
+                title: "Jeux Video",
+                image: "Call Of Duty",
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
         ];
 
@@ -193,7 +177,6 @@ describe("findOneBackgroundPictureById", () => {
         BackgroundPictureService.findOneBackgroundPictureById(id_backgroundpicture_valid, null, function (err, value) {
             expect(value).to.be.a("object");
             expect(value).to.haveOwnProperty("_id");
-            expect(value).to.haveOwnProperty("description");
             done();
         });
     });
@@ -209,8 +192,8 @@ describe("findOneBackgroundPictureById", () => {
 
 describe('findOneBackgroundPicture', () => {
     it('Chercher un BackgroundPicture avec un champ autorisé - S', (done) => {
-        BackgroundPictureService.findOneBackgroundPicture(['name'], backgroundpictures[0].name, null, (err, value) => {
-            expect(value).to.haveOwnProperty('name');
+        BackgroundPictureService.findOneBackgroundPicture(['title'], backgroundpictures[0].title, null, (err, value) => {
+            expect(value).to.haveOwnProperty('title');
             done();
         });
     });
@@ -263,15 +246,15 @@ describe("updateOneBackgroundPicture", () => {
     it("Modifier un BackgroundPicture correct. - S", (done) => {
         BackgroundPictureService.updateOneBackgroundPicture(
             id_backgroundpicture_valid,
-            { name: "Choux", description: "Hello" },
+            { title: "Animaux", image: "Zebre", },
             null,
             function (err, value) {
                 expect(value).to.be.a("object");
                 expect(value).to.haveOwnProperty("_id");
-                expect(value).to.haveOwnProperty("name");
-                expect(value).to.haveOwnProperty("description");
-                expect(value["name"]).to.be.equal("Choux");
-                expect(value["description"]).to.be.equal("Hello");
+                expect(value).to.haveOwnProperty("title");
+                expect(value).to.haveOwnProperty("image");
+                expect(value["title"]).to.be.equal("Animaux");
+                expect(value["image"]).to.be.equal("Zebre");
                 done();
             }
         );
@@ -292,14 +275,14 @@ describe("updateOneBackgroundPicture", () => {
     it("Modifier un BackgroundPicture avec des champs requis vide. - E", (done) => {
         BackgroundPictureService.updateOneBackgroundPicture(
             id_backgroundpicture_valid,
-            { name: "", description: "Hello" }, null,
+            { title: "", content: "Hello" }, null,
             function (err, value) {
                 expect(value).to.be.undefined;
                 expect(err).to.haveOwnProperty("msg");
                 expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
                 expect(err).to.haveOwnProperty("fields");
-                expect(err["fields"]).to.haveOwnProperty("name");
-                expect(err["fields"]["name"]).to.equal("Path `name` is required.");
+                expect(err["fields"]).to.haveOwnProperty("title");
+                expect(err["fields"]["title"]).to.equal("Path `title` is required.");
                 done();
             }
         );
@@ -308,7 +291,7 @@ describe("updateOneBackgroundPicture", () => {
 
 describe("updateManyBackgroundPictures", () => {
     it("Modifier plusieurs BackgroundPictures correctement. - S", (done) => {
-        BackgroundPictureService.updateManyBackgroundPictures(tab_id_backgroundpictures, { name: "Choux", description: "Hello" }, null, function (err, value) {
+        BackgroundPictureService.updateManyBackgroundPictures(tab_id_backgroundpictures, { title: "Choux" }, null, function (err, value) {
             expect(value).to.haveOwnProperty("modifiedCount");
             expect(value).to.haveOwnProperty("matchedCount");
             expect(value["matchedCount"]).to.be.equal(tab_id_backgroundpictures.length);
@@ -330,7 +313,7 @@ describe("updateManyBackgroundPictures", () => {
     it("Modifier plusieurs BackgroundPictures avec des champs requis vide. - E", (done) => {
         BackgroundPictureService.updateManyBackgroundPictures(
             tab_id_backgroundpictures,
-            { name: "", description: "Luc" }, null,
+            { title: "", content: "Luc" }, null,
             function (err, value) {
                 expect(value).to.be.undefined;
                 expect(err).to.haveOwnProperty("msg");
@@ -347,8 +330,7 @@ describe("deleteOneBackgroundPicture", () => {
     it("Supprimer un BackgroundPicture correctement. - S", (done) => {
         BackgroundPictureService.deleteOneBackgroundPicture(id_backgroundpicture_valid, null, function (err, value) {
             expect(value).to.be.a('Object')
-            expect(value).to.haveOwnProperty("name");
-            expect(value).to.haveOwnProperty("description");
+            expect(value).to.haveOwnProperty("title");
             done()
         });
     });

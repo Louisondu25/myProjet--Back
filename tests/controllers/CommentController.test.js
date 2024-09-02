@@ -15,13 +15,12 @@ chai.use(chaiHttp)
 
 var users = [
     {
-        firstName: "detenteur  du commentaire 1",
+        firstName: "detenteur  du commentaire 1",// modifier age, content et phoneNumber
         lastName: "Iencli",
         username: "oui1",
         email: "Iencli@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  du commentaire 2",
@@ -29,16 +28,14 @@ var users = [
         username: "oui2",
         email: "Iencli2@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     }, {
         firstName: "detenteur  du commentaire 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  du commentaire 4",
@@ -46,8 +43,7 @@ var users = [
         username: "oui4",
         email: "Iencli4@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  du commentaire 5",
@@ -55,8 +51,7 @@ var users = [
         username: "oui5",
         email: "Iencli5@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
 ]
 
@@ -96,6 +91,8 @@ describe("POST - /comment", () => {
             status: 'Infos',
             user_id: rdm_users(TabUsersId),
             task_id: '66bc7e4d639d08dee594f348',
+            category_id: '66c898fc0438b81066f0ede3',
+            board_id: '66bb1c1b2bbcb76e3c7cacf4', // mettre dans le addone et addmanyet faire les tests.
             created_at: new Date(),
             updated_at: new Date(),
         }).end((err, res) => {
@@ -108,9 +105,11 @@ describe("POST - /comment", () => {
     it("Ajouter un Commentaire incorrect. (Sans Text) - E", (done) => {
         chai.request(server).post('/comment').auth(token, { type: 'bearer' }).send({
             date: 1,
-            status: 'Error',
+            status: 'Infos',
             user_id: rdm_users(TabUsersId),
             task_id: '66bc7e4d639d08dee594f348',
+            category_id: '66c898fc0438b81066f0ede3',
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
             created_at: new Date(),
             updated_at: new Date(),
         }).end((err, res) => {
@@ -122,9 +121,11 @@ describe("POST - /comment", () => {
         chai.request(server).post('/comment').auth(token, { type: 'bearer' }).send({
             text: "",
             date: 1,
-            status: 'Error',
+            status: 'Infos',
             user_id: rdm_users(TabUsersId),
             task_id: '66bc7e4d639d08dee594f348',
+            category_id: '66c898fc0438b81066f0ede3',
+            board_id: '66bb1c1b2bbcb76e3c7cacf4', 
             created_at: new Date(),
             updated_at: new Date(),
         }).end((err, res) => {
@@ -142,6 +143,8 @@ describe("POST - /comments", () => {
             status: 'Infos',
             user_id: rdm_users(TabUsersId),
             task_id: '66bc7e4d639d08dee594f348',
+            category_id: '66c898fc0438b81066f0ede3',
+            board_id: '66bb1c1b2bbcb76e3c7cacf4', 
             created_at: new Date(),
             updated_at: new Date(),
         },
@@ -152,6 +155,8 @@ describe("POST - /comments", () => {
             status: 'Infos',
             user_id: rdm_users(TabUsersId),
             task_id: '66bc7e4d639d08dee594f348',
+            category_id: '66c898fc0438b81066f0ede3',
+            board_id: '66bb1c1b2bbcb76e3c7cacf4', 
             created_at: new Date(),
             updated_at: new Date(),
         }]
@@ -164,10 +169,12 @@ describe("POST - /comments", () => {
     it("Ajouter plusieurs Commentaires incorrect. - E", (done) => {
         chai.request(server).post('/comments').auth(token, { type: 'bearer' }).send([
             {
-                text: "Prendre de la creme solaire",
+                date: 1,
                 status: 'Infos',
                 user_id: rdm_users(TabUsersId),
                 task_id: '66bc7e4d639d08dee594f348',
+                category_id: '66c898fc0438b81066f0ede3',
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
             },
@@ -176,6 +183,8 @@ describe("POST - /comments", () => {
                 status: 'Infos',
                 user_id: rdm_users(TabUsersId),
                 task_id: '66bc7e4d639d08dee594f348',
+                category_id: '66c898fc0438b81066f0ede3',
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
             }
@@ -303,7 +312,7 @@ describe('GET - /comment/:id', () => {
 
 describe('GET - /comment', () => {
     it('Chercher un Commentaire par un champ selectionné -S', (done) => {
-        chai.request(server).get('/comment').query({ fields: ['description'], values: comments[0].commentname }).auth(token, { type: 'bearer' })
+        chai.request(server).get('/comment').query({ fields: ['content'], values: comments[0].commentname }).auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.status = (200)
                 done()
@@ -324,7 +333,7 @@ describe('GET - /comment', () => {
             })
     })
     it('Chercher un Commentaire inexistant -E', (done) => {
-        chai.request(server).get('/comment').query({ fields: ['description'], values: 'helloguys' }).auth(token, { type: 'bearer' })
+        chai.request(server).get('/comment').query({ fields: ['content'], values: 'helloguys' }).auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.status = (404)
                 done()

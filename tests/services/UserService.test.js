@@ -12,8 +12,7 @@ describe("addOneUser", () => {
     var user = {
       firstName: "Edouard",
       lastName: "Dupont",
-      age: 45,
-      phone_Number:"0589861456",
+      phoneNumber:"0589861456",
       email: "edouard.dupont@gmail.com",
       username: "edupont",
       password: "hellogirl"
@@ -25,12 +24,11 @@ describe("addOneUser", () => {
       done()
     });
   });
-  it("Utilisateur incorrect. (Sans Title) - E", ( done) => {
+  it("Utilisateur incorrect. (Sans FirstName) - E", ( done) => {
     var user_no_valid = {
       lastName: "Dupont",
       email: "edouard.dupont@gmail.com",
-      age: 25,
-      phone_Number: "0485617645",
+      phoneNumber: "0485617645",
       username: "edupont",
       password: "hellogirl"
     };
@@ -92,8 +90,7 @@ describe("addManyUsers", () => {
       {
         firstName: "Louison",
         lastName: "Dupont",
-        age: 35,
-        phone_Number: "0685946512",
+        phoneNumber: "0685946512",
         username: "L-Diddy",
         email: "Big Lou@gmail.com",
         password: "hellogirl"
@@ -101,8 +98,7 @@ describe("addManyUsers", () => {
       {
         firstName: "Jordan",
         lastName: "Dupont",
-        age: 27,
-        phone_Number: "0645102340",
+        phoneNumber: "0645102340",
         username: "J-Dawg",
         email: "The Dupontinator@gmail.com",
         password: "hellogirl"
@@ -110,8 +106,7 @@ describe("addManyUsers", () => {
       {
         firstName: "Mathis",
         lastName: "Dupont",
-        age: 23,
-        phone_Number: "0645102340",
+        phoneNumber: "0645102340",
         username: "Matador Mathis",
         email: "The Math Maverickt@gmail.com",
         password: "hellogirl"

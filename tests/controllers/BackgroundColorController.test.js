@@ -19,34 +19,39 @@ var users = [
         lastName: "Iencli",
         username: "oui1",
         email: "Iencli@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'backgroundcolor 2",
         lastName: "Iencli",
         username: "oui2",
         email: "Iencli2@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     }, {
         firstName: "detenteur  d'backgroundcolor 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'backgroundcolor 4",
         lastName: "Iencli",
         username: "oui4",
         email: "Iencli4@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'backgroundcolor 5",
         lastName: "Iencli",
         username: "oui5",
         email: "Iencli5@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
 ]
 
@@ -81,12 +86,12 @@ describe("POST - /login", () => {
 describe("POST - /backgroundcolor", () => {
     it("Ajouter un BackgroundColor. - S", (done) => {
         chai.request(server).post('/backgroundcolor').auth(token, { type: 'bearer' }).send({
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            title: "Bleu",
+            color: "blue",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }).end((err, res) => {
             res.should.have.status(201)
             //  expect(res).to.be.a('object')
@@ -94,13 +99,13 @@ describe("POST - /backgroundcolor", () => {
             done()
         });
     })
-    it("Ajouter un BackgroundColor incorrect. (Sans firstName) - E", (done) => {
+    it("Ajouter un BackgroundColor incorrect. (Sans Title) - E", (done) => {
         chai.request(server).post('/backgroundcolor').auth(token, { type: 'bearer' }).send({
-            lastName: 'Us',
-            backgroundcolorname: 'dwarfSlayr',
-            email: 'lutfu.us@gmil.com',
+            color: "orange",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -108,12 +113,12 @@ describe("POST - /backgroundcolor", () => {
     })
     it("Ajouter un BackgroundColor incorrect. (Avec un backgroundcolorname existant) - E", (done) => {
         chai.request(server).post('/backgroundcolor').auth(token, { type: 'bearer' }).send({
-            firstName: "luf",
-            lastName: "Us",
-            backgroundcolorname: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
+            title: "Bleu",
+            color: "blue",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -121,12 +126,12 @@ describe("POST - /backgroundcolor", () => {
     })
     it("Ajouter un BackgroundColor incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/backgroundcolor').auth(token, { type: 'bearer' }).send({
-            firstName: "luffu",
-            lastName: "",
-            backgroundcolorname: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
+            title: "",
+            color: "black",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -138,21 +143,21 @@ describe("POST - /backgroundcolor", () => {
 describe("POST - /backgroundcolors", () => {
     it("Ajouter plusieurs BackgroundColors. - S", (done) => {
         chai.request(server).post('/backgroundcolors').auth(token, { type: 'bearer' }).send([{
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            title: "Noir",
+            color: "black",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         },
 
         {
-            name: "Pomme de terre",
-            description: "blabla",
-            price: 2.80,
-            quantity: 800,
+            title: "Blanc",
+            color: "white",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }]
         ).end((err, res) => {
             res.should.have.status(201)
@@ -163,19 +168,18 @@ describe("POST - /backgroundcolors", () => {
     it("Ajouter plusieurs BackgroundColors incorrect. - E", (done) => {
         chai.request(server).post('/backgroundcolors').auth(token, { type: 'bearer' }).send([
             {
-                lastName: 'Us',
-                arname: 'dwarfSlayr',
-                email: 'lutfu.us@gmil.com',
+                color: "blue",
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
+                created_at: new Date(),
+                updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
 
             {
-                lastName: 'Us',
-                backgroundcolorname: 'dwarfSlaycdsr',
-                email: 'lutffqzdsu.us@gmil.com',
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
+                created_at: new Date(),
+                updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             }
         ]).end((err, res) => {
             res.should.have.status(405)
@@ -184,12 +188,12 @@ describe("POST - /backgroundcolors", () => {
     })
     it("Ajouter plusieurs BackgroundColors incorrect. (Avec un backgroundcolorname existant) - E", (done) => {
         chai.request(server).post('/backgroundcolors').auth(token, { type: 'bearer' }).send([{
-            firstName: "luf",
-            lastName: "Us",
-            backgroundcolorname: "dwarfSlayer",
-            email: "lutfu.us@gmai.com",
+            title: "Bleu",
+            color: "blue",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }]).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -197,12 +201,12 @@ describe("POST - /backgroundcolors", () => {
     })
     it("Ajouter plusieurs BackgroundColors incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/backgroundcolors').auth(token, { type: 'bearer' }).send([{
-            firstName: "luffu",
-            lastName: "",
-            backgroundcolorname: "dwarfSlaye",
-            email: "lufu.us@gmai.com",
+            title: "",
+            color: "blue",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
+            created_at: new Date(),
+            updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         }]).end((err, res) => {
             res.should.have.status(405)
             done()
@@ -212,7 +216,7 @@ describe("POST - /backgroundcolors", () => {
 
 describe('PUT - /backgroundcolor/:id', () => {
     it('Modifier un BackgroundColor -S', (done) => {
-        chai.request(server).put(`/backgroundcolor/${backgroundcolors[0]._id}`).auth(token, { type: 'bearer' }).send({ firstName: 'Jeanne', lastName: 'Lu' })
+        chai.request(server).put(`/backgroundcolor/${backgroundcolors[0]._id}`).auth(token, { type: 'bearer' }).send({ title: 'Jeanne', color: 'Lu' })
             .end((err, res) => {
                 res.should.status(200)
                 expect(res.body).to.be.a('object')
@@ -236,7 +240,7 @@ describe('PUT - /backgroundcolor/:id', () => {
             })
     })
     it('Modifier un BackgroundColor avec un champ requis vide -E', (done) => {
-        chai.request(server).put(`/backgroundcolor/${backgroundcolors[0]._id}`).auth(token, { type: 'bearer' }).send({ name: '', description: 'senerve' })
+        chai.request(server).put(`/backgroundcolor/${backgroundcolors[0]._id}`).auth(token, { type: 'bearer' }).send({ title: '', color: 'senerve' })
             .end((err, res) => {
                 res.should.status(405)
                 done()
@@ -246,7 +250,7 @@ describe('PUT - /backgroundcolor/:id', () => {
 
 describe('PUT /backgroundcolors', () => {
     it('Modifier plusieurs BackgroundColors - S', (done) => {
-        chai.request(server).put('/backgroundcolors').query({ id: _.map(backgroundcolors, '_id') }).auth(token, { type: 'bearer' }).send({ firstName: 'James' })
+        chai.request(server).put('/backgroundcolors').query({ id: _.map(backgroundcolors, '_id') }).auth(token, { type: 'bearer' }).send()
             .end((err, res) => {
                 res.should.have.status(200);
                 expect(res.body).to.be.an('object');
@@ -264,7 +268,7 @@ describe('PUT /backgroundcolors', () => {
     })
 
     it('Modifier plusieurs BackgroundColors  avec des ids inexistant- E', (done) => {
-        chai.request(server).put('/backgroundcolors').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ name: 'James' })
+        chai.request(server).put('/backgroundcolors').query({ id: ['667a698caca06606d0ce8708', '667a699d521dd12877f36ec2'] }).auth(token, { type: 'bearer' }).send({ title: 'James' })
             .end((err, res) => {
                 res.should.have.status(404);
                 expect(res.body).to.be.an('object');
@@ -273,7 +277,7 @@ describe('PUT /backgroundcolors', () => {
     })
 
     it('Modifier plusieurs BackgroundColors  avec un champ requis vide - E', (done) => {
-        chai.request(server).put('/backgroundcolors').query({ id: _.map(backgroundcolors, '_id') }).auth(token, { type: 'bearer' }).send({ name: '' })
+        chai.request(server).put('/backgroundcolors').query({ id: _.map(backgroundcolors, '_id') }).auth(token, { type: 'bearer' }).send({ title: '' })
             .end((err, res) => {
                 res.should.have.status(405);
                 expect(res.body).to.be.an('object');
@@ -313,7 +317,7 @@ describe('GET - /backgroundcolor/:id', () => {
 
 describe('GET - /backgroundcolor', () => {
     it('Chercher un BackgroundColor par un champ selectionné -S', (done) => {
-        chai.request(server).get('/backgroundcolor').query({ fields: ['description'], values: backgroundcolors[0].backgroundcolorname }).auth(token, { type: 'bearer' })
+        chai.request(server).get('/backgroundcolor').query({ fields: ['title'], values: backgroundcolors[0].title }).auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.status = (200)
                 done()

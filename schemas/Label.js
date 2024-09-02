@@ -10,8 +10,8 @@ var Label = mongoose.Schema ({
         unique: true
     },
     date: {
-        type: Number,
-        required: true,
+        type: Date,
+        default: new Date()
     },
     status: {
         type: Boolean,
@@ -24,7 +24,7 @@ var Label = mongoose.Schema ({
     },
     user_id: {
         type: ObjectId,
-        ref:'UserSchema',
+        ref:'User',
         required: true,
     },
     board_id: {
@@ -32,13 +32,18 @@ var Label = mongoose.Schema ({
         ref:'DashBoard',
         required: true,
     },
+    category_id: {
+        type: ObjectId,
+        ref: 'DashBoard',
+        required: true,
+    },
     created_at: {
         type: Date,
-        default: Date.now
+        default: new Date()
     },
     updated_at: {
         type: Date,
-        default: Date.now
+        default: new Date()
     }
 })
 

@@ -75,103 +75,75 @@ describe("CommentController", () => {
  require("./controllers/CommentController.test");
 });
 
-// <------------ CarteService/Controller ---------------------->
-
-// /* Définition d'un bloc de tests pour le service "CartesService" */
-// describe("CarteService", () => {
-  //   /* Importation des tests pour le service "CarteService" */
-//   require("./services/CarteService.test");
-// });
-
-// /* Définition d'un bloc de tests pour le Controller "CommentController" */
-// describe("CarteController", () => {
-  //   /* Importation des tests pour le service "CarteController" */
-//   require("./controllers/CarteController.test");
-// });
-
 // <------------ ListeService/Controller ---------------------->
 
 // /* Définition d'un bloc de tests pour le service "ListesService" */
-// describe("ListeService", () => {
+describe("ListeService", () => {
 //   /* Importation des tests pour le service "ListeService" */
-//   require("./services/ListeService.test");
-// });
+  require("./services/listeService.test");
+});
 
 // /* Définition d'un bloc de tests pour le Controller "ListeController" */
-// describe("ListeController", () => {
+describe("ListeController", () => {
 //   /* Importation des tests pour le service "ListeController" */
-//   require("./controllers/ListeController.test");
-// });
+  require("./controllers/ListeController.test");
+});
 
 // <------------ BackgroundPictureService/Controller ---------------------->
 
 // /* Définition d'un bloc de tests pour le service "BackgroundPictureService" */
-// describe("BackgroundPictureService", () => {
+describe("BackgroundPictureService", () => {
 //   /* Importation des tests pour le service "BackgroundPictureService" */
-//   require("./services/BackgroundPictureService.test");
-// });
+  require("./services/BackgroundPictureService.test");
+});
 
 // /* Définition d'un bloc de tests pour le Controller "BackgroundPictureController" */
-// describe("BackgroundPictureController", () => {
+describe("BackgroundPictureController", () => {
 //   /* Importation des tests pour le service "BackgroundPictureController" */
-//   require("./controllers/BackgroundPictureController.test");
-// });
+  require("./controllers/BackgroundPictureController.test");
+});
 
 // <------------ BackgroundColorService/Controller ---------------------->
 
 // /* Définition d'un bloc de tests pour le service "BackgroundColorService" */
-// describe("BackgroundColorService", () => {
+describe("BackgroundColorService", () => {
 //   /* Importation des tests pour le service "BackgroundColorService" */
-//   require("./services/BackgroundColorService.test");
-// });
+  require("./services/BackgroundColorService.test");
+});
 
 // /* Définition d'un bloc de tests pour le Controller "BackgroundColorController" */
-// describe("BackgroundColorController", () => {
+describe("BackgroundColorController", () => {
 //   /* Importation des tests pour le service "BackgroundColorController" */
-//   require("./controllers/BackgroundColorController.test");
-// });
+  require("./controllers/BackgroundColorController.test");
+});
 
 // <------------ AstuceService/Controller ---------------------->
 
 // /* Définition d'un bloc de tests pour le service "AstuceService" */
-// describe("AstuceService", () => {
+describe("AstuceService", () => {
 //   /* Importation des tests pour le service "AstuceService" */
-//   require("./services/AstuceService.test");
-// });
+  require("./services/AstuceService.test");
+});
 
 // /* Définition d'un bloc de tests pour le Controller "AstuceController" */
-// describe("AstuceController", () => {
+describe("AstuceController", () => {
 //   /* Importation des tests pour le service "AstuceController" */
-//   require("./controllers/AstuceController.test");
-// });
+  require("./controllers/AstuceController.test");
+});
 
 // <------------ ThemeService/Controller ---------------------->
 
 // /* Définition d'un bloc de tests pour le service "ThemeService" */
-// describe("ThemeService", () => {
+describe("ThemeService", () => {
 //   /* Importation des tests pour le service "ThemeService" */
-//   require("./services/ThemeService.test");
-// });
+  require("./services/ThemeService.test");
+});
 
 // /* Définition d'un bloc de tests pour le Controller "ThemeController" */
-// describe("ThemeController", () => {
+describe("ThemeController", () => {
 //   /* Importation des tests pour le service "ThemeController" */
-//   require("./controllers/ThemeController.test");
-// });
-
-// <------------ TableauxService/Controller ---------------------->
-
-// /* Définition d'un bloc de tests pour le service "TableauxService" */
-// describe("TableauxService", () => {
-//   /* Importation des tests pour le service "TableauxService" */
-//   require("./services/TableauxService.test");
-// });
-
-// /* Définition d'un bloc de tests pour le Controller "TableauxController" */
-// describe("TableauxController", () => {
-//   /* Importation des tests pour le service "TableauxController" */
-//   require("./controllers/TableauxController.test");
-// });
+  require("./controllers/ThemeController.test");
+});
 
 describe('API -Mongo', () => {
   it('Vider Les base datas -S', () => {

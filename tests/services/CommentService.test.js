@@ -15,8 +15,7 @@ var users = [
         username: "oui1",
         email: "Iencli@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'un commentaire 2",
@@ -24,8 +23,7 @@ var users = [
         username: "oui2",
         email: "Iencli2@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
 
     }, {
         firstName: "detenteur  d'un commentaire 3",
@@ -33,8 +31,7 @@ var users = [
         username: "oui3",
         email: "Iencli3@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'un commentaire 4",
@@ -42,8 +39,7 @@ var users = [
         username: "oui4",
         email: "Iencli4@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'un commentaire 5",
@@ -51,8 +47,7 @@ var users = [
         username: "oui5",
         email: "Iencli5@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        phoneNumber: "15415215"
     },
 ]
 
@@ -76,6 +71,8 @@ describe("addOneComment", () => {
             status: 'Infos',
             user_id: rdm_users(TabUsersId),
             task_id: '66bc7e4d639d08dee594f348',
+            category_id: '66c898fc0438b81066f0ede3',
+            board_id: '66bb1c1b2bbcb76e3c7cacf4', // mettre dans le addone et addmanyet faire les tests.
             created_at: new Date(),
             updated_at: new Date(),
         };
@@ -94,6 +91,8 @@ describe("addOneComment", () => {
             status: 'Infos',
             user_id: rdm_users(TabUsersId),
             task_id: '66bc7e4d639d08dee594f348',
+            category_id: '66c898fc0438b81066f0ede3',
+            board_id: '66bb1c1b2bbcb76e3c7cacf4', // mettre dans le addone et addmanyet faire les tests.
             created_at: new Date(),
             updated_at: new Date(),
         };
@@ -154,24 +153,30 @@ describe("addManyComments", () => {
                 status: 'Infos',
                 user_id: rdm_users(TabUsersId),
                 task_id: '66bc7e4d639d08dee594f348',
+                category_id: '66c898fc0438b81066f0ede3',
+                board_id: '66bb1c1b2bbcb76e3c7cacf4', 
                 created_at: new Date(),
                 updated_at: new Date(),
             },
             {
                 text: "Prendre de la creme solaire",
-                date: 2,
+                date: 1,
                 status: 'Infos',
                 user_id: rdm_users(TabUsersId),
                 task_id: '66bc7e4d639d08dee594f348',
+                category_id: '66c898fc0438b81066f0ede3',
+                board_id: '66bb1c1b2bbcb76e3c7cacf4', 
                 created_at: new Date(),
                 updated_at: new Date(),
             },
             {
                 text: "Prendre de la creme solaire",
-                date: 3,
+                date: 1,
                 status: 'Infos',
                 user_id: rdm_users(TabUsersId),
                 task_id: '66bc7e4d639d08dee594f348',
+                category_id: '66c898fc0438b81066f0ede3',
+                board_id: '66bb1c1b2bbcb76e3c7cacf4', 
                 created_at: new Date(),
                 updated_at: new Date(),
             },

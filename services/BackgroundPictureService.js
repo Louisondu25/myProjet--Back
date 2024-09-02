@@ -26,7 +26,6 @@ module.exports.addOneBackgroundPicture = async function (backgroundpicture, opti
     try {
         var new_backgroundpicture = new BackgroundPicture(backgroundpicture);
         var errors = new_backgroundpicture.validateSync();
-        // console.log(errors)
         if (errors) {
             errors = errors['errors'];
             var text = Object.keys(errors).map((e) => {
@@ -145,7 +144,7 @@ module.exports.findOneBackgroundPictureById = function (backgroundpicture_id, op
 };
 
 module.exports.findOneBackgroundPicture = function (tab_field, value, options, callback) {
-    var field_unique = ['name', 'price']
+    var field_unique = ['title']
     var opts = { populate: options && options.populate ? [user_Id] : [] }
 
     if (tab_field && Array.isArray(tab_field) && value && _.filter(tab_field, (e) => {
@@ -390,7 +389,6 @@ module.exports.deleteOneBackgroundPicture = function (backgroundpicture_id, opti
         BackgroundPicture.findByIdAndDelete(backgroundpicture_id)
             .then((value) => {
                 try {
-                    console.log(value)
                     if (value) callback(null, value.toObject());
                     else
                         callback({

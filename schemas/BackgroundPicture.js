@@ -7,6 +7,10 @@ var BackgroundPictureSchema = mongoose.Schema({
         ref: 'UserSchema',
         required: true,
     },
+    title: {
+        type: String,
+        required: true,
+    },
     image: {
         type: String,
         index:true,
@@ -20,14 +24,47 @@ var BackgroundPictureSchema = mongoose.Schema({
         required: true,
     },
 
+    fieldname: {
+        type: String,
+        required: false,
+    },
+    originalname: {
+        type: String,
+        required: false,
+    },
+    encoding: {
+        type: String,
+        required: false,
+    },
+    mimetype: {
+        type: String,
+        required: false,
+    },
+    destination: {
+        type: String,
+        required: false,
+    },
+    filename: {
+        type: String,
+        required: false,
+    },
+    path: {
+        type: String,
+        required: false,
+    },
+    size: {
+        type: Number,
+        required: false,
+    },
+
     created_at: {
         type: Date,
-        default: Date.now
+        default: new Date()
     },
 
     updated_at: {
         type: Date,
-        default: Date.now
+        default: new Date()
     }
 })
 

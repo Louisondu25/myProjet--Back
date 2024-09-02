@@ -17,8 +17,8 @@ var users = [
         username: "oui1",
         email: "Iencli@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'etiquette 2",
@@ -26,8 +26,8 @@ var users = [
         username: "oui2",
         email: "Iencli2@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        
+        phoneNumber: "15415215"
 
     }, {
         firstName: "detenteur  d'etiquette 3",
@@ -35,8 +35,8 @@ var users = [
         username: "oui3",
         email: "Iencli3@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'etiquette 4",
@@ -44,8 +44,8 @@ var users = [
         username: "oui4",
         email: "Iencli4@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'etiquette 5",
@@ -53,8 +53,8 @@ var users = [
         username: "oui5",
         email: "Iencli5@gmail.com",
         password: "higuys",
-        age: 10,
-        phone_Number: "15415215"
+        
+        phoneNumber: "15415215"
     },
 ]
 
@@ -79,6 +79,7 @@ describe("addOneLabel", () => {
             task_id: "66bc7ded639d08dee594f342",
             user_id: rdm_users(TabUserId),
             board_id: "66bb1c1b2bbcb76e3c7cacf4",
+            category_id:'66c898fc0438b81066f0ede3',
             created_at: new Date(),
             updated_at: new Date(),
         };
@@ -98,6 +99,7 @@ describe("addOneLabel", () => {
                 task_id: "66bc7ded639d08dee594f342",
                 user_id: rdm_users(TabUserId),
                 board_id: "66bb1c1b2bbcb76e3c7cacf4",
+                category_id: '66c898fc0438b81066f0ede3',
                 created_at: new Date(),
                 updated_at: new Date(),
             };
@@ -165,6 +167,7 @@ describe("addManyLabels", () => {
                 task_id: "66bc7ded639d08dee594f342",
                 user_id: rdm_users(TabUserId),
                 board_id: "66bb1c1b2bbcb76e3c7cacf4",
+                category_id: '66c898fc0438b81066f0ede3',
                 created_at: new Date(),
                 updated_at: new Date(),
             },
@@ -175,6 +178,7 @@ describe("addManyLabels", () => {
                 task_id: "66bc7ded639d08dee594f342",
                 user_id: rdm_users(TabUserId),
                 board_id: "66bb1c1b2bbcb76e3c7cacf4",
+                category_id: '66c898fc0438b81066f0ede3',
                 created_at: new Date(),
                 updated_at: new Date(),
             },
@@ -185,6 +189,7 @@ describe("addManyLabels", () => {
                 task_id: "66bc7ded639d08dee594f342",
                 user_id: rdm_users(TabUserId),
                 board_id: "66bb1c1b2bbcb76e3c7cacf4",
+                category_id: '66c898fc0438b81066f0ede3',
                 created_at: new Date(),
                 updated_at: new Date(),
             },

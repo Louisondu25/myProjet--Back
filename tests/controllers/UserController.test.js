@@ -17,7 +17,7 @@ describe("POST - /user/", () => {
             firstName: "luf",
             lastName: "Us",
             age: 38,
-            phone_Number: "0875661583",
+            phoneNumber: "0875661583",
             username: "dwarfSlayer",
             email: "lutfu.us@gmail.com",
             password: "higuys"
@@ -84,7 +84,7 @@ describe("POST - /users", () => {
             firstName: "luf",
             lastName: "Us",
             age: 25,
-            phone_Number: "0258943159",
+            phoneNumber: "0258943159",
             username: "dwathttvrfSlayer",
             email: "lutfgfbu.us@gmail.com",
             password: "higuys"
@@ -94,7 +94,7 @@ describe("POST - /users", () => {
             firstName: "luf",
             lastName: "Us",
             age:22,
-            phone_Number:"0195642850",
+            phoneNumber:"0195642850",
             username: "dwgfbarfSlayer",
             email: "lutgbffu.us@gmail.com",
             password: "higuys"

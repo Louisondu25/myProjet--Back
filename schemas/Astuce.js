@@ -12,7 +12,7 @@ var AstucesSchema = mongoose.Schema({
         required: true,
     },
 
-    Astuce: {
+    astuce: {
         type: String,
         index: true,
         unique: true,
@@ -33,12 +33,12 @@ var AstucesSchema = mongoose.Schema({
 
     created_at: {
         type: Date,
-        default: Date.now
+        default: new Date()
     },
 
     updated_at: {
         type: Date,
-        default: Date.now
+        default: new Date()
     }
 })
 

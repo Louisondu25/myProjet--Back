@@ -26,7 +26,6 @@ module.exports.addOneListe = async function (liste, options, callback) {
     try {
         var new_liste = new Liste(liste);
         var errors = new_liste.validateSync();
-        // console.log(errors)
         if (errors) {
             errors = errors['errors'];
             var text = Object.keys(errors).map((e) => {
@@ -145,7 +144,7 @@ module.exports.findOneListeById = function (liste_id, options, callback) {
 };
 
 module.exports.findOneListe = function (tab_field, value, options, callback) {
-    var field_unique = ['name', 'price']
+    var field_unique = ['title']
     var opts = { populate: options && options.populate ? [user_Id] : [] }
 
     if (tab_field && Array.isArray(tab_field) && value && _.filter(tab_field, (e) => {
@@ -390,7 +389,6 @@ module.exports.deleteOneListe = function (liste_id, options, callback) {
         Liste.findByIdAndDelete(liste_id)
             .then((value) => {
                 try {
-                    console.log(value)
                     if (value) callback(null, value.toObject());
                     else
                         callback({

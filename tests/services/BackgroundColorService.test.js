@@ -15,35 +15,45 @@ var users = [
         lastName: "Iencli",
         username: "oui1",
         email: "Iencli@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'backgroundcolor 2",
         lastName: "Iencli",
         username: "oui2",
         email: "Iencli2@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        
+        phoneNumber: "15415215"
 
     }, {
         firstName: "detenteur  d'backgroundcolor 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'backgroundcolor 4",
         lastName: "Iencli",
         username: "oui4",
         email: "Iencli4@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'backgroundcolor 5",
         lastName: "Iencli",
         username: "oui5",
         email: "Iencli5@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        
+        phoneNumber: "15415215"
     },
 ]
 
@@ -62,14 +72,12 @@ function rdm_users(tab) {
 describe("addOneBackgroundColor", () => {
     it("BackgroundColor correct. - S", (done) => {
         var backgroundcolor = {
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            title: "Bleu",
+            color: "blue",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
             created_at: new Date(),
             updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         };
         BackgroundColorService.addOneBackgroundColor(backgroundcolor, null, function (err, value) {
             expect(value).to.be.a("object");
@@ -80,23 +88,21 @@ describe("addOneBackgroundColor", () => {
             //
         });
     });
-    it("BackgroundColor incorrect. (Sans Name) - E", (done) => {
+    it("BackgroundColor incorrect. (Sans Title) - E", (done) => {
         var backgroundcolor_no_valid = {
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            color: "blue",
+            board_id: '66bb1c1b2bbcb76e3c7cacf4',
             created_at: new Date(),
             updated_at: new Date(),
             user_id: rdm_users(tab_id_users),
-            password: "higuys"
         };
         BackgroundColorService.addOneBackgroundColor(backgroundcolor_no_valid, null, function (err, value) {
             expect(err).to.haveOwnProperty("msg");
             expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
             expect(err).to.haveOwnProperty("fields");
-            expect(err["fields"]).to.haveOwnProperty("name");
-            expect(err["fields"]["name"]).to.equal(
-                "Path `name` is required."
+            expect(err["fields"]).to.haveOwnProperty("title");
+            expect(err["fields"]["title"]).to.equal(
+                "Path `title` is required."
             );
             done()
         });
@@ -107,37 +113,27 @@ describe("addManyBackgroundColors", () => {
     it("BackgroundColors à ajouter, non valide. - E", (done) => {
         var backgroundcolors_tab_error = [
             {
-                name: "Carottes",
-                description: "Hey Honey",
-                price: 2.50,
-                quantity: "500",
+                color: "blue",
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Carottes",
-                description: "blabla",
-                price: 2.50,
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Carottes",
-                description: "pookie",
+                title: "Bleu",
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Carottes",
-                description: "blabla",
+                updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
         ];
         BackgroundColorService.addManyBackgroundColors(backgroundcolors_tab_error, null, function (err, value) {
@@ -148,34 +144,28 @@ describe("addManyBackgroundColors", () => {
     it("BackgroundColors à ajouter, valide. - S", (done) => {
         var backgroundcolors_tab = [
             {
-                name: "Carottes",
-                description: "blabla",
-                price: 2.50,
-                quantity: 500,
+                title: "Rose",
+                color: "pink",
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Pomme de terre",
-                description: "blabla",
-                price: 2.80,
-                quantity: 800,
+                title: "Vert",
+                color: "green",
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Navet",
-                description: "blabla",
-                price: 3.10,
-                quantity: 200,
+                title: "Violet",
+                color: "purple",
+                board_id: '66bb1c1b2bbcb76e3c7cacf4',
                 created_at: new Date(),
                 updated_at: new Date(),
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
         ];
 
@@ -193,7 +183,6 @@ describe("findOneBackgroundColorById", () => {
         BackgroundColorService.findOneBackgroundColorById(id_backgroundcolor_valid, null, function (err, value) {
             expect(value).to.be.a("object");
             expect(value).to.haveOwnProperty("_id");
-            expect(value).to.haveOwnProperty("description");
             done();
         });
     });
@@ -209,8 +198,8 @@ describe("findOneBackgroundColorById", () => {
 
 describe('findOneBackgroundColor', () => {
     it('Chercher un BackgroundColor avec un champ autorisé - S', (done) => {
-        BackgroundColorService.findOneBackgroundColor(['name'], backgroundcolors[0].name, null, (err, value) => {
-            expect(value).to.haveOwnProperty('name');
+        BackgroundColorService.findOneBackgroundColor(['title'], backgroundcolors[0].title, null, (err, value) => {
+            expect(value).to.haveOwnProperty('title');
             done();
         });
     });
@@ -263,15 +252,15 @@ describe("updateOneBackgroundColor", () => {
     it("Modifier un BackgroundColor correct. - S", (done) => {
         BackgroundColorService.updateOneBackgroundColor(
             id_backgroundcolor_valid,
-            { name: "Choux", description: "Hello" },
+            { title: "Choux", color: 'a la mode de chez nous' },
             null,
             function (err, value) {
                 expect(value).to.be.a("object");
                 expect(value).to.haveOwnProperty("_id");
-                expect(value).to.haveOwnProperty("name");
-                expect(value).to.haveOwnProperty("description");
-                expect(value["name"]).to.be.equal("Choux");
-                expect(value["description"]).to.be.equal("Hello");
+                expect(value).to.haveOwnProperty("title");
+                expect(value).to.haveOwnProperty("color");
+                expect(value["title"]).to.be.equal("Choux");
+                expect(value["color"]).to.be.equal("a la mode de chez nous");
                 done();
             }
         );
@@ -292,14 +281,14 @@ describe("updateOneBackgroundColor", () => {
     it("Modifier un BackgroundColor avec des champs requis vide. - E", (done) => {
         BackgroundColorService.updateOneBackgroundColor(
             id_backgroundcolor_valid,
-            { name: "", description: "Hello" }, null,
+            { title: "", astuce: "Faites du Velo" }, null,
             function (err, value) {
                 expect(value).to.be.undefined;
                 expect(err).to.haveOwnProperty("msg");
                 expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
                 expect(err).to.haveOwnProperty("fields");
-                expect(err["fields"]).to.haveOwnProperty("name");
-                expect(err["fields"]["name"]).to.equal("Path `name` is required.");
+                expect(err["fields"]).to.haveOwnProperty("title");
+                expect(err["fields"]["title"]).to.equal("Path `title` is required.");
                 done();
             }
         );
@@ -308,7 +297,7 @@ describe("updateOneBackgroundColor", () => {
 
 describe("updateManyBackgroundColors", () => {
     it("Modifier plusieurs BackgroundColors correctement. - S", (done) => {
-        BackgroundColorService.updateManyBackgroundColors(tab_id_backgroundcolors, { name: "Choux", description: "Hello" }, null, function (err, value) {
+        BackgroundColorService.updateManyBackgroundColors(tab_id_backgroundcolors, { title: "Parachute", astuce: "Baisser la tete en sautant" }, null, function (err, value) {
             expect(value).to.haveOwnProperty("modifiedCount");
             expect(value).to.haveOwnProperty("matchedCount");
             expect(value["matchedCount"]).to.be.equal(tab_id_backgroundcolors.length);
@@ -330,7 +319,7 @@ describe("updateManyBackgroundColors", () => {
     it("Modifier plusieurs BackgroundColors avec des champs requis vide. - E", (done) => {
         BackgroundColorService.updateManyBackgroundColors(
             tab_id_backgroundcolors,
-            { name: "", description: "Luc" }, null,
+            { title: "", astuce: "Luc" }, null,
             function (err, value) {
                 expect(value).to.be.undefined;
                 expect(err).to.haveOwnProperty("msg");
@@ -347,8 +336,7 @@ describe("deleteOneBackgroundColor", () => {
     it("Supprimer un BackgroundColor correctement. - S", (done) => {
         BackgroundColorService.deleteOneBackgroundColor(id_backgroundcolor_valid, null, function (err, value) {
             expect(value).to.be.a('Object')
-            expect(value).to.haveOwnProperty("name");
-            expect(value).to.haveOwnProperty("description");
+            expect(value).to.haveOwnProperty("title");
             done()
         });
     });

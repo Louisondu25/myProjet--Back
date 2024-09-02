@@ -11,17 +11,21 @@ var Task = mongoose.Schema ({
         type: String,
         required: true,
     },
-    description: {
+    content: {
         type: String,
         required: true,
     },
-    date_start: {
-        type: Number,
+    category: {
+        type: String,
         required: true,
     },
-    date_end: {
-        type: Number,
-        required: true,
+    start_at: {
+        type: Date,
+        default: new Date()
+    },
+    finish_at: {
+        type: Date,
+        default: new Date()
     },
     board_id: {
         type: ObjectId,
@@ -35,16 +39,16 @@ var Task = mongoose.Schema ({
     },
     user_id: {
         type: ObjectId,
-        ref:'UserSchema',
+        ref:'User',
         required: true,
     },
     created_at: {
         type: Date,
-        default: Date.now
+        default: new Date()
     },
     updated_at: {
         type: Date,
-        default: Date.now
+        default: new Date()
     }
 })
 

@@ -8,8 +8,8 @@ var Comment = mongoose.Schema ({
         required: true,
     },
     date: {
-        type: Number,
-        required: true,
+        type: Date,
+        default: new Date()
     },
     status: {
         type: String,
@@ -28,11 +28,11 @@ var Comment = mongoose.Schema ({
     },
     created_at: {
         type: Date,
-        default: Date.now
+        default: new Date()
     },
     updated_at: {
         type: Date,
-        default: Date.now
+        default: new Date()
     },
 })
 

@@ -15,35 +15,40 @@ var users = [
         lastName: "Iencli",
         username: "oui1",
         email: "Iencli@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'liste 2",
         lastName: "Iencli",
         username: "oui2",
         email: "Iencli2@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
 
     }, {
         firstName: "detenteur  d'liste 3",
         lastName: "Iencli",
         username: "oui3",
         email: "Iencli3@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'liste 4",
         lastName: "Iencli",
         username: "oui4",
         email: "Iencli4@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
     {
         firstName: "detenteur  d'liste 5",
         lastName: "Iencli",
         username: "oui5",
         email: "Iencli5@gmail.com",
-        password: "higuys"
+        password: "higuys",
+        phoneNumber: "15415215"
     },
 ]
 
@@ -62,14 +67,12 @@ function rdm_users(tab) {
 describe("addOneListe", () => {
     it("Liste correct. - S", (done) => {
         var liste = {
-            name: "Carottes",
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            title: "Carottes",
+            user_id: rdm_users(tab_id_users),
+            board_id: '66bb1c2a2bbcb76e3c7cacfa',
+            archive: true,
             created_at: new Date(),
             updated_at: new Date(),
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
         };
         ListeService.addOneListe(liste, null, function (err, value) {
             expect(value).to.be.a("object");
@@ -80,23 +83,21 @@ describe("addOneListe", () => {
             //
         });
     });
-    it("Liste incorrect. (Sans Name) - E", (done) => {
+    it("Liste incorrect. (Sans Title) - E", (done) => {
         var liste_no_valid = {
-            description: "blabla",
-            price: 2.50,
-            quantity: 500,
+            user_id: rdm_users(tab_id_users),
+            board_id: '66bb1c2a2bbcb76e3c7cacfa',
+            archive: false,
             created_at: new Date(),
             updated_at: new Date(),
-            user_id: rdm_users(tab_id_users),
-            password: "higuys"
         };
         ListeService.addOneListe(liste_no_valid, null, function (err, value) {
             expect(err).to.haveOwnProperty("msg");
             expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
             expect(err).to.haveOwnProperty("fields");
-            expect(err["fields"]).to.haveOwnProperty("name");
-            expect(err["fields"]["name"]).to.equal(
-                "Path `name` is required."
+            expect(err["fields"]).to.haveOwnProperty("title");
+            expect(err["fields"]["title"]).to.equal(
+                "Path `title` is required."
             );
             done()
         });
@@ -107,37 +108,32 @@ describe("addManyListes", () => {
     it("Listes à ajouter, non valide. - E", (done) => {
         var listes_tab_error = [
             {
-                name: "Carottes",
-                description: "Hey Honey",
-                price: 2.50,
-                quantity: "500",
+                user_id: rdm_users(tab_id_users),
+                board_id: '66bb1c2a2bbcb76e3c7cacfa',
+                archive: false,
                 created_at: new Date(),
                 updated_at: new Date(),
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Carottes",
-                description: "blabla",
-                price: 2.50,
+                board_id: '66bb1c2a2bbcb76e3c7cacfa',
+                archive: false,
                 created_at: new Date(),
                 updated_at: new Date(),
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Carottes",
-                description: "pookie",
+                title: "Carottes",
+                user_id: rdm_users(tab_id_users),
+                board_id: '66bb1c2a2bbcb76e3c7cacfa',
+                archive: false,
                 created_at: new Date(),
                 updated_at: new Date(),
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Carottes",
-                description: "blabla",
+                title: "Carottes",
                 user_id: rdm_users(tab_id_users),
-                password: "higuys"
+                board_id: '66bb1c2a2bbcb76e3c7cacfa',
+                archive: false,
+                updated_at: new Date(),
             },
         ];
         ListeService.addManyListes(listes_tab_error, null, function (err, value) {
@@ -148,34 +144,28 @@ describe("addManyListes", () => {
     it("Listes à ajouter, valide. - S", (done) => {
         var listes_tab = [
             {
-                name: "Carottes",
-                description: "blabla",
-                price: 2.50,
-                quantity: 500,
+                title: "Carottes",
+                user_id: rdm_users(tab_id_users),
+                board_id: '66bb1c2a2bbcb76e3c7cacfa',
+                archive: true,
                 created_at: new Date(),
                 updated_at: new Date(),
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Pomme de terre",
-                description: "blabla",
-                price: 2.80,
-                quantity: 800,
+                title: "Carottes",
+                user_id: rdm_users(tab_id_users),
+                board_id: '66bb1c2a2bbcb76e3c7cacfa',
+                archive: true,
                 created_at: new Date(),
                 updated_at: new Date(),
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
             {
-                name: "Navet",
-                description: "blabla",
-                price: 3.10,
-                quantity: 200,
+                title: "Carottes",
+                user_id: rdm_users(tab_id_users),
+                board_id: '66bb1c2a2bbcb76e3c7cacfa',
+                archive: true,
                 created_at: new Date(),
                 updated_at: new Date(),
-                user_id: rdm_users(tab_id_users),
-                password: "higuys"
             },
         ];
 
@@ -193,7 +183,6 @@ describe("findOneListeById", () => {
         ListeService.findOneListeById(id_liste_valid, null, function (err, value) {
             expect(value).to.be.a("object");
             expect(value).to.haveOwnProperty("_id");
-            expect(value).to.haveOwnProperty("description");
             done();
         });
     });
@@ -209,8 +198,8 @@ describe("findOneListeById", () => {
 
 describe('findOneListe', () => {
     it('Chercher un Liste avec un champ autorisé - S', (done) => {
-        ListeService.findOneListe(['name'], listes[0].name, null, (err, value) => {
-            expect(value).to.haveOwnProperty('name');
+        ListeService.findOneListe(['title'], listes[0].title, null, (err, value) => {
+            expect(value).to.haveOwnProperty('title');
             done();
         });
     });
@@ -263,15 +252,13 @@ describe("updateOneListe", () => {
     it("Modifier un Liste correct. - S", (done) => {
         ListeService.updateOneListe(
             id_liste_valid,
-            { name: "Choux", description: "Hello" },
+            { title: "Choux"},
             null,
             function (err, value) {
                 expect(value).to.be.a("object");
                 expect(value).to.haveOwnProperty("_id");
-                expect(value).to.haveOwnProperty("name");
-                expect(value).to.haveOwnProperty("description");
-                expect(value["name"]).to.be.equal("Choux");
-                expect(value["description"]).to.be.equal("Hello");
+                expect(value).to.haveOwnProperty("title");
+                expect(value["title"]).to.be.equal("Choux");
                 done();
             }
         );
@@ -292,14 +279,14 @@ describe("updateOneListe", () => {
     it("Modifier un Liste avec des champs requis vide. - E", (done) => {
         ListeService.updateOneListe(
             id_liste_valid,
-            { name: "", description: "Hello" }, null,
+            { title: "", copie_liste_setting: 'Courses' }, null,
             function (err, value) {
                 expect(value).to.be.undefined;
                 expect(err).to.haveOwnProperty("msg");
                 expect(err).to.haveOwnProperty("fields_with_error").with.lengthOf(1);
                 expect(err).to.haveOwnProperty("fields");
-                expect(err["fields"]).to.haveOwnProperty("name");
-                expect(err["fields"]["name"]).to.equal("Path `name` is required.");
+                expect(err["fields"]).to.haveOwnProperty("title");
+                expect(err["fields"]["title"]).to.equal("Path `title` is required.");
                 done();
             }
         );
@@ -308,7 +295,7 @@ describe("updateOneListe", () => {
 
 describe("updateManyListes", () => {
     it("Modifier plusieurs Listes correctement. - S", (done) => {
-        ListeService.updateManyListes(tab_id_listes, { name: "Choux", description: "Hello" }, null, function (err, value) {
+        ListeService.updateManyListes(tab_id_listes, { title: "Choux", copie_liste_setting: 'Courses' }, null, function (err, value) {
             expect(value).to.haveOwnProperty("modifiedCount");
             expect(value).to.haveOwnProperty("matchedCount");
             expect(value["matchedCount"]).to.be.equal(tab_id_listes.length);
@@ -330,7 +317,7 @@ describe("updateManyListes", () => {
     it("Modifier plusieurs Listes avec des champs requis vide. - E", (done) => {
         ListeService.updateManyListes(
             tab_id_listes,
-            { name: "", description: "Luc" }, null,
+            { title: "", copie_liste_setting: 'Courses' }, null,
             function (err, value) {
                 expect(value).to.be.undefined;
                 expect(err).to.haveOwnProperty("msg");
@@ -347,8 +334,7 @@ describe("deleteOneListe", () => {
     it("Supprimer un Liste correctement. - S", (done) => {
         ListeService.deleteOneListe(id_liste_valid, null, function (err, value) {
             expect(value).to.be.a('Object')
-            expect(value).to.haveOwnProperty("name");
-            expect(value).to.haveOwnProperty("description");
+            expect(value).to.haveOwnProperty("title");
             done()
         });
     });
