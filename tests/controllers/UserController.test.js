@@ -68,7 +68,7 @@ describe("POST - /user/", () => {
 describe("POST - /login", () => {
     it("Connexion utilisateur - S", (done) => {
         chai.request(server).post('/login').send({
-            username: "dwarfSlayer",
+            email: "dwarfSlayer",
             password: "higuys",
         }).end((err, res) => {
             res.should.have.status(200)

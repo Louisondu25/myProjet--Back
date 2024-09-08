@@ -3,7 +3,7 @@ const ObjectId = mongoose.Types.ObjectId
 
 var Task = mongoose.Schema ({
 
-    archive: {
+    archive: {          //si tu veut ajouter d'autre elements c'est ici comme par exemple: (l'archive des cartes)
         type: Boolean,
         required: true,
     },

@@ -74,7 +74,7 @@ function rdm_users(tab) {
 describe("POST - /login", () => {
     it("Connexion utilisateur - S", (done) => {
         chai.request(server).post('/login').send({
-            username: "oui1",
+            email: "oui1",
             password: "higuys",
         }).end((err, res) => {
             res.should.have.status(200)
@@ -93,7 +93,7 @@ describe("POST - /task", () => {
             category: 'Discussion',
             start_at: 1,
             finish_at: 1,
-            board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
+            board_id: "66bb1c1b2bbcb76e3c7cacf4",
             status: "Finish",
             user_id: rdm_users(TabUserId),
             created_at: new Date(),
@@ -113,7 +113,7 @@ describe("POST - /task", () => {
             category: 'Discussion',
             date_start: 1,
             date_end: 1,
-            board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
+            board_id: "66bb1c1b2bbcb76e3c7cacf4",
             status: "Error",
             user_id: rdm_users(TabUserId),
             created_at: new Date(),

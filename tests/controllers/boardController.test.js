@@ -72,7 +72,7 @@ function rdm_users(tab) {
 describe("POST - /login", () => {
     it("Connexion utilisateur - S", (done) => {
         chai.request(server).post('/login').send({
-            username: "oui1",
+            email: "oui1",
             password: "higuys",
         }).end((err, res) => {
             res.should.have.status(200)
