@@ -1,8 +1,8 @@
 # myProjet--Back
 
 ## Etat du programme:
-    Fonctionnalité a coder en cours: Commencer les tests des 5 collections.
-    etat  du Projet: Test des 5 collections.
+    Fonctionnalité a coder en cours: Api Terminés All Test Passed =D.
+    etat  du Projet: Api Terminés All Test Passed =D.
 
 # Arboresence fichier et dossier:
   - controllers       (Il recois les requetes - UserController -> recois les requetes verifier 

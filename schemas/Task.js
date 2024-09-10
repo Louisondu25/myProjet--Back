@@ -3,9 +3,9 @@ const ObjectId = mongoose.Types.ObjectId
 
 var Task = mongoose.Schema ({
 
-    archive: {          //si tu veut ajouter d'autre elements c'est ici comme par exemple: (l'archive des cartes)
+    archive: {          //si tu veut ajouter d'autre elements c'est ici comme par exemple: (l'archive des cartes ou les commentaires)
         type: Boolean,
-        required: true,
+        required: false,
     },
     title: {
         type: String,
@@ -17,7 +17,7 @@ var Task = mongoose.Schema ({
     },
     category: {
         type: String,
-        required: true,
+        required: false,
     },
     start_at: {
         type: Date,
@@ -30,17 +30,17 @@ var Task = mongoose.Schema ({
     board_id: {
         type: ObjectId,
         ref:'Dashboard',
-        required: true,
+        required: false,
     },
     status: {
         type: String,
         enum: ['Finish', 'en cours'],
-        required: true,
+        required: false,
     },
     user_id: {
         type: ObjectId,
         ref:'User',
-        required: true,
+        required: false,
     },
     created_at: {
         type: Date,
