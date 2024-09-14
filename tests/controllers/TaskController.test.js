@@ -93,6 +93,7 @@ describe("POST - /task", () => {
             category: 'Discussion',
             start_at: 1,
             finish_at: 1,
+            category_id: "66e42947396fb60608d2011c",
             board_id: "66bb1c1b2bbcb76e3c7cacf4",
             status: "Finish",
             user_id: rdm_users(TabUserId),
@@ -173,6 +174,7 @@ describe("POST - /tasks", () => {
             category: 'Discussion',
             date_start: 1,
             date_end: 1,
+            category_id: "66e42947396fb60608d2011c",
             board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
             status: "Finish",
             user_id: rdm_users(TabUserId),
@@ -187,6 +189,7 @@ describe("POST - /tasks", () => {
             category: 'Discussion',
             date_start: 1,
             date_end: 1,
+            category_id: "66e42947396fb60608d2011c",
             board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
             status: "Finish",
             user_id: rdm_users(TabUserId),

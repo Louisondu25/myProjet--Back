@@ -73,6 +73,7 @@ describe("addOneTask", () => {
             category: 'Discussion',
             started_at: 1,
             finished_at: 1,
+            category_id: "66e42947396fb60608d2011c",
             board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
             status: "Finish",
             user_id: rdm_users(TabUserId),
@@ -95,6 +96,7 @@ describe("addOneTask", () => {
             category: 'Discussion',
             started_at: 1,
             finished_at: 2,
+            category_id: "66e42947396fb60608d2011c",
             board_id: "66bb1c1b2bbcb76e3c7cacf4",
             status: "en cours",
             user_id: rdm_users(TabUserId),
@@ -120,6 +122,7 @@ describe("addOneTask", () => {
             started_at: 1,
             finished_at: 2,
             title: "blabla",
+            category_id: "66e42947396fb60608d2011c",
             board_id: "",
             status: "en cours",
             user_id: rdm_users(TabUserId),
@@ -193,6 +196,7 @@ describe("addManyTasks", () => {
                 category: 'Discussion',
                 started_at: 1,
                 finished_at: 1,
+                category_id: "66e42947396fb60608d2011c",
                 board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
                 status: "Finish",
                 user_id: rdm_users(TabUserId),
@@ -206,6 +210,7 @@ describe("addManyTasks", () => {
                 category: 'Discussion',
                 started_at: 2,
                 finished_at: 2,
+                category_id: "66e42947396fb60608d2011c",
                 board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
                 status: "Finish",
                 user_id: rdm_users(TabUserId),
@@ -219,6 +224,7 @@ describe("addManyTasks", () => {
                 category: 'Discussion',
                 started_at: 3,
                 finished_at: 3,
+                category_id: "66e42947396fb60608d2011c",
                 board_id: "66bb1c1b2bbcb76e3c7cacf4", // en attendant d'avoir les bon ids
                 status: "Finish",
                 user_id: rdm_users(TabUserId),

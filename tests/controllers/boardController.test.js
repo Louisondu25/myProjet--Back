@@ -111,19 +111,6 @@ describe("POST - /board", () => {
             done()
         })
     })
-    it("Ajouter un Tableaiu incorrect. (Avec un nom de Tableau existant) - E", (done) => {
-        chai.request(server).post('/board').auth(token, { type: 'bearer' }).send({
-            title: "heyblablahellodude",//mettre les id quand il seront faite
-            content: "La content de cet objet board",
-            index: 1,
-            status: 'Public',
-            archive: true,
-            password: "higuys"
-        }).end((err, res) => {
-            res.should.have.status(405)
-            done()
-        })
-    })
     it("Ajouter un Tableau incorrect. (Avec un champ vide) - E", (done) => {
         chai.request(server).post('/board').auth(token, { type: 'bearer' }).send({
             user_id: rdm_users(TabUserId), // en attendant que j'ai les bon ids

@@ -18,11 +18,11 @@ var DashBoard = mongoose.Schema({
     },
     index: {
         type: Number,
-        required: true,
+        required: false,
     },
     archive: {
         type: Boolean,
-        required: true,
+        required: false,
     },
     created_at: {
         type: Date,

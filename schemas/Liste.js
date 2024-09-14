@@ -10,7 +10,7 @@ var ListSchema = mongoose.Schema({
     user_id: {
         type: ObjectId,
         ref:'UserSchema',
-        required: true,
+        required: false,
     },
 
     board_id: {
@@ -30,7 +30,7 @@ var ListSchema = mongoose.Schema({
     },
     archive: {
         type: Boolean,
-        required: true,
+        required: false,
     },
 
     // <-------------------- List setting -------------------->

@@ -15,9 +15,9 @@ var Task = mongoose.Schema ({
         type: String,
         required: true,
     },
-    category: {
-        type: String,
-        required: false,
+    category_id: {
+        type: ObjectId,
+        required: true,
     },
     start_at: {
         type: Date,
