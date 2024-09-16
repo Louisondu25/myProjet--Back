@@ -188,7 +188,7 @@ describe("POST - /listes", () => {
 })
 
 describe('PUT - /liste/:id', () => {
-    it('Modifier un Liste -S', (done) => {
+    it('Modifier une Liste -S', (done) => {
         chai.request(server).put(`/liste/${listes[0]._id}`).auth(token, { type: 'bearer' }).send({ title: 'Jeanne', deplacer_liste_setting: 'Menage' })
             .end((err, res) => {
                 res.should.status(200)
@@ -197,7 +197,7 @@ describe('PUT - /liste/:id', () => {
             })
     })
 
-    it('Modifier un Liste avec un id non valide -E', (done) => {
+    it('Modifier une Liste avec un id non valide -E', (done) => {
         chai.request(server).put('/liste/86156100').auth(token, { type: 'bearer' }).send({ firstName: 'Marie', lastName: 'fils' })
             .end((err, res) => {
                 res.should.status(405)
@@ -205,14 +205,14 @@ describe('PUT - /liste/:id', () => {
                 done()
             })
     })
-    it('Modifier un Liste avec un id invalide -E', (done) => {
+    it('Modifier une Liste avec un id invalide -E', (done) => {
         chai.request(server).put('/liste/66795a41761cc1544b34b3b6').auth(token, { type: 'bearer' }).send({ firstName: 'emilie', lastname: 'severe' })
             .end((err, res) => {
                 res.should.status(404)
                 done()
             })
     })
-    it('Modifier un Liste avec un champ requis vide -E', (done) => {
+    it('Modifier une Liste avec un champ requis vide -E', (done) => {
         chai.request(server).put(`/liste/${listes[0]._id}`).auth(token, { type: 'bearer' }).send({ title: '', deplacer_liste_setting: 'Menage'})
             .end((err, res) => {
                 res.should.status(405)
@@ -260,7 +260,7 @@ describe('PUT /listes', () => {
 })
 
 describe('GET - /liste/:id', () => {
-    it('Rechercher un Liste existant -S', (done) => {
+    it('Rechercher une Liste existant -S', (done) => {
         chai.request(server).get(`/liste/${listes[0]._id}`).auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.have.status(200);
@@ -269,7 +269,7 @@ describe('GET - /liste/:id', () => {
             });
     });
 
-    it('Rechercher un Liste non valide - E', (done) => {
+    it('Rechercher une Liste non valide - E', (done) => {
         const listeId = '145';
         chai.request(server).get(`/liste/${listeId}`).auth(token, { type: 'bearer' })
             .end((err, res) => {
@@ -278,7 +278,7 @@ describe('GET - /liste/:id', () => {
             });
     });
 
-    it('Chercher un Liste non trouver - E', (done) => {
+    it('Chercher une Liste non trouver - E', (done) => {
         const listeId = '6675723101608233e810e10a';
         chai.request(server).get(`/liste/${listeId}`).auth(token, { type: 'bearer' })
             .end((err, res) => {
@@ -289,21 +289,21 @@ describe('GET - /liste/:id', () => {
 });
 
 describe('GET - /liste', () => {
-    it('Chercher un Liste par un champ selectionné -S', (done) => {
+    it('Chercher une Liste par un champ selectionné -S', (done) => {
         chai.request(server).get('/liste').query({ fields: ['description'], values: listes[0].title }).auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.status = (200)
                 done()
             })
     })
-    it('Chercher un Liste par un champ non autorisé -E', (done) => {
+    it('Chercher une Liste par un champ non autorisé -E', (done) => {
         chai.request(server).get('/liste').query({ fields: ['name'], values: listes[0].listename }).auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.status = (405)
                 done()
             })
     })
-    it('Chercher un Liste sans query -E', (done) => {
+    it('Chercher une Liste sans query -E', (done) => {
         chai.request(server).get('/liste').auth(token, { type: 'bearer' })
             .end((err, res) => {
                 res.should.status = (405)
