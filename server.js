@@ -21,6 +21,15 @@ const config = require("./config");
 // Crée une instance de l'application Express
 const app = express();
 
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express'); 
+
+// Configuration Swagger
+const swaggerOptions = require('./swagger.json');
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve,
+    swaggerUi.setup(swaggerDocs)); 
+
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');

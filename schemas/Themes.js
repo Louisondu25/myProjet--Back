@@ -21,7 +21,7 @@ var ThemesSchema = mongoose.Schema({
 
     board_id: {
         type: ObjectId,
-        ref:'Dashboard',
+        ref: 'Dashboard',
         required: true,
     },
 
