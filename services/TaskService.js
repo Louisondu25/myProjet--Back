@@ -248,7 +248,7 @@ module.exports.findManyTasks = function (search, page, limit, options, callback)
         callback({ msg: `format de ${typeof page !== "number" ? "page" : "limit"} est incorrect`, type_error: "no-valid" })
     } else {
         var query_mongo = search ? {
-            $or: _.map(['name', 'description', 'price', 'quantity'], (e) => {
+            $or: _.map(['title', 'content'], (e) => {
                 return { [e]: { $regex: search, $options: 'i' } };
             })
         } : {};

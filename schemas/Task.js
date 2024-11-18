@@ -5,7 +5,7 @@ var Task = mongoose.Schema ({
 
     archive: {          //si tu veut ajouter d'autre elements c'est ici comme par exemple: (l'archive des cartes ou les commentaires)
         type: Boolean,
-        required: false,
+        required: true,
     },
     title: {
         type: String,
